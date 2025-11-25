@@ -1,0 +1,103 @@
+<!-- Hero Section with Floating Navbar -->
+<section id="hero" class="hero-section">
+  <div class="hero-background">
+    <img src="background-parent.png" alt="Pandigi Building" class="parallax-bg">
+    <div class="hero-overlay"></div>
+  </div>
+  
+  <!-- Floating Navbar -->
+  <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
+    <div class="navbar-container">
+      <div class="navbar-logo">
+        <img src="logo.png" alt="Pandigi Logo">
+      </div>
+      <ul class="navbar-menu">
+        <li><a (click)="scrollToSection('hero')">Home</a></li>
+        <li><a (click)="scrollToSection('what-we-do')">What we do</a></li>
+        <li><a (click)="scrollToSection('who-we-are')">Who we are</a></li>
+        <li><a (click)="scrollToSection('our-work')">Our work</a></li>
+        <li><a (click)="scrollToSection('contact')">Build with us</a></li>
+      </ul>
+    </div>
+  </nav>
+</section>
+
+<!-- What We Do Section -->
+<section id="what-we-do" class="section what-we-do" [@fadeInUp]="whatWeDoVisible ? 'visible' : 'hidden'">
+  <div class="full-container">
+    <h2 class="section-title">What we do</h2>
+    <div class="services-grid">
+      <div class="service-card" *ngFor="let service of services">
+        <div class="service-image">
+          <img [src]="service.image" [alt]="service.title">
+        </div>
+        <div class="service-content">
+          <h3>{{ service.title }}</h3>
+          <p class="text-justify">{{ service.description }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who We Are Section -->
+<section id="who-we-are" class="section who-we-are" [@fadeInUp]="whoWeAreVisible ? 'visible' : 'hidden'">
+  <div class="full-container">
+    <div class="who-images">
+      <img src="dummy-photo.png" alt="Team 1" class="team-image">
+      <img src="dummy-photo.png" alt="Team 2" class="team-image">
+      <img src="dummy-photo.png" alt="Team 3" class="team-image">
+    </div>
+    <h2 class="section-title">Who we are</h2>
+    <div class="who-text">
+      <p class="text-justify">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+      </p>
+      <p class="text-justify">
+        Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Our Work Section -->
+<section id="our-work" class="section our-work" [@fadeInUp]="ourWorkVisible ? 'visible' : 'hidden'">
+  <div class="full-container">
+    <h2 class="section-title">Our work</h2>
+    <div class="portfolio-grid">
+      <div class="portfolio-item" *ngFor="let portfolio of portfolios">
+        <img [src]="portfolio.image" [alt]="portfolio.title">
+        <div class="portfolio-overlay">
+          <h3>{{ portfolio.title }}</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
+  <div class="full-container">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h2 class="section-title">Get in touch with us</h2>
+        <div class="contact-item">
+          <h3>Phone</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="contact-item">
+          <h3>Email</h3>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        </div>
+        <div class="social-links">
+          <a href="#" class="social-icon"></a>
+          <a href="#" class="social-icon"></a>
+          <a href="#" class="social-icon"></a>
+        </div>
+      </div>
+      <div class="contact-logo">
+        <img src="logo-text.png" alt="Pandigi Text" class="logo-text">
+      </div>
+    </div>
+  </div>
+</section>
