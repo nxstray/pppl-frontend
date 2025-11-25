@@ -1,1 +1,37 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: #0C2B40;
+  font-family: "Lexend Deca", sans-serif;
+}
+
+app-root {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+app-landing {
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
