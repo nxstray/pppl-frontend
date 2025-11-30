@@ -1,0 +1,77 @@
+<div class="admin-container">
+  <aside class="sidebar" [class.collapsed]="sidebarCollapsed">
+    <div class="sidebar-header">
+      <span class="sidebar-title" *ngIf="!sidebarCollapsed">Pandigi admin</span>
+    </div>
+
+    <!-- Menu Items -->
+    <nav class="sidebar-menu">
+      <a 
+        *ngFor="let item of menuItems"
+        [routerLink]="item.route" 
+        routerLinkActive="active"
+        class="menu-item"
+        [title]="item.label"
+      >
+        <span class="menu-label" *ngIf="!sidebarCollapsed">{{ item.label }}</span>
+        <span class="menu-badge" *ngIf="item.badge && !sidebarCollapsed">{{ item.badge }}</span>
+      </a>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <span *ngIf="!sidebarCollapsed">◀</span>
+        <span *ngIf="sidebarCollapsed">▶</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <!-- Top Navbar -->
+    <header class="top-navbar">
+      <div class="navbar-left">
+        <button class="menu-toggle" (click)="toggleSidebar()">
+          <span class="hamburger-icon">☰</span>
+        </button>
+        <h2 class="page-title">{{ getCurrentPageTitle() }}</h2>
+      </div>
+
+      <div class="navbar-right">
+        <!-- Notifications -->
+        <button class="nav-btn notification-btn">
+          <span class="notification-icon">🔔</span>
+          <span class="notification-badge">3</span>
+        </button>
+
+        <!-- User Menu -->
+        <div class="user-menu">
+          <button class="user-btn" (click)="goToProfile()">
+            <div class="user-avatar">
+              <span>{{ currentUser?.namaLengkap?.charAt(0) || 'A' }}</span>
+            </div>
+            <div class="user-info">
+              <span class="user-name">{{ currentUser?.namaLengkap || 'Admin' }}</span>
+              <span class="user-role">{{ currentUser?.role || 'ADMIN' }}</span>
+            </div>
+          </button>
+          
+          <button class="logout-btn" (click)="logout()" title="Logout">
+            <p>Log out</p>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Page Content -->
+    <main class="page-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>
+
+<!-- Helper method in component -->
+<ng-container *ngIf="false">
+  {{ defineGetCurrentPageTitle() }}
+</ng-container>
