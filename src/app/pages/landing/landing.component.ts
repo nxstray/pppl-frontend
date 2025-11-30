@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
 @Component({
@@ -43,7 +44,6 @@ export class LandingComponent implements OnInit {
   ourWorkVisible = false;
   contactVisible = false;
 
-  // Updated data
   services = [
     {
       title: 'Software',
@@ -77,6 +77,8 @@ export class LandingComponent implements OnInit {
     { image: 'dummy-photo.png', title: 'Project 3' }
   ];
 
+  constructor(private router: Router) {}
+
   ngOnInit() {
     this.checkSectionsVisibility();
   }
@@ -85,13 +87,10 @@ export class LandingComponent implements OnInit {
   onScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
     
-    // Navbar hide and show logic
     if (Math.abs(scrollTop - this.lastScrollTop) > this.scrollThreshold) {
       if (scrollTop > this.lastScrollTop && scrollTop > 200) {
-        // Scroll ke bawah
         this.navbarVisible = false;
       } else {
-        // Scroll ke atas
         this.navbarVisible = true;
       }
       this.lastScrollTop = scrollTop;
@@ -118,6 +117,13 @@ export class LandingComponent implements OnInit {
   }
 
   scrollToSection(sectionId: string) {
+    // Jika section adalah 'build-with-us', navigate ke halaman form
+    if (sectionId === 'build-with-us') {
+      this.router.navigate(['/build']);
+      return;
+    }
+
+    // Untuk section lainnya, scroll seperti biasa
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });

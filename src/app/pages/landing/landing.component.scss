@@ -76,7 +76,7 @@ html, body {
 }
 
 .hero-title {
-  font-size: 2.3rem;
+  font-size: 2.2rem;
   font-weight: 600;
   line-height: 1.3;
   margin-bottom: 1.5rem;
@@ -87,6 +87,7 @@ html, body {
   font-size: 1.15rem;
   opacity: 0.9;
   margin-bottom: 2.5rem;
+  font-weight: 200;
 }
 
 .cta-button {
@@ -96,8 +97,9 @@ html, body {
   color: white;
   text-decoration: none;
   border-radius: 15px;
-  font-weight: 600;
+  font-weight: 300;
   font-size: 1rem;
+  margin-left: 7.5rem;
   transition: all 0.3s ease;
   animation: pulse 3s ease-in-out infinite;
   box-shadow: 0 4px 15px rgba(255, 140, 66, 0.4);
@@ -142,7 +144,7 @@ html, body {
   height: 30px;
   cursor: pointer;
   display: block;
-  margin-right: 30px;
+  margin-right: 40px;
 }
 
 .navbar-menu {
@@ -155,26 +157,18 @@ html, body {
   align-items: center;
 }
 
-.navbar-menu li {
-  margin: 0;
-  padding: 0;
-}
-
 .navbar-menu li a {
   color: #0C2B40;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 0.95rem;
   cursor: pointer;
   transition: color 0.3s ease;
-  position: relative;
-  white-space: nowrap;
-  display: block;
-  padding: 0.5rem 0;
+  letter-spacing: 0.5px;
 }
 
 .navbar-menu li a:hover {
-  color: #d4af37;
+  color: #D9953E;
 }
 
 /* Sections */
@@ -214,7 +208,7 @@ html, body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 2rem;
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -250,8 +244,8 @@ html, body {
 }
 
 .service-icon {
-  width: 80px;
-  height: 80px;
+  width: 40px !important;
+  height: 40px !important;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -260,8 +254,8 @@ html, body {
   border-radius: 50%;
   
   img {
-    width: 30px;
-    height: 30px;
+    width: 20px !important;
+    height: 20px !important;
     object-fit: contain;
   }
 }
@@ -421,7 +415,7 @@ html, body {
 }
 
 .contact-item h3 {
-  color: #d4af37;
+  color: #D9953E;
   margin-bottom: 0.5rem;
   font-size: 1.3rem;
 }
@@ -451,7 +445,7 @@ html, body {
 
 .social-icon:hover {
   transform: translateY(-5px);
-  background: #d4af37;
+  background: #D9953E;
 }
 
 .contact-logo {
@@ -459,8 +453,9 @@ html, body {
 }
 
 .logo-text {
-  max-width: 300px;
+  max-width: 500px;
   opacity: 0.8;
+  border-radius: 30px;
 }
 
 /* Footer */
