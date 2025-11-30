@@ -1,0 +1,89 @@
+<div class="dashboard-container">
+  <!-- Welcome Section -->
+  <div class="welcome-section">
+    <h1>Selamat datang di Dashboard Admin!</h1>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Memuat data...</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div *ngIf="!loading" class="stats-grid">
+    <div 
+      *ngFor="let stat of stats" 
+      class="stat-card"
+      [style.border-left-color]="stat.color"
+      (click)="navigateTo(stat.route)"
+      [class.clickable]="stat.route"
+    >
+      <div class="stat-content">
+        <h3 class="stat-title">{{ stat.title }}</h3>
+        <p class="stat-value">{{ stat.value }}</p>
+        <div class="stat-trend" *ngIf="stat.trend">
+          <span class="trend-value">+{{ stat.trend }}%</span>
+          <span class="trend-label">dari bulan lalu</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div *ngIf="!loading" class="content-grid">
+    <!-- Chart Section -->
+    <div class="chart-card">
+      <div class="card-header">
+        <h2 class="card-title">Statistik Lead bulanan</h2>
+        <button class="btn-secondary">Lihat detail</button>
+      </div>
+      <div class="chart-placeholder">
+        <div class="chart-illustration">
+          📊
+        </div>
+        <p>Chart akan ditampilkan di sini</p>
+      </div>
+    </div>
+
+    <!-- Recent Activities -->
+    <div class="activity-card">
+      <div class="card-header">
+        <h2 class="card-title">Aktivitas terbaru</h2>
+        <button class="btn-link">Lihat semua</button>
+      </div>
+      <div class="activity-list">
+        <div 
+          *ngFor="let activity of recentActivities" 
+          class="activity-item"
+          [ngClass]="getActivityClass(activity)"
+        >
+          <span class="activity-icon">{{ activity }}</span>
+          <div class="activity-content">
+            <p class="activity-text">{{ activity }}</p>
+            <span class="activity-time">{{ activity }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick Actions -->
+  <div *ngIf="!loading" class="quick-actions">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+      <button class="action-btn" (click)="navigateTo('/admin/lead-scoring')">
+        <span class="action-label">Analisa Lead</span>
+      </button>
+      <button class="action-btn" (click)="navigateTo('/admin/request-layanan')">
+        <span class="action-label">Verifikasi Request</span>
+      </button>
+      <button class="action-btn" (click)="navigateTo('/admin/klien')">
+        <span class="action-label">Tambah Klien</span>
+      </button>
+      <button class="action-btn" (click)="navigateTo('/admin/rekap')">
+        <span class="action-label">Buat Rekap</span>
+      </button>
+    </div>
+  </div>
+</div>
