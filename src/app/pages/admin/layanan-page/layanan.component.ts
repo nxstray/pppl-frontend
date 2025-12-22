@@ -240,7 +240,7 @@ export class LayananComponent implements OnInit {
   async deleteLayanan(layanan: LayananDTO) {
     if (!layanan.idLayanan) return;
 
-    const ok = await this.toast.confirm(
+    const ok = await this.toast.helpConfirm(
       'Hapus layanan?',
       `Layanan "<b>${layanan.namaLayanan}</b>" akan dihapus permanen.`
     );
