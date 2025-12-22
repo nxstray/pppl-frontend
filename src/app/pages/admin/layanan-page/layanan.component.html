@@ -1,0 +1,256 @@
+<div class="layanan-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>LAYANAN</h1>
+    </div>
+    <button class="btn-primary" (click)="openCreateModal()">
+      Tambah Layanan
+    </button>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card clickable" (click)="selectKategori(null)">
+      <div class="stat-info">
+        <span class="stat-label">Total Layanan</span>
+        <span class="stat-value">{{ statistics.total }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectKategori('SOSIAL')">
+      <div class="stat-info">
+        <span class="stat-label">Sosial</span>
+        <span class="stat-value">{{ statistics.sosial }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectKategori('PIRANTI_LUNAK')">
+      <div class="stat-info">
+        <span class="stat-label">Piranti Lunak</span>
+        <span class="stat-value">{{ statistics.pirantiLunak }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectKategori('MULTIMEDIA')">
+      <div class="stat-info">
+        <span class="stat-label">Multimedia</span>
+        <span class="stat-value">{{ statistics.multimedia }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectKategori('MESIN_SEKURITAS')">
+      <div class="stat-info">
+        <span class="stat-label">Mesin Sekuritas</span>
+        <span class="stat-value">{{ statistics.mesinSekuritas }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-section">
+    <button 
+      class="filter-btn"
+      [class.active]="selectedKategori === null"
+      (click)="selectKategori(null)"
+    >
+      Semua Kategori
+    </button>
+    <button 
+      *ngFor="let kat of kategoriOptions"
+      class="filter-btn"
+      [class.active]="selectedKategori === kat.value"
+      (click)="selectKategori(kat.value)"
+    >
+      {{ kat.label }}
+    </button>
+  </div>
+
+  <!-- Search Box -->
+  <div class="search-section">
+    <input 
+      type="text" 
+      placeholder="Cari layanan"
+      [(ngModel)]="searchKeyword"
+      (ngModelChange)="onSearchChange()"
+      class="search-input"
+    />
+    <button 
+      class="btn-clear" 
+      (click)="clearFilters()"
+      *ngIf="searchKeyword || selectedKategori"
+    >
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Memuat data...</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Nama Layanan</th>
+          <th>Kategori</th>
+          <th>Catatan</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let layanan of filteredLayanan">
+          <td>
+            <strong>{{ layanan.namaLayanan }}</strong>
+          </td>
+          <td>
+            <span class="badge-kategori" [ngClass]="getKategoriClass(layanan.kategori)">
+              {{ getKategoriLabel(layanan.kategori) }}
+            </span>
+          </td>
+          <td>
+            <span class="catatan-text">{{ layanan.catatan || '-' }}</span>
+          </td>
+          <td>
+            <div class="action-buttons">
+              <button 
+                class="btn-icon" 
+                (click)="openEditModal(layanan)"
+              >
+                Edit
+              </button>
+              <button 
+                class="btn-icon btn-delete" 
+                (click)="deleteLayanan(layanan)"
+              >
+                Hapus
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredLayanan.length === 0">
+          <td colspan="4" class="empty-state">
+            <div class="empty-illustration"></div>
+            <p>Tidak ada layanan yang sesuai filter</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create/Edit Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Edit Layanan' : 'Tambah Layanan' }}</h2>
+      <button class="close-btn" (click)="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <form (ngSubmit)="submitForm()">
+        <div class="form-group">
+          <label for="namaLayanan">
+            Nama Layanan <span class="required">*</span>
+          </label>
+          <input 
+            type="text"
+            id="namaLayanan"
+            [(ngModel)]="formData.namaLayanan"
+            name="namaLayanan"
+            class="form-control"
+            placeholder="Masukkan nama layanan"
+            required
+          />
+        </div>
+
+        <div class="form-group">
+          <label>
+            Kategori <span class="required">*</span>
+          </label>
+          <div class="custom-dropdown" (click)="$event.stopPropagation()">
+            <div 
+              class="custom-dropdown-trigger"
+              [class.active]="dropdownStates['kategori']"
+              (click)="toggleDropdown('kategori', $event)"
+            >
+              <span class="custom-dropdown-label">{{ getSelectedLabel('kategori') }}</span>
+              <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['kategori']">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M6 9L1 4h10z" fill="currentColor"/>
+                </svg>
+              </span>
+            </div>
+            <div class="custom-dropdown-menu" [class.show]="dropdownStates['kategori']">
+              <div 
+                class="custom-dropdown-item"
+                [class.selected]="formData.kategori === 'SOSIAL'"
+                (click)="selectDropdownItem('kategori', 'SOSIAL')"
+              >
+                Sosial
+              </div>
+              <div 
+                class="custom-dropdown-item"
+                [class.selected]="formData.kategori === 'PIRANTI_LUNAK'"
+                (click)="selectDropdownItem('kategori', 'PIRANTI_LUNAK')"
+              >
+                Piranti Lunak
+              </div>
+              <div 
+                class="custom-dropdown-item"
+                [class.selected]="formData.kategori === 'MULTIMEDIA'"
+                (click)="selectDropdownItem('kategori', 'MULTIMEDIA')"
+              >
+                Multimedia
+              </div>
+              <div 
+                class="custom-dropdown-item"
+                [class.selected]="formData.kategori === 'MESIN_SEKURITAS'"
+                (click)="selectDropdownItem('kategori', 'MESIN_SEKURITAS')"
+              >
+                Mesin Sekuritas
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="catatan">
+            Catatan
+          </label>
+          <textarea 
+            id="catatan"
+            [(ngModel)]="formData.catatan"
+            name="catatan"
+            class="form-control"
+            rows="4"
+            placeholder="Catatan tambahan (opsional)"
+          ></textarea>
+        </div>
+
+        <div class="modal-actions">
+          <button 
+            type="button" 
+            class="btn-secondary" 
+            (click)="closeModal()"
+            [disabled]="processing"
+          >
+            Batal
+          </button>
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="processing || !isFormValid()"
+          >
+            <span *ngIf="!processing">{{ isEditMode ? 'Update' : 'Simpan' }}</span>
+            <span *ngIf="processing">Processing...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
