@@ -1,0 +1,336 @@
+<div class="request-container">
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>REQUEST LAYANAN</h1>
+    </div>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card clickable" (click)="selectedStatus = ''; applyFilters()">
+      <div class="stat-info">
+        <span class="stat-label">Total Request</span>
+        <span class="stat-value">{{ statistics.total }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectedStatus = 'MENUNGGU_VERIFIKASI'; applyFilters()">
+      <div class="stat-info">
+        <span class="stat-label">Menunggu Verifikasi</span>
+        <span class="stat-value">{{ statistics.menungguVerifikasi }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectedStatus = 'VERIFIKASI'; applyFilters()">
+      <div class="stat-info">
+        <span class="stat-label">Diverifikasi</span>
+        <span class="stat-value">{{ statistics.diverifikasi }}</span>
+      </div>
+    </div>
+
+    <div class="stat-card clickable" (click)="selectedStatus = 'DITOLAK'; applyFilters()">
+      <div class="stat-info">
+        <span class="stat-label">Ditolak</span>
+        <span class="stat-value">{{ statistics.ditolak }}</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filter-section">
+    <button 
+      *ngFor="let filter of filterOptions"
+      class="filter-btn"
+      [class.active]="selectedStatus === filter.value"
+      (click)="selectFilter(filter.value)"
+    >
+      {{ filter.label }}
+    </button>
+  </div>
+
+  <!-- Search Box -->
+  <div class="search-section">
+    <input 
+      type="text" 
+      placeholder="Cari klien atau layanan"
+      [(ngModel)]="searchKeyword"
+      (ngModelChange)="onSearchChange()"
+      class="search-input"
+    />
+    <button 
+      class="btn-clear" 
+      (click)="clearFilters()"
+      *ngIf="searchKeyword || selectedStatus"
+    >
+      Clear Filters
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Memuat data...</p>
+  </div>
+
+  <!-- Table -->
+  <div *ngIf="!loading" class="table-container">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Klien</th>
+          <th>Layanan</th>
+          <th>Status</th>
+          <th>Tanggal</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let request of filteredRequests">
+          <td>
+            <div class="client-info">
+              <strong>{{ request.namaKlien }}</strong>
+            </div>
+          </td>
+          <td>{{ request.namaLayanan }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="getStatusClass(request.status)">
+              {{ getStatusLabel(request.status) }}
+            </span>
+          </td>
+          <td>{{ formatDateShort(request.tglRequest) }}</td>
+          <td>
+            <div class="action-buttons">
+              <button 
+                class="btn-icon" 
+                (click)="openDetailModal(request)"
+              >
+                Detail
+              </button>
+              <button 
+                class="btn-icon btn-approve" 
+                (click)="approveRequest(request)"
+                *ngIf="canApprove(request)"
+                [disabled]="processing"
+              >
+                Verifikasi
+              </button>
+              <button 
+                class="btn-icon btn-reject" 
+                (click)="openRejectModal(request)"
+                *ngIf="canReject(request)"
+                [disabled]="processing"
+              >
+                Tolak
+              </button>
+            </div>
+          </td>
+        </tr>
+
+        <tr *ngIf="filteredRequests.length === 0">
+          <td colspan="5" class="empty-state">
+            <div class="empty-illustration"></div>
+            <p>Tidak ada request yang sesuai filter</p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Detail Modal -->
+<div class="modal-overlay" *ngIf="showDetailModal" (click)="closeDetailModal()">
+  <div class="modal-content modal-large" (click)="$event.stopPropagation()" *ngIf="selectedRequest">
+    <div class="modal-header">
+      <h2>Detail Request</h2>
+      <button class="close-btn" (click)="closeDetailModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <!-- Status Badge -->
+      <div class="detail-status">
+        <span class="status-badge large" [ngClass]="getStatusClass(selectedRequest.status)">
+          {{ getStatusLabel(selectedRequest.status) }}
+        </span>
+      </div>
+
+      <!-- Client Info -->
+      <div class="detail-section">
+        <h3>Informasi Klien</h3>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Nama:</label>
+            <span>{{ selectedRequest.namaKlien }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Email:</label>
+            <span>{{ selectedRequest.emailKlien }}</span>
+          </div>
+          <div class="detail-item">
+            <label>No. Telepon:</label>
+            <span>{{ selectedRequest.noTelpKlien }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Perusahaan:</label>
+            <span>{{ selectedRequest.perusahaan || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Service Info -->
+      <div class="detail-section">
+        <h3>Informasi Layanan</h3>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <label>Layanan:</label>
+            <span>{{ selectedRequest.namaLayanan }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Kategori:</label>
+            <span>{{ selectedRequest.kategoriLayanan }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Anggaran:</label>
+            <span>{{ selectedRequest.anggaran || '-' }}</span>
+          </div>
+          <div class="detail-item">
+            <label>Waktu Implementasi:</label>
+            <span>{{ selectedRequest.waktuImplementasi || '-' }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Request Details -->
+      <div class="detail-section">
+        <h3>Detail Request</h3>
+        <div class="detail-item full-width">
+          <label>Pesan/Kebutuhan:</label>
+          <p class="message-box">{{ selectedRequest.pesan || '-' }}</p>
+        </div>
+      </div>
+
+      <!-- AI Analysis (if available) -->
+      <div class="detail-section" *ngIf="selectedRequest.aiAnalyzed">
+        <h3>Hasil Analisa AI</h3>
+        <div class="ai-analysis-box">
+          <div class="priority-badge" [ngClass]="getPriorityClass(selectedRequest.skorPrioritas)">
+            <strong>{{ selectedRequest.skorPrioritas || 'N/A' }}</strong>
+          </div>
+          <div class="analysis-details">
+            <div class="detail-item">
+              <label>Kategori Lead:</label>
+              <span>{{ selectedRequest.kategoriLead }}</span>
+            </div>
+            <div class="detail-item full-width">
+              <br>
+              <label>Alasan Skor:</label>
+              <p>{{ selectedRequest.alasanSkor }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="detail-section">
+        <h3>Timeline</h3>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-content">
+              <strong>Request Dibuat</strong>
+              <span>{{ formatDate(selectedRequest.tglRequest) }}</span>
+            </div>
+          </div>
+          <div class="timeline-item" *ngIf="selectedRequest.tglVerifikasi">
+            <div [innerHTML]="selectedRequest.status === 'VERIFIKASI' ? '' : ''"></div>
+            <div class="timeline-content">
+              <strong>{{ selectedRequest.status === 'VERIFIKASI' ? 'Diverifikasi' : 'Ditolak' }}</strong>
+              <span>{{ formatDate(selectedRequest.tglVerifikasi) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Rejection Reason (if rejected) -->
+      <div class="detail-section" *ngIf="selectedRequest.status === 'DITOLAK' && selectedRequest.keteranganPenolakan">
+        <h3>Alasan Penolakan</h3>
+        <div class="rejection-box">
+          <p>{{ selectedRequest.keteranganPenolakan }}</p>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="modal-actions" *ngIf="canApprove(selectedRequest)">
+        <button 
+          class="btn-secondary btn-reject-action" 
+          (click)="openRejectModal(selectedRequest); closeDetailModal()"
+          [disabled]="processing"
+        >
+          Tolak Request
+        </button>
+        <button 
+          class="btn-primary" 
+          (click)="approveRequest(selectedRequest)"
+          [disabled]="processing"
+        >
+          Verifikasi Request
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Reject Modal -->
+<div class="modal-overlay" *ngIf="showRejectModal" (click)="closeRejectModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Tolak Request</h2>
+      <button class="close-btn" (click)="closeRejectModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="alert alert-warning">
+        <p><strong>Perhatian</strong></p>
+        <p>Anda akan menolak request dari <strong>{{ requestToReject?.namaKlien }}</strong></p>
+      </div>
+
+      <form (ngSubmit)="submitRejection()">
+        <div class="form-group">
+          <label for="rejectionReason">
+            Alasan Penolakan <span class="required">*</span>
+          </label>
+          <textarea 
+            id="rejectionReason"
+            [(ngModel)]="rejectionReason"
+            name="rejectionReason"
+            class="form-control"
+            rows="5"
+            placeholder="Jelaskan alasan penolakan request ini..."
+            required
+          ></textarea>
+          <small class="form-hint">
+            Alasan ini akan dikirimkan ke klien melalui email
+          </small>
+        </div>
+
+        <div class="modal-actions">
+          <button 
+            type="button" 
+            class="btn-secondary" 
+            (click)="closeRejectModal()"
+            [disabled]="processing"
+          >
+            Batal
+          </button>
+          <button 
+            type="submit" 
+            class="btn-danger"
+            [disabled]="processing || !rejectionReason.trim()"
+          >
+            <span *ngIf="!processing">Tolak Request</span>
+            <span *ngIf="processing">Processing...</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
