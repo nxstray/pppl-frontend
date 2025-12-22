@@ -1,0 +1,51 @@
+<div class="notification-wrapper">
+  <button class="notification-icon" (click)="togglePanel()">
+    🔔
+    <span class="num-count" *ngIf="unreadCount > 0">{{ unreadCount }}</span>
+  </button>
+
+  <div class="notification-container" *ngIf="showPanel">
+    <div class="notification-header">
+      <h3>NOTIFICATIONS</h3>
+      <button
+        class="settings-btn"
+        (click)="markAllAsRead()"
+        *ngIf="unreadCount > 0"
+      >
+        ✓
+      </button>
+    </div>
+
+    <div class="notification-list">
+      <div
+        *ngFor="let notif of notifications"
+        class="notification"
+        [class.new]="!notif.isRead"
+        (click)="onNotificationClick(notif)"
+      >
+        <div class="notification-content">
+          <span class="notification-emoji">
+            {{ getNotificationIcon(notif.type) }}
+          </span>
+
+          <div class="notification-text">
+            <strong>{{ notif.title }}</strong>
+            <p>{{ notif.message }}</p>
+            <small>{{ getRelativeTime(notif.createdAt) }}</small>
+          </div>
+
+          <button
+            class="delete-btn"
+            (click)="deleteNotification($event, notif)"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="notifications.length === 0" class="empty-state">
+        Tidak ada notifikasi
+      </div>
+    </div>
+  </div>
+</div>
