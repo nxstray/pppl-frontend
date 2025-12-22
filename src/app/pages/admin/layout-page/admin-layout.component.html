@@ -1,0 +1,75 @@
+<div class="layout" [class.sidebar-open]="!sidebarCollapsed">
+
+  <!-- Navbar / Header -->
+  <header class="header">
+    <div class="header-left">
+      <button class="hamburger" (click)="toggleSidebar()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+    <div class="header-right">
+      <!-- Notification -->
+      <app-bell></app-bell>
+
+      <!-- User -->
+      <div class="user-menu">
+        <div class="user-avatar">
+          {{ currentUser?.namaLengkap?.charAt(0) || 'A' }}
+        </div>
+
+        <div class="user-info">
+          <span class="user-name">
+            {{ currentUser?.namaLengkap || 'Admin' }}
+          </span>
+          <span class="user-role">
+            {{ currentUser?.role || 'ADMIN' }}
+          </span>
+        </div>
+
+        <button class="logout-btn" (click)="logout()">
+          Log out
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Siderbar -->
+  <aside class="sidebar">
+    <ul class="sidebarMenuInner">
+      <li class="profile logo">
+         <img
+          src="logo-no-bg.png"
+        />
+      </li>
+
+      <li *ngFor="let item of menuItems">
+        <a
+          [routerLink]="item.route"
+          routerLinkActive="active"
+        >
+          {{ item.label }}
+
+          <span
+            *ngIf="item.badge"
+            class="menu-badge"
+          >
+            {{ item.badge }}
+          </span>
+        </a>
+      </li>
+    </ul>
+  </aside>
+
+  <!--  Main content -->
+  <div class="admin-container">
+    <div class="main">
+      <div class="mainInner">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+
+</div>
