@@ -4,15 +4,37 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface RequestLayananDTO {
+  // Basic fields
   idRequest?: number;
   idLayanan: number;
   namaLayanan?: string;
   idKlien: number;
   namaKlien?: string;
   tglRequest?: Date | string;
-  status: 'MENUNGGU_VERIFIKASI' | 'VERIFIKASI' | 'DITOLAK';
+  status: StatusRequest;
   tglVerifikasi?: Date | string;
   keteranganPenolakan?: string;
+  
+  // Client details
+  emailKlien?: string;
+  noTelpKlien?: string;
+  
+  // Service details
+  kategoriLayanan?: string;
+  
+  // Request details
+  perusahaan?: string;
+  topic?: string;
+  pesan?: string;
+  anggaran?: string;
+  waktuImplementasi?: string;
+  
+  // AI Analysis
+  aiAnalyzed?: boolean;
+  skorPrioritas?: string;
+  kategoriLead?: string;
+  alasanSkor?: string;
+  tglAnalisaAi?: Date | string;
 }
 
 export interface ApiResponse<T> {
@@ -21,26 +43,20 @@ export interface ApiResponse<T> {
   data?: T;
 }
 
-export interface RequestDetailDTO extends RequestLayananDTO {
-  emailKlien?: string;
-  noTelpKlien?: string;
-  kategoriLayanan?: string;
-  perusahaan?: string;
-  topic?: string;
-  pesan?: string;
-  anggaran?: string;
-  waktuImplementasi?: string;
-  skorPrioritas?: string;
-  kategoriLead?: string;
-  alasanSkor?: string;
-  aiAnalyzed?: boolean;
-}
+// Alias for compatibility
+export interface RequestDetailDTO extends RequestLayananDTO {}
 
 export interface RequestStatistics {
   total: number;
   menungguVerifikasi: number;
   diverifikasi: number;
   ditolak: number;
+}
+
+export enum StatusRequest {
+  MENUNGGU_VERIFIKASI = 'MENUNGGU_VERIFIKASI',
+  VERIFIKASI = 'VERIFIKASI',
+  DITOLAK = 'DITOLAK'
 }
 
 @Injectable({
@@ -69,13 +85,6 @@ export class RequestLayananService {
 
   rejectRequest(id: number, keterangan: string): Observable<ApiResponse<RequestLayananDTO>> {
     return this.http.post<ApiResponse<RequestLayananDTO>>(`${this.apiUrl}/${id}/reject`, { keterangan });
-  }
-
-  searchRequests(keyword?: string, status?: string): Observable<ApiResponse<RequestLayananDTO[]>> {
-    let params = new HttpParams();
-    if (keyword) params = params.set('keyword', keyword);
-    if (status) params = params.set('status', status);
-    return this.http.get<ApiResponse<RequestLayananDTO[]>>(`${this.apiUrl}/search`, { params });
   }
 
   getStatistics(): Observable<ApiResponse<RequestStatistics>> {
