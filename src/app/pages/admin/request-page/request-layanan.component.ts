@@ -42,7 +42,7 @@ export class RequestLayananComponent implements OnInit {
   searchKeyword = '';
   selectedStatus: string = '';
 
-  // Filter options untuk consistency dengan lead-scoring
+  // Filter options
   filterOptions: FilterOption[] = [
     { value: '', label: 'Semua' },
     { value: 'MENUNGGU_VERIFIKASI', label: 'Menunggu Verifikasi' },
@@ -68,6 +68,7 @@ export class RequestLayananComponent implements OnInit {
       next: (response) => {
         if (response.success && response.data) {
           this.requests = response.data;
+          console.log('Loaded requests:', this.requests);
           this.applyFilters();
         }
         this.loading = false;
@@ -85,6 +86,7 @@ export class RequestLayananComponent implements OnInit {
       next: (response) => {
         if (response.success && response.data) {
           this.statistics = response.data;
+          console.log('Loaded statistics:', this.statistics);
         }
       },
       error: (error) => {
@@ -111,12 +113,17 @@ export class RequestLayananComponent implements OnInit {
       );
     }
 
-    // Filter by status
+    // Filter by status - Handle enum properly
     if (this.selectedStatus) {
-      result = result.filter(r => r.status === this.selectedStatus);
+      result = result.filter(r => {
+        // Handle both string and enum object
+        const requestStatus = typeof r.status === 'string' ? r.status : String(r.status);
+        return requestStatus === this.selectedStatus;
+      });
     }
 
     this.filteredRequests = result;
+    console.log('Filtered requests:', this.filteredRequests.length);
   }
 
   onSearchChange() {
@@ -181,10 +188,8 @@ export class RequestLayananComponent implements OnInit {
       `
     );
 
-    // Cancel button
     if (!confirmed) return;
 
-    // OK button
     this.processing = true;
 
     this.requestLayananService.approveRequest(request.idRequest).subscribe({
@@ -268,10 +273,11 @@ export class RequestLayananComponent implements OnInit {
     });
   }
 
-  // Helpers methods
+  // Helper methods - Handle enum properly
 
-  getStatusClass(status: string): string {
-    switch (status) {
+  getStatusClass(status: any): string {
+    const statusStr = typeof status === 'string' ? status : status?.toString();
+    switch (statusStr) {
       case 'MENUNGGU_VERIFIKASI': return 'status-pending';
       case 'VERIFIKASI': return 'status-approved';
       case 'DITOLAK': return 'status-rejected';
@@ -279,12 +285,13 @@ export class RequestLayananComponent implements OnInit {
     }
   }
 
-  getStatusLabel(status: string): string {
-    switch (status) {
+  getStatusLabel(status: any): string {
+    const statusStr = typeof status === 'string' ? status : status?.toString();
+    switch (statusStr) {
       case 'MENUNGGU_VERIFIKASI': return 'Menunggu Verifikasi';
       case 'VERIFIKASI': return 'Diverifikasi';
       case 'DITOLAK': return 'Ditolak';
-      default: return status;
+      default: return statusStr || 'Unknown';
     }
   }
 
@@ -314,11 +321,13 @@ export class RequestLayananComponent implements OnInit {
   }
 
   canApprove(request: RequestLayananDTO | RequestDetailDTO): boolean {
-    return request.status === 'MENUNGGU_VERIFIKASI';
+    const statusStr = typeof request.status === 'string' ? request.status : String(request.status);
+    return statusStr === 'MENUNGGU_VERIFIKASI';
   }
 
   canReject(request: RequestLayananDTO | RequestDetailDTO): boolean {
-    return request.status === 'MENUNGGU_VERIFIKASI';
+    const statusStr = typeof request.status === 'string' ? request.status : String(request.status);
+    return statusStr === 'MENUNGGU_VERIFIKASI';
   }
 
   // Error handling
@@ -332,7 +341,6 @@ export class RequestLayananComponent implements OnInit {
   }
 
   // Refresh
-
   refreshData() {
     this.loadStatistics();
     this.loadRequests();
