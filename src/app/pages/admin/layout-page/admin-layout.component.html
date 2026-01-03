@@ -14,10 +14,19 @@
       <!-- Notification -->
       <app-bell></app-bell>
 
-      <!-- User -->
+      <!-- User Profile -->
       <div class="user-menu">
-        <div class="user-avatar">
-          {{ currentUser?.namaLengkap?.charAt(0) || 'A' }}
+        <!-- Display Foto Profile -->
+        <div class="user-avatar" [class.has-photo]="currentUser?.fotoProfil">
+          <img 
+            *ngIf="currentUser?.fotoProfil" 
+            [src]="currentUser.fotoProfil" 
+            [alt]="currentUser.namaLengkap"
+            class="avatar-image"
+          />
+          <span *ngIf="!currentUser?.fotoProfil" class="avatar-initial">
+            {{ currentUser?.namaLengkap?.charAt(0) || 'A' }}
+          </span>
         </div>
 
         <div class="user-info">
@@ -36,7 +45,7 @@
     </div>
   </header>
 
-  <!-- Siderbar -->
+  <!-- Sidebar -->
   <aside class="sidebar">
     <ul class="sidebarMenuInner">
       <li class="profile logo">
@@ -63,7 +72,7 @@
     </ul>
   </aside>
 
-  <!--  Main content -->
+  <!-- Main content -->
   <div class="admin-container">
     <div class="main">
       <div class="mainInner">
