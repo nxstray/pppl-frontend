@@ -67,6 +67,7 @@
     <table class="data-table">
       <thead>
         <tr>
+          <th>Foto</th>
           <th>Nama Karyawan</th>
           <th>Email</th>
           <th>No. Telepon</th>
@@ -77,6 +78,19 @@
       </thead>
       <tbody>
         <tr *ngFor="let karyawan of filteredKaryawan">
+          <!-- Photo Column -->
+          <td>
+            <div class="table-avatar" [class.has-photo]="karyawan.fotoProfil">
+              <img 
+                *ngIf="karyawan.fotoProfil" 
+                [src]="karyawan.fotoProfil"
+                [alt]="karyawan.namaKaryawan"
+              />
+              <span *ngIf="!karyawan.fotoProfil">
+                {{ karyawan.namaKaryawan.charAt(0) }}
+              </span>
+            </div>
+          </td>
           <td>
             <strong>{{ karyawan.namaKaryawan }}</strong>
           </td>
@@ -107,8 +121,8 @@
         </tr>
 
         <tr *ngIf="filteredKaryawan.length === 0">
-          <td colspan="6" class="empty-state">
-            <div class="empty-illustration"></div>
+          <td colspan="7" class="empty-state">
+            <div class="empty-illustration">📊</div>
             <p>Tidak ada karyawan yang sesuai filter</p>
           </td>
         </tr>
@@ -119,7 +133,7 @@
 
 <!-- Create/Edit Modal -->
 <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
-  <div class="modal-content" (click)="$event.stopPropagation()">
+  <div class="modal-content modal-with-photo" (click)="$event.stopPropagation()">
     <div class="modal-header">
       <h2>{{ isEditMode ? 'Edit Karyawan' : 'Tambah Karyawan' }}</h2>
       <button class="close-btn" (click)="closeModal()">✕</button>
@@ -127,6 +141,58 @@
 
     <div class="modal-body">
       <form (ngSubmit)="submitForm()">
+        
+        <!-- Photo Upload Section -->
+        <div class="photo-upload-section">
+          <label class="photo-label">Foto profil</label>
+          <div class="photo-upload-container">
+            <div class="avatar-preview" [class.has-photo]="getPhotoPreview()">
+              <img 
+                *ngIf="getPhotoPreview()" 
+                [src]="getPhotoPreview()!"
+                alt="Preview"
+              />
+              <span *ngIf="!getPhotoPreview()" class="avatar-initial">
+                {{ getInitial() }}
+              </span>
+              <div class="upload-overlay" *ngIf="uploadingPhoto">
+                <div class="spinner-small"></div>
+              </div>
+            </div>
+            
+            <div class="photo-actions">
+              <input 
+                type="file" 
+                #photoInput
+                (change)="onFileSelected($event)"
+                accept="image/*"
+                style="display: none"
+              />
+              <button 
+                type="button"
+                class="btn-upload-photo" 
+                (click)="photoInput.click()"
+                [disabled]="uploadingPhoto"
+              >
+                {{ getPhotoPreview() ? 'Ganti foto' : 'Upload Foto' }}
+              </button>
+              <button 
+                type="button"
+                *ngIf="getPhotoPreview()"
+                class="btn-remove-photo" 
+                (click)="removePhoto()"
+                [disabled]="uploadingPhoto"
+              >
+                Hapus
+              </button>
+              <p class="photo-hint">JPG / PNG | Max 2MB</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-divider"></div>
+
+        <!-- Form Fields -->
         <div class="form-group">
           <label for="namaKaryawan">
             Nama Karyawan <span class="required">*</span>
@@ -229,10 +295,11 @@
           <button 
             type="submit" 
             class="btn-primary"
-            [disabled]="processing || !isFormValid()"
+            [disabled]="processing || uploadingPhoto || !isFormValid()"
           >
-            <span *ngIf="!processing">{{ isEditMode ? 'Update' : 'Simpan' }}</span>
-            <span *ngIf="processing">Processing...</span>
+            <span *ngIf="!processing && !uploadingPhoto">{{ isEditMode ? 'Update' : 'Simpan' }}</span>
+            <span *ngIf="uploadingPhoto">Uploading foto...</span>
+            <span *ngIf="processing && !uploadingPhoto">Processing...</span>
           </button>
         </div>
       </form>

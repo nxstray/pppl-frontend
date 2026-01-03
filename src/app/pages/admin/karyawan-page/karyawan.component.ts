@@ -29,9 +29,14 @@ export class KaryawanComponent implements OnInit {
   showModal = false;
   isEditMode = false;
 
+  // Upload Photo State
+  selectedFile: File | null = null;
+  previewUrl: string | null = null;
+  uploadingPhoto = false;
+
   // Dropdown States
   dropdownStates: { [key: string]: boolean } = {
-  manager: false
+    manager: false
   };
 
   // Filters
@@ -44,7 +49,8 @@ export class KaryawanComponent implements OnInit {
     emailKaryawan: '',
     noTelp: '',
     jabatanPosisi: '',
-    idManager: 0
+    idManager: 0,
+    fotoProfil: undefined
   };
 
   constructor(
@@ -59,7 +65,6 @@ export class KaryawanComponent implements OnInit {
   }
 
   // Data loading
-
   loadManagers() {
     this.managerService.getAllManagers().subscribe({
       next: (response) => {
@@ -97,7 +102,6 @@ export class KaryawanComponent implements OnInit {
   }
 
   // Filtering
-
   selectManager(idManager: number | null) {
     this.selectedManager = idManager;
     this.applyFilters();
@@ -106,7 +110,6 @@ export class KaryawanComponent implements OnInit {
   applyFilters() {
     let result = [...this.karyawan];
 
-    // Filter by keyword
     if (this.searchKeyword.trim()) {
       const keyword = this.searchKeyword.toLowerCase();
       result = result.filter(k =>
@@ -117,7 +120,6 @@ export class KaryawanComponent implements OnInit {
       );
     }
 
-    // Filter by manager
     if (this.selectedManager !== null) {
       result = result.filter(k => k.idManager === this.selectedManager);
     }
@@ -143,9 +145,11 @@ export class KaryawanComponent implements OnInit {
     this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
   }
 
+  //  fixed: Bug dropdown tidak bisa select
   selectDropdownItem(dropdown: string, value: any) {
-    if (dropdown === 'status') {
+    if (dropdown === 'manager') {  // 'status' jadi 'manager'
       this.formData.idManager = value;
+      console.log('Manager selected:', value);
     }
     this.dropdownStates[dropdown] = false;
   }
@@ -165,8 +169,51 @@ export class KaryawanComponent implements OnInit {
     });
   }
 
-  // Modal handling
+  // Photo Upload Handlers
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    
+    if (!file) return;
 
+    // Validate file size (2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      this.toast.error('File Terlalu Besar', 'Ukuran maksimal 2MB');
+      event.target.value = '';
+      return;
+    }
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      this.toast.error('Invalid File', 'Hanya file gambar yang diperbolehkan');
+      event.target.value = '';
+      return;
+    }
+
+    this.selectedFile = file;
+    
+    // Create preview
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      this.previewUrl = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  removePhoto() {
+    this.selectedFile = null;
+    this.previewUrl = null;
+    this.formData.fotoProfil = undefined;
+  }
+
+  getPhotoPreview(): string | null {
+    return this.previewUrl || this.formData.fotoProfil || null;
+  }
+
+  getInitial(): string {
+    return this.formData.namaKaryawan?.charAt(0).toUpperCase() || 'K';
+  }
+
+  // Modal handling
   openCreateModal() {
     this.isEditMode = false;
     this.formData = {
@@ -174,14 +221,19 @@ export class KaryawanComponent implements OnInit {
       emailKaryawan: '',
       noTelp: '',
       jabatanPosisi: '',
-      idManager: 0
+      idManager: 0,
+      fotoProfil: undefined
     };
+    this.selectedFile = null;
+    this.previewUrl = null;
     this.showModal = true;
   }
 
   openEditModal(karyawan: KaryawanDTO) {
     this.isEditMode = true;
     this.formData = { ...karyawan };
+    this.selectedFile = null;
+    this.previewUrl = null;
     this.showModal = true;
   }
 
@@ -190,17 +242,19 @@ export class KaryawanComponent implements OnInit {
       this.dropdownStates[key] = false;
     });
     this.showModal = false;
+    this.selectedFile = null;
+    this.previewUrl = null;
     this.formData = {
       namaKaryawan: '',
       emailKaryawan: '',
       noTelp: '',
       jabatanPosisi: '',
-      idManager: 0
+      idManager: 0,
+      fotoProfil: undefined
     };
   }
 
-  // Form
-
+  // Form validation
   isFormValid(): boolean {
     return !!(
       this.formData.namaKaryawan.trim() &&
@@ -211,7 +265,8 @@ export class KaryawanComponent implements OnInit {
     );
   }
 
-  submitForm() {
+  // Submit with Photo
+  async submitForm() {
     if (!this.isFormValid()) {
       this.toast.warning('Warning', 'Mohon lengkapi semua field yang required');
       return;
@@ -219,25 +274,54 @@ export class KaryawanComponent implements OnInit {
 
     this.processing = true;
 
-    const action = this.isEditMode
-      ? this.karyawanService.updateKaryawan(this.formData.idKaryawan!, this.formData)
-      : this.karyawanService.createKaryawan(this.formData);
-
-    action.subscribe({
-      next: (response) => {
-        if (response.success) {
-          this.toast.success('Success!', response.message || 'Data karyawan berhasil disimpan');
-          this.closeModal();
-          this.loadKaryawan();
-        } else {
-          this.toast.error('Error!', response.message || 'Gagal menyimpan data');
+    try {
+      // Upload foto dulu jika ada
+      if (this.selectedFile) {
+        this.uploadingPhoto = true;
+        const uploadResult = await this.uploadPhoto(this.selectedFile);
+        if (uploadResult) {
+          this.formData.fotoProfil = uploadResult;
         }
-        this.processing = false;
-      },
-      error: () => {
-        this.toast.error('Error!', 'Gagal menyimpan data karyawan');
-        this.processing = false;
+        this.uploadingPhoto = false;
       }
+
+      // Save karyawan data
+      const action = this.isEditMode
+        ? this.karyawanService.updateKaryawan(this.formData.idKaryawan!, this.formData)
+        : this.karyawanService.createKaryawan(this.formData);
+
+      action.subscribe({
+        next: (response) => {
+          if (response.success) {
+            this.toast.success('Success!', response.message || 'Data karyawan berhasil disimpan');
+            this.closeModal();
+            this.loadKaryawan();
+          } else {
+            this.toast.error('Error!', response.message || 'Gagal menyimpan data');
+          }
+          this.processing = false;
+        },
+        error: (error) => {
+          this.toast.error('Error!', 'Gagal menyimpan data karyawan');
+          this.processing = false;
+        }
+      });
+    } catch (error) {
+      this.toast.error('Error!', 'Gagal upload foto');
+      this.processing = false;
+      this.uploadingPhoto = false;
+    }
+  }
+
+  // Upload photo method
+  private uploadPhoto(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        resolve(e.target.result); // Return Base64
+      };
+      reader.onerror = () => reject('Failed to read file');
+      reader.readAsDataURL(file);
     });
   }
 
@@ -255,7 +339,7 @@ export class KaryawanComponent implements OnInit {
       this.karyawanService.deleteKaryawan(karyawan.idKaryawan!).subscribe({
         next: (res) => {
           if (res.success) {
-            this.toast.success('succces!', 'Karyawan berhasil dihapus');
+            this.toast.success('Success!', 'Karyawan berhasil dihapus');
             this.loadKaryawan();
           } else {
             this.toast.error('Error!', res.message);
@@ -271,13 +355,8 @@ export class KaryawanComponent implements OnInit {
   }
 
   // Error handling
-  private handleError(error: any, defaultMessage: string) {
-    const errorMessage = error.error?.message || error.message || defaultMessage;
-    this.toast.error('Error! ', errorMessage);
-  }
-
   private showError(message: string) {
-    this.toast.error('Error! ', message);
+    this.toast.error('Error!', message);
   }
 
   // Refresh data
