@@ -217,16 +217,33 @@
 }
 
 .btn-icon {
-  background: none;
-  border: none;
-  font-size: 1.25rem;
+  background: white;
+  border: 2px solid #e8e9ef;
+  font-family: 'Spline Sans', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
   cursor: pointer;
-  padding: 0.375rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 6px;
   transition: all 0.3s ease;
+  color: #666;
 
-  &:hover:not(:disabled) {
-    transform: scale(1.1);
+  &.btn-view:hover:not(:disabled) {
+    border-color: #2558b0;
+    color: #2558b0;
+    background: #f5f4f059;
+  }
+
+  &.btn-edit:hover:not(:disabled) {
+    border-color: #ea9d39;
+    color: #ea9d39;
+    background: #f5f4f059;
+  }
+
+  &.btn-delete:hover:not(:disabled) {
+    border-color: #dc3545;
+    color: #dc3545;
+    background: #f5f4f059;
   }
 
   &:disabled {
