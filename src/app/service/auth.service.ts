@@ -12,6 +12,7 @@ export interface LoginResponse {
   namaLengkap: string;
   email: string;
   role: string;
+  fotoProfil?: string;
 }
 
 export interface ApiResponse<T> {
@@ -57,6 +58,27 @@ export class AuthService {
           localStorage.setItem('currentUser', JSON.stringify(response.data));
           localStorage.setItem('token', response.data.token);
           this.currentUserSubject.next(response.data);
+        }
+      })
+    );
+  }
+
+  /**
+   * Upload foto profil
+   */
+  uploadFotoProfil(file: File): Observable<ApiResponse<string>> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post<ApiResponse<string>>(`${this.apiUrl}/upload-photo`, formData).pipe(
+      tap(response => {
+        if (response.success && response.data) {
+          // Update current user dengan foto baru
+          const currentUser = this.currentUserValue;
+          if (currentUser) {
+            currentUser.fotoProfil = response.data;
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            this.currentUserSubject.next(currentUser);
+          }
         }
       })
     );
