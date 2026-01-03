@@ -6,6 +6,60 @@
   position: relative;
 }
 
+.hero-section {
+    position: relative;
+    height: 75vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(135deg,
+            #0C2B40 0%,
+            #008080 98%);
+
+    overflow: hidden;
+}
+
+.building-image {
+    position: absolute;
+    bottom: 0;
+    right: -0.2%;
+    height: 90%;
+    z-index: 3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 4;
+    padding-left: 4rem;
+    max-width: 650px;
+    color: white;
+}
+
+.hero-logo {
+    position: absolute;
+    top: 27%;
+    right: 17.5%;
+    width: 350px;
+    height: auto;
+    opacity: 0.3;
+    z-index: -999;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+    font-weight: 200;
+}
+
 /* Floating Navbar */
 .navbar-floating {
   position: fixed;
@@ -99,7 +153,7 @@
 }
 
 .form-subtitle {
-  font-size: 3rem;
+  font-size: 4.5rem;
   font-weight: 700;
   color: #D9953E;
   margin-bottom: 1.5rem;
@@ -107,10 +161,11 @@
 }
 
 .form-description {
-  font-size: 1.125rem;
-  line-height: 1.6;
+  font-size: 1.5rem;
+  line-height: 1.1;
   color: rgba(255, 255, 255, 0.8);
   max-width: 400px;
+  font-weight: 300;
 }
 
 /* Right Side - Form */
