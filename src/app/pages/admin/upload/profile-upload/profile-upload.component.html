@@ -1,0 +1,74 @@
+<div class="profile-photo-section">
+  <!-- Header -->
+  <div class="section-header">
+    <h3>Foto Profil</h3>
+    <p class="section-description">
+      Upload foto profil Anda untuk tampilan yang lebih personal
+    </p>
+  </div>
+
+  <!-- Photo Display Area -->
+  <div class="photo-display">
+    <!-- Current/Preview Photo -->
+    <div class="avatar-container">
+      <div 
+        class="avatar-large" 
+        [class.has-photo]="getCurrentPhoto()"
+        [class.uploading]="uploading"
+      >
+        <!-- Loading Overlay -->
+        <div class="upload-overlay" *ngIf="uploading">
+          <div class="spinner"></div>
+          <span>Uploading...</span>
+        </div>
+
+        <!-- Photo or Initial -->
+        <img 
+          *ngIf="getCurrentPhoto()" 
+          [src]="getCurrentPhoto()!"
+          [alt]="currentUser?.namaLengkap"
+          class="avatar-image"
+        />
+        <span *ngIf="!getCurrentPhoto()" class="avatar-initial">
+          {{ getInitial() }}
+        </span>
+      </div>
+
+      <!-- Upload Button -->
+      <button 
+        class="btn-change-photo" 
+        (click)="fileInput.click()"
+        [disabled]="uploading"
+      >
+        <span class="icon">📷</span>
+        <span *ngIf="!uploading">Ubah Foto</span>
+        <span *ngIf="uploading">Uploading...</span>
+      </button>
+    </div>
+
+    <!-- Upload Info -->
+    <div class="upload-info">
+      <div class="info-item">
+        <span class="icon">✓</span>
+        <span>Format: JPG, PNG, GIF</span>
+      </div>
+      <div class="info-item">
+        <span class="icon">⚖️</span>
+        <span>Maksimal: 2MB</span>
+      </div>
+      <div class="info-item">
+        <span class="icon">📐</span>
+        <span>Rekomendasi: 400x400px</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Input (Hidden) -->
+  <input 
+    type="file" 
+    #fileInput
+    (change)="onFileSelected($event)"
+    accept="image/jpeg,image/png,image/gif"
+    style="display: none"
+  />
+</div>
