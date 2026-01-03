@@ -11,6 +11,7 @@ export interface KaryawanDTO {
   jabatanPosisi: string;
   idManager: number;
   namaManager?: string;
+  fotoProfil?: string;
 }
 
 export interface ApiResponse<T> {
