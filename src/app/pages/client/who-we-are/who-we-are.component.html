@@ -1,0 +1,164 @@
+<section id="hero" class="hero-section">
+    <img src="building.png" alt="Pandigi Building" class="building-image">
+
+    <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+            </div>
+            <ul class="navbar-menu">
+                <li><a (click)="navigateToOtherPage('/')">WHAT WE DO</a></li>
+                <li><a (click)="scrollToSection('hero')">WHO WE ARE</a></li>
+                <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
+                <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero-content" role="banner" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="hero-title">{{ heroTitle }}</h1>
+        <p class="hero-subtitle">{{ heroSubtitle }}</p>
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+    </div>
+</section>
+
+<section id="timeline" class="timeline-section">
+    <div class="full-container">
+        <h2 class="section-title">Our Journey</h2>
+        <div class="timeline">
+            <div class="timeline-line"></div>
+            <div class="timeline-item" *ngFor="let item of timelineItems; let i = index"
+                [ngClass]="{'left': i % 2 === 0, 'right': i % 2 !== 0}">
+                <div class="timeline-content">
+                    <div class="timeline-date">{{ item.date }}</div>
+                    <div class="timeline-icon">{{ item.icon }}</div>
+                    <h3 class="timeline-title">{{ item.title }}</h3>
+                    <p class="timeline-description">{{ item.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="vision-mission" class="vision-mission-section">
+    <div class="full-container">
+        <div class="vision-mission-container">
+            <div class="vision-mission-card">
+                <h3 class="vision-mission-title">Visi :</h3>
+                <p class="vision-mission-description">{{ visionandmission.vision }}</p>
+            </div>
+            <div class="vision-mission-card">
+                <h3 class="vision-mission-title">Misi :</h3>
+                <ul class="mission-list">
+                    <li *ngFor="let mission of visionandmission.mission">{{ mission }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="swiper-section">
+    <div class="full-container">
+        <h2 class="section-title">Layanan Kami</h2>
+        <div class="swiper-section-content">
+            <swiper-container pagination="true" effect="coverflow" grab-cursor="true" centered-slides="true"
+                slides-per-view="auto" coverflow-effect-rotate="50" coverflow-effect-stretch="0"
+                coverflow-effect-depth="100" coverflow-effect-modifier="1" coverflow-effect-slide-shadows="true"
+                navigation="true">
+                <swiper-slide class="service-card" *ngFor="let service of servicesItems">
+                    <img [src]="service.image" [alt]="service.title" class="slide-image">
+                    <div class="text-overlay">
+                        <h3>{{ service.title }}</h3>
+                        <p class="text-justify">{{ service.description }}</p>
+                    </div>
+                </swiper-slide>
+            </swiper-container>
+            <a class="cta-button" (click)="navigateToOtherPage('build-with-us')">
+                Build with us
+            </a>
+        </div>
+    </div>
+</section>
+
+<section id="our-team" class="our-team-section">
+    <div class="full-container">
+        <h3 class="section-title">Tim Kami</h3>
+
+        <div class="team-grid">
+            <div class="team-card" *ngFor="let member of teamMembers">
+                <div class="card-image">
+                    <img [src]="member.imageUrl" [alt]="member.name">
+                </div>
+
+                <div class="card-content">
+                    <h3>{{ member.name }}</h3>
+                    <p>{{ member.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="review-section" id="client-reviews">
+    <div class="full-container">
+        <h3 class="section-title">Ulasan Client</h3>
+
+        <div class="review-content-wrapper">
+
+            <swiper-container #reviewSwiper init="false" class="review-carousel">
+                <swiper-slide *ngFor="let review of clientReviews">
+                    <div class="slide-inner">
+                        <div class="client-image">
+                            <img [src]="review.imageUrl" alt="Client photo">
+                        </div>
+
+                        <div class="review-text">
+                            <p>{{ review.description }}</p>
+                        </div>
+                    </div>
+                </swiper-slide>
+            </swiper-container>
+
+            <div class="controls-container">
+                <div class="custom-pagination"></div>
+                <div class="custom-next-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14" />
+                        <path d="m12 5 7 7-7 7" />
+                    </svg>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="section contact">
+    <div class="full-container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2 class="section-title">Get in touch with us</h2>
+                <div class="contact-item">
+                    <h3>Phone</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Social</h3>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon"></a>
+                    <a href="#" class="social-icon"></a>
+                    <a href="#" class="social-icon"></a>
+                </div>
+            </div>
+            <div class="contact-logo">
+                <img src="logo-text.png" alt="Pandigi Text" class="logo-text">
+            </div>
+        </div>
+    </div>
+</section>

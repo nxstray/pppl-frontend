@@ -5,6 +5,7 @@ import { AnalysisGuard } from './guard/analysis.guard';
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/client/login/login.component';
 import { ClientFormComponent } from './pages/client/client-form/client-form.component';
+import { WhoWeAreComponent } from './pages/client/who-we-are/who-we-are.component';
 
 import { KlienComponent } from './pages/admin/klien-page/klien.component';
 import { RekapComponent } from './pages/admin/rekap-page/rekap.component';
@@ -25,9 +26,13 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./pages/client/login/login.component').then(m => m.LoginComponent)
   },
-    {
+  {
     path: 'build',
     loadComponent: () => import('./pages/client/client-form/client-form.component').then(m => m.ClientFormComponent)
+  },
+  {
+    path: 'who-we-are',
+    loadComponent: () => import('./pages/client/who-we-are/who-we-are.component').then(m => m.WhoWeAreComponent)
   },
   
   {

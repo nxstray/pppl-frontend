@@ -28,6 +28,10 @@ import { ClientFormService, ClientFormDTO, LayananOption } from '../../../servic
 export class ClientFormComponent implements OnInit {
   navbarVisible = true;
   private lastScrollTop = 0;
+
+  heroTitle = 'Request a Consultation Form';
+  heroSubtitle = 'Let\'s Build Something Great Together';
+  heroVector = 'vector_logo_pandigi.png';
   
   // Form Data - sesuaikan dengan DTO backend
   formData: ClientFormDTO = {
@@ -117,12 +121,20 @@ export class ClientFormComponent implements OnInit {
     }
   }
 
-  scrollToSection(sectionId: string) {
-    if (sectionId === 'hero') {
-      this.router.navigate(['/']);
-      return;
+  scrollToSection(sectionId: string): void {
+    console.log('Scrolling to section:', sectionId);
+    const element = document.getElementById(sectionId);
+    if (element) {
+      console.log('Element found, scrolling to:', sectionId);
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      console.log('Element not found for section:', sectionId);
     }
-    this.router.navigate(['/'], { fragment: sectionId });
+  }
+
+  navigateToOtherPage(path: string) {
+    console.log(`Navigating to ${path} page`);
+    this.router.navigate([path]);
   }
 
   validateForm(): boolean {

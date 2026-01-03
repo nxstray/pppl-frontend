@@ -129,4 +129,9 @@ export class LandingComponent implements OnInit {
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+  navigateToOtherPage(pageId: string) {
+    console.log(`Redirect to : ${pageId}`);
+    this.router.navigate([`/${pageId}`]);
+  }
 }
