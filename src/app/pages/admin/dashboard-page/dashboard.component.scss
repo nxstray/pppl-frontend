@@ -131,6 +131,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
+.activity-card {
+  align-self: start;
+}
+
 .card-header {
   display: flex;
   justify-content: space-between;
@@ -158,19 +162,6 @@
 
 .btn-secondary:hover {
   background: #e8e9ef;
-}
-
-.btn-link {
-  background: none;
-  border: none;
-  color: #d4af37;
-  font-weight: 600;
-  cursor: pointer;
-  font-size: 0.875rem;
-}
-
-.btn-link:hover {
-  text-decoration: underline;
 }
 
 /* Chart Placeholder */
@@ -216,12 +207,11 @@
 
 .activity-item:hover {
   background: #e8e9ef;
-  transform: translateX(4px);
 }
 
-.activity-success { border-left-color: #28a745; }
-.activity-info { border-left-color: #17a2b8; }
-.activity-primary { border-left-color: #d4af37; }
+.activity-success { border-left-color: #dc3545; }
+.activity-info { border-left-color: #ff9800; }
+.activity-primary { border-left-color: #2196f3; }
 
 .activity-icon {
   font-size: 1.5rem;
