@@ -1,9 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
 
+import {
+  DashboardService,
+  ActivityResponse,
+  MonthData,
+  TrendData,
+  ConversionData
+} from '../../../service/dashboard.service';
+
+import { MonthlyLeadChartComponent } from '../../../../shared/charts/monthly-lead/monthly-lead.component';
+import { LeadTrendChartComponent } from '../../../../shared/charts/lead-trend/lead-trend.component';
+import { ConversionChartComponent } from '../../../../shared/charts/conversion-chart/conversion-chart.component';
+
+/* =====================
+   UI MODELS
+===================== */
 interface StatCard {
   title: string;
   value: number;
@@ -11,114 +24,177 @@ interface StatCard {
   route?: string;
 }
 
-interface LeadStats {
-  totalLeads: number;
-  analyzedLeads: number;
-  hotLeads: number;
-  warmLeads: number;
-  coldLeads: number;
+interface Activity {
+  icon: string;
+  text: string;
+  time: string;
+  type: 'success' | 'info' | 'primary';
 }
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MonthlyLeadChartComponent,
+    LeadTrendChartComponent,
+    ConversionChartComponent
+  ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+
   loading = true;
-  
+
   stats: StatCard[] = [
     { title: 'Total Klien', value: 0, route: '/admin/klien' },
-    { title: 'Hot Leads', value: 0, trend: 67, route: '/admin/lead-scoring' },
+    { title: 'Hot Leads', value: 0, route: '/admin/lead-scoring' },
     { title: 'Request Pending', value: 0, route: '/admin/request-layanan' },
     { title: 'Total Karyawan', value: 0, route: '/admin/karyawan' }
   ];
 
-  recentActivities = [
+  recentActivities: Activity[] = [];
 
-  ];
+  /* === CHART DATA === */
+  monthlyData: MonthData[] = [];
+  trendData: TrendData[] = [];
+  conversionData: ConversionData[] = [];
 
   constructor(
-    private http: HttpClient,
+    private dashboardService: DashboardService,
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.loadDashboardData();
+  ngOnInit(): void {
+    this.loadDashboard();
   }
 
-  loadDashboardData() {
+  /* =====================
+     LOAD DASHBOARD
+  ===================== */
+  loadDashboard(): void {
     this.loading = true;
-    
-    // Load lead scoring statistics
-    this.http.get<any>(`${environment.apiUrl}/admin/lead-scoring/statistics`)
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            const data: LeadStats = response.data;
-            this.stats[0].value = data.totalLeads;
-            this.stats[1].value = data.hotLeads;
-            // Update other stats as needed
-          }
-          this.loading = false;
-        },
-        error: (error) => {
-          console.error('Error loading dashboard data:', error);
-          this.loading = false;
+
+    this.dashboardService.loadDashboard().subscribe({
+      next: (res) => {
+
+        /* ---- STAT CARDS ---- */
+        if (res.leadStats?.success) {
+          this.stats[1].value = res.leadStats.data.hotLeads ?? 0;
         }
-      });
 
-    // Load other statistics (klien, karyawan, etc)
-    this.loadKlienCount();
-    this.loadKaryawanCount();
-    this.loadPendingRequests();
+        if (res.klien?.success) {
+          this.stats[0].value = res.klien.data.length;
+        }
+
+        if (res.karyawan?.success) {
+          this.stats[3].value = res.karyawan.data.length;
+        }
+
+        if (res.pending?.success) {
+          this.stats[2].value = res.pending.data.length;
+        }
+
+        /* ---- CHART DATA ---- */
+        this.monthlyData = res.monthly?.data?.data ?? [];
+        this.trendData = res.trend?.data?.data ?? [];
+        this.conversionData = res.conversion?.data?.data ?? [];
+
+        /* ---- ACTIVITIES ---- */
+        if (res.activities?.success) {
+          this.mapActivities(res.activities.data);
+        } else {
+          this.setEmptyActivity();
+        }
+
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Dashboard load failed:', err);
+        this.setEmptyActivity();
+        this.loading = false;
+      }
+    });
   }
 
-  loadKlienCount() {
-    this.http.get<any>(`${environment.apiUrl}/klien`)
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.stats[0].value = response.data.length;
-          }
-        },
-        error: (error) => console.error('Error loading klien:', error)
-      });
+  /* =====================
+     ACTIVITIES
+  ===================== */
+  private mapActivities(data: ActivityResponse[]): void {
+    if (!data?.length) {
+      this.setEmptyActivity();
+      return;
+    }
+
+    this.recentActivities = data.map(item => ({
+      icon: this.getPriorityIcon(item.skorPrioritas),
+      text: item.description,
+      time: this.formatTimeAgo(item.tglAnalisaAi),
+      type: this.getPriorityType(item.skorPrioritas)
+    }));
   }
 
-  loadKaryawanCount() {
-    this.http.get<any>(`${environment.apiUrl}/karyawan`)
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.stats[3].value = response.data.length;
-          }
-        },
-        error: (error) => console.error('Error loading karyawan:', error)
-      });
+  private setEmptyActivity(): void {
+    this.recentActivities = [{
+      icon: '📊',
+      text: 'Belum ada aktivitas lead scoring',
+      time: 'Baru saja',
+      type: 'info'
+    }];
   }
 
-  loadPendingRequests() {
-    this.http.get<any>(`${environment.apiUrl}/request-layanan/menunggu-verifikasi`)
-      .subscribe({
-        next: (response) => {
-          if (response.success) {
-            this.stats[2].value = response.data.length;
-          }
-        },
-        error: (error) => console.error('Error loading pending requests:', error)
-      });
+  /* =====================
+     HELPERS
+  ===================== */
+  getPriorityIcon(priority: 'HOT' | 'WARM' | 'COLD' | null): string {
+    switch (priority) {
+      case 'HOT': return '';
+      case 'WARM': return '';
+      case 'COLD': return '';
+      default: return '📊';
+    }
   }
 
-  navigateTo(route?: string) {
+  getPriorityType(
+    priority: 'HOT' | 'WARM' | 'COLD' | null
+  ): 'success' | 'info' | 'primary' {
+    switch (priority) {
+      case 'HOT': return 'success';
+      case 'WARM': return 'primary';
+      case 'COLD': return 'info';
+      default: return 'info';
+    }
+  }
+
+  formatTimeAgo(date: Date | string): string {
+    const now = new Date();
+    const past = new Date(date);
+    const diff = now.getTime() - past.getTime();
+
+    const m = Math.floor(diff / 60000);
+    const h = Math.floor(diff / 3600000);
+    const d = Math.floor(diff / 86400000);
+
+    if (m < 1) return 'Baru saja';
+    if (m < 60) return `${m} menit yang lalu`;
+    if (h < 24) return `${h} jam yang lalu`;
+    if (d < 7) return `${d} hari yang lalu`;
+
+    return past.toLocaleDateString('id-ID', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric'
+    });
+  }
+
+  navigateTo(route?: string): void {
     if (route) {
       this.router.navigate([route]);
     }
   }
 
-  getActivityClass(type: string): string {
-    return `activity-${type}`;
+  getActivityClass(activity: Activity): string {
+    return `activity-${activity.type}`;
   }
 }

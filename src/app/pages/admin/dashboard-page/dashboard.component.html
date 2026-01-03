@@ -34,33 +34,46 @@
     <!-- Chart Section -->
     <div class="chart-card">
       <div class="card-header">
-        <h2 class="card-title">Statistik Lead bulanan</h2>
-        <button class="btn-secondary">Lihat detail</button>
+        <h2 class="card-title">Statistik Lead</h2>
       </div>
-      <div class="chart-placeholder">
-        <div class="chart-illustration">
-          📊
-        </div>
-        <p>Chart akan ditampilkan di sini</p>
-      </div>
+
+      <section class="charts">
+        <app-monthly-lead-chart
+          [data]="monthlyData">
+        </app-monthly-lead-chart>
+
+        <app-lead-trend-chart
+          [data]="trendData">
+        </app-lead-trend-chart>
+
+        <app-conversion-chart
+          [data]="conversionData">
+        </app-conversion-chart>
+      </section>
     </div>
 
     <!-- Recent Activities -->
     <div class="activity-card">
       <div class="card-header">
         <h2 class="card-title">Aktivitas terbaru</h2>
-        <button class="btn-link">Lihat semua</button>
       </div>
       <div class="activity-list">
-        <div 
-          *ngFor="let activity of recentActivities" 
+        <div
+          *ngFor="let activity of recentActivities"
           class="activity-item"
           [ngClass]="getActivityClass(activity)"
         >
-          <span class="activity-icon">{{ activity }}</span>
+          <span class="activity-icon">
+            {{ activity.icon }}
+          </span>
+
           <div class="activity-content">
-            <p class="activity-text">{{ activity }}</p>
-            <span class="activity-time">{{ activity }}</span>
+            <p class="activity-text">
+              {{ activity.text }}
+            </p>
+            <span class="activity-time">
+              {{ activity.time }}
+            </span>
           </div>
         </div>
       </div>
