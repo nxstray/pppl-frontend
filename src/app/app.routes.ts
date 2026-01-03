@@ -34,6 +34,10 @@ export const routes: Routes = [
     path: 'who-we-are',
     loadComponent: () => import('./pages/client/who-we-are/who-we-are.component').then(m => m.WhoWeAreComponent)
   },
+  {
+    path: 'what-we-do',
+    loadComponent: () => import('./pages/client/what-we-do/what-we-do.component').then(m => m.WhatWeDoComponent)
+  },
   
   {
     path: 'admin',
