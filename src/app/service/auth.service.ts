@@ -13,6 +13,7 @@ export interface LoginResponse {
   email: string;
   role: string;
   fotoProfil?: string;
+  isFirstLogin?: boolean;
 }
 
 export interface ApiResponse<T> {
@@ -54,7 +55,7 @@ export class AuthService {
     }).pipe(
       tap(response => {
         if (response.success && response.data) {
-          // Store user details and jwt token in local storage
+          // Update current user dengan foto baru
           localStorage.setItem('currentUser', JSON.stringify(response.data));
           localStorage.setItem('token', response.data.token);
           this.currentUserSubject.next(response.data);
@@ -72,7 +73,6 @@ export class AuthService {
     return this.http.post<ApiResponse<string>>(`${this.apiUrl}/upload-photo`, formData).pipe(
       tap(response => {
         if (response.success && response.data) {
-          // Update current user dengan foto baru
           const currentUser = this.currentUserValue;
           if (currentUser) {
             currentUser.fotoProfil = response.data;
@@ -153,5 +153,13 @@ export class AuthService {
    */
   isSuperAdmin(): boolean {
     return this.hasRole('SUPER_ADMIN');
+  }
+
+  /**
+   * Check if user is first login
+   */
+  isFirstLogin(): boolean {
+    const user = this.currentUserValue;
+    return user?.isFirstLogin ?? false;
   }
 }
