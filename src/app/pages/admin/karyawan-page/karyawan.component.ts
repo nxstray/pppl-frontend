@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KaryawanService, KaryawanDTO } from '../../../service/karyawan.service';
 import { ManagerService, ManagerDTO } from '../../../service/manager.service';
+import { AuthService } from '../../../service/auth.service';
 import { ToastService } from '../../../service/toast.service';
 
 interface KaryawanStatistics {
@@ -28,6 +29,9 @@ export class KaryawanComponent implements OnInit {
   processing = false;
   showModal = false;
   isEditMode = false;
+
+  canEdit = false;
+  canDelete = false;
 
   // Upload Photo State
   selectedFile: File | null = null;
@@ -56,12 +60,14 @@ export class KaryawanComponent implements OnInit {
   constructor(
     private karyawanService: KaryawanService,
     private managerService: ManagerService,
-    private toast: ToastService
+    private toast: ToastService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.loadManagers();
     this.loadKaryawan();
+    this.checkPermissions();
   }
 
   // Data loading
@@ -95,6 +101,12 @@ export class KaryawanComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  checkPermissions() {
+    const role = this.authService.currentUserValue?.role;
+    this.canEdit = role === 'SUPER_ADMIN';
+    this.canDelete = role === 'SUPER_ADMIN';
   }
 
   updateStatistics() {
@@ -329,7 +341,7 @@ export class KaryawanComponent implements OnInit {
   deleteKaryawan(karyawan: KaryawanDTO) {
     if (!karyawan.idKaryawan) return;
 
-    this.toast.confirm(
+    this.toast.helpConfirm(
       `Hapus karyawan "${karyawan.namaKaryawan}"?`,
       'Tindakan ini tidak dapat dibatalkan'
     ).then(result => {
