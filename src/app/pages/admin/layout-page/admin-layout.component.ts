@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
+import { ToastService } from '../../../service/toast.service';
 import { BellComponent } from '../../animation/bell-notification/bell.component';
 
 interface MenuItem {
@@ -35,7 +36,8 @@ export class AdminLayoutComponent implements OnInit {
 
   constructor(
     public authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toast: ToastService
   ) {}
 
   ngOnInit() {
@@ -46,8 +48,8 @@ export class AdminLayoutComponent implements OnInit {
     this.sidebarCollapsed = !this.sidebarCollapsed;
   }
 
-  logout() {
-    if (confirm('Apakah anda yakin ingin logout?')) {
+  async logout() {
+    if (await this.toast.helpConfirm('Apakah anda yakin ingin logout?', 'Anda akan keluar dari sistem.')) {
       this.authService.logout();
       this.router.navigate(['/login']);
     }
