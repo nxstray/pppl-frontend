@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { AuthService } from '../../../service/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   username: string = '';
   password: string = '';
   errorMessage: string = '';
@@ -21,9 +21,14 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router
-  ) {
-    // Redirect jika sudah login
-    if (this.authService.isLoggedIn()) {
+  ) {}
+
+  ngOnInit() {
+    // Check and clean expired token first
+    this.authService.checkAndCleanExpiredToken();
+
+    // Redirect jika masih login dengan token valid
+    if (this.authService.isLoggedIn() && !this.authService.isTokenExpired()) {
       this.router.navigate(['/admin/dashboard']);
     }
   }
@@ -60,7 +65,6 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  // Clear error saat user mulai mengetik
   clearError() {
     this.errorMessage = '';
   }
