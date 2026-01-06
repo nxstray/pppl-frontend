@@ -4,9 +4,14 @@
     <div>
       <h1>MANAGER</h1>
     </div>
-    <button class="btn-primary" (click)="openCreateModal()" [disabled]="loading">
-      <span>Tambah Manager</span>
-    </button>
+    <div style="display: flex; gap: 10px;">
+      <button class="btn-primary" (click)="openCreateModal()" [disabled]="loading">
+        <span>Tambah Manager</span>
+      </button>
+      <button class="btn-primary" (click)="openRegisterUserModal()" [disabled]="loading" *ngIf="canEdit">
+        <span>Register Manager</span>
+      </button>
+    </div>
   </div>
 
   <!-- Statistics -->
@@ -85,14 +90,16 @@
               >
                 Detail
               </button>
-              <button 
+              <button
+                *ngIf="canEdit"
                 class="btn-icon btn-edit" 
                 (click)="openEditModal(manager)"
                 title="Edit"
               >
                 Edit
               </button>
-              <button 
+              <button
+                *ngIf="canDelete"
                 class="btn-icon btn-delete" 
                 (click)="deleteManager(manager)"
                 title="Hapus"
@@ -263,6 +270,80 @@
             (click)="openEditModal(formData)"
           >
             Edit Manager
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Register User Manager Modal -->
+<div class="modal-overlay" *ngIf="showRegisterUserModal" (click)="closeRegisterUserModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Register User Manager</h2>
+      <button class="close-btn" (click)="closeRegisterUserModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      <div class="info-box" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+        <p style="margin: 0; color: #856404;">
+          Username dan password akan di-generate otomatis dan dikirim via email ke manager.
+        </p>
+      </div>
+
+      <form (ngSubmit)="onSubmitRegisterUser()">
+        <!-- Nama Lengkap -->
+        <div class="form-group">
+          <label for="registerNamaLengkap">
+            Nama Lengkap <span class="required">*</span>
+          </label>
+          <input 
+            type="text"
+            id="registerNamaLengkap"
+            [(ngModel)]="registerUserForm.namaLengkap"
+            name="registerNamaLengkap"
+            class="form-control"
+            placeholder="Masukkan nama lengkap"
+            [disabled]="loading"
+            required
+          />
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label for="registerEmail">
+            Email <span class="required">*</span>
+          </label>
+          <input 
+            type="email"
+            id="registerEmail"
+            [(ngModel)]="registerUserForm.email"
+            name="registerEmail"
+            class="form-control"
+            placeholder="manager@example.com"
+            [disabled]="loading"
+            required
+          />
+        </div>
+
+        <!-- Actions -->
+        <div class="modal-actions">
+          <button 
+            type="button" 
+            class="btn-secondary" 
+            (click)="closeRegisterUserModal()"
+            [disabled]="loading"
+          >
+            Batal
+          </button>
+          <button 
+            type="submit" 
+            class="btn-primary"
+            [disabled]="loading"
+          >
+            <span *ngIf="!loading">Register & Kirim Email</span>
+            <span *ngIf="loading">Mengirim...</span>
           </button>
         </div>
       </form>
