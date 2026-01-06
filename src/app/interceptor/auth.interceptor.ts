@@ -1,15 +1,15 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../service/auth.service';
-import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../service/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const router = inject(Router);
   const token = authService.getToken();
 
-  // Clone request and add authorization header if token exists
+  // Clone request and add token if available
   if (token) {
     req = req.clone({
       setHeaders: {
@@ -20,10 +20,13 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error) => {
+      // Auto logout on 401 Unauthorized
       if (error.status === 401) {
-        authService.logout();
+        console.log('401 Unauthorized - Token expired or invalid');
+        authService.checkAndCleanExpiredToken();
         router.navigate(['/login']);
       }
+      
       return throwError(() => error);
     })
   );
