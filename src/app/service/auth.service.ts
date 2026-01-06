@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap, catchError, of, map } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 
@@ -55,7 +55,6 @@ export class AuthService {
     }).pipe(
       tap(response => {
         if (response.success && response.data) {
-          // Update current user dengan foto baru
           localStorage.setItem('currentUser', JSON.stringify(response.data));
           localStorage.setItem('token', response.data.token);
           this.currentUserSubject.next(response.data);
@@ -95,10 +94,79 @@ export class AuthService {
   }
 
   /**
-   * Check if user is logged in
+   * Check if user is logged in (with token existence check only)
    */
   isLoggedIn(): boolean {
     return !!this.getToken();
+  }
+
+  /**
+   * Check if token is valid (call backend to validate)
+   */
+  isTokenValid(): Observable<boolean> {
+    const token = this.getToken();
+    
+    if (!token) {
+      return of(false);
+    }
+
+    return this.validateToken().pipe(
+      // Map ApiResponse<boolean> to boolean
+      map(response => response.success && response.data === true),
+      tap(isValid => {
+        if (!isValid) {
+          // Token invalid, clean up
+          this.clearAuthData();
+        }
+      }),
+      catchError(() => {
+        // Error validating, assume invalid
+        this.clearAuthData();
+        return of(false);
+      })
+    );
+  }
+
+  /**
+   * Check token validity synchronously (check expiration from JWT)
+   */
+  isTokenExpired(): boolean {
+    const token = this.getToken();
+    
+    if (!token) {
+      return true;
+    }
+
+    try {
+      // Decode JWT payload (without verification, just parse)
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const expiry = payload.exp * 1000; // Convert to milliseconds
+      const now = Date.now();
+      
+      return now >= expiry;
+    } catch (e) {
+      // Invalid token format
+      return true;
+    }
+  }
+
+  /**
+   * Clear authentication data - NEW
+   */
+  private clearAuthData(): void {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+    this.currentUserSubject.next(null);
+  }
+
+  /**
+   * Check and clean expired token - NEW
+   */
+  checkAndCleanExpiredToken(): void {
+    if (this.isTokenExpired()) {
+      console.log('Token expired, cleaning up...');
+      this.clearAuthData();
+    }
   }
 
   /**
@@ -145,7 +213,7 @@ export class AuthService {
    */
   isAdmin(): boolean {
     const user = this.currentUserValue;
-    return user ? ['ADMIN', 'SUPER_ADMIN'].includes(user.role) : false;
+    return user ? ['SUPER_ADMIN', 'MANAGER'].includes(user.role) : false;
   }
 
   /**
