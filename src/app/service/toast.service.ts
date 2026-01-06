@@ -54,13 +54,6 @@ export class ToastService {
   /**
    * Show confirmation dialog (returns promise)
    */
-  confirm(title: string, message: string, type: 'warning' | 'help' = 'warning'): Promise<boolean> {
-    return new Promise((resolve) => {
-      const userResponse = confirm(`${title}\n\n${message}`);
-      resolve(userResponse);
-    });
-  }
-
   helpConfirm(title: string, message: string): Promise<boolean> {
     return new Promise((resolve) => {
       const toast: Toast = {
