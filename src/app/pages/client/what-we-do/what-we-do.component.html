@@ -1,0 +1,23 @@
+<section id="hero" class="hero-section">
+    <img src="building.png" alt="Pandigi Building" class="building-image">
+
+    <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+            </div>
+            <ul class="navbar-menu">
+                <li><a (click)="navigateToOtherPage('/')">WHAT WE DO</a></li>
+                <li><a (click)="scrollToSection('hero')">WHO WE ARE</a></li>
+                <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
+                <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="hero-content" role="banner" aria-labelledby="hero-title">
+        <h1 id="hero-title" class="hero-title">{{ heroTitle }}</h1>
+        <p class="hero-subtitle">{{ heroSubtitle }}</p>
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+    </div>
+</section>
