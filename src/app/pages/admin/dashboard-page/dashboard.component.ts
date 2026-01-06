@@ -1,22 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { DashboardService, ActivityResponse, MonthData, TrendData, ConversionData } from '../../../service/dashboard.service';
 
-import {
-  DashboardService,
-  ActivityResponse,
-  MonthData,
-  TrendData,
-  ConversionData
-} from '../../../service/dashboard.service';
+import { AuthService } from '../../../service/auth.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { MonthlyLeadChartComponent } from '../../../../shared/charts/monthly-lead/monthly-lead.component';
 import { LeadTrendChartComponent } from '../../../../shared/charts/lead-trend/lead-trend.component';
 import { ConversionChartComponent } from '../../../../shared/charts/conversion-chart/conversion-chart.component';
+import { ChangePasswordComponent } from '../../../../shared/modals/change-password/change-password.component';
 
-/* =====================
-   UI MODELS
-===================== */
 interface StatCard {
   title: string;
   value: number;
@@ -26,7 +20,7 @@ interface StatCard {
 
 interface Activity {
   icon: string;
-  text: string;
+  text: SafeHtml;
   time: string;
   type: 'success' | 'info' | 'primary';
 }
@@ -38,7 +32,8 @@ interface Activity {
     CommonModule,
     MonthlyLeadChartComponent,
     LeadTrendChartComponent,
-    ConversionChartComponent
+    ConversionChartComponent,
+    ChangePasswordComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
@@ -46,6 +41,8 @@ interface Activity {
 export class DashboardComponent implements OnInit {
 
   loading = true;
+  showChangePasswordModal = false;
+  isFirstLogin = false;
 
   stats: StatCard[] = [
     { title: 'Total Klien', value: 0, route: '/admin/klien' },
@@ -56,30 +53,38 @@ export class DashboardComponent implements OnInit {
 
   recentActivities: Activity[] = [];
 
-  /* === CHART DATA === */
   monthlyData: MonthData[] = [];
   trendData: TrendData[] = [];
   conversionData: ConversionData[] = [];
 
   constructor(
     private dashboardService: DashboardService,
-    private router: Router
+    private authService: AuthService,
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
+    this.checkFirstLogin();
     this.loadDashboard();
   }
 
-  /* =====================
-     LOAD DASHBOARD
-  ===================== */
+  checkFirstLogin(): void {
+    this.isFirstLogin = this.authService.isFirstLogin();
+    if (this.isFirstLogin) {
+      this.showChangePasswordModal = true;
+    }
+  }
+
+  onCloseModal(): void {
+    this.showChangePasswordModal = false;
+  }
+
   loadDashboard(): void {
     this.loading = true;
 
     this.dashboardService.loadDashboard().subscribe({
       next: (res) => {
-
-        /* ---- STAT CARDS ---- */
         if (res.leadStats?.success) {
           this.stats[1].value = res.leadStats.data.hotLeads ?? 0;
         }
@@ -96,12 +101,10 @@ export class DashboardComponent implements OnInit {
           this.stats[2].value = res.pending.data.length;
         }
 
-        /* ---- CHART DATA ---- */
         this.monthlyData = res.monthly?.data?.data ?? [];
         this.trendData = res.trend?.data?.data ?? [];
         this.conversionData = res.conversion?.data?.data ?? [];
 
-        /* ---- ACTIVITIES ---- */
         if (res.activities?.success) {
           this.mapActivities(res.activities.data);
         } else {
@@ -118,9 +121,6 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  /* =====================
-     ACTIVITIES
-  ===================== */
   private mapActivities(data: ActivityResponse[]): void {
     if (!data?.length) {
       this.setEmptyActivity();
@@ -129,7 +129,7 @@ export class DashboardComponent implements OnInit {
 
     this.recentActivities = data.map(item => ({
       icon: this.getPriorityIcon(item.skorPrioritas),
-      text: item.description,
+      text: this.sanitizer.bypassSecurityTrustHtml(item.description),
       time: this.formatTimeAgo(item.tglAnalisaAi),
       type: this.getPriorityType(item.skorPrioritas)
     }));
@@ -144,9 +144,6 @@ export class DashboardComponent implements OnInit {
     }];
   }
 
-  /* =====================
-     HELPERS
-  ===================== */
   getPriorityIcon(priority: 'HOT' | 'WARM' | 'COLD' | null): string {
     switch (priority) {
       case 'HOT': return '';
