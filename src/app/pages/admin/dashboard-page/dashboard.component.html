@@ -1,4 +1,18 @@
 <div class="dashboard-container">
+  <!-- First Login Banner (NEW) -->
+  <div *ngIf="isFirstLogin && !showChangePasswordModal" class="first-login-banner">
+    <div class="banner-content">
+      <div class="banner-icon">🔐</div>
+      <div class="banner-text">
+        <h3>Selamat Datang!</h3>
+        <p>Untuk keamanan akun Anda, harap segera mengubah password default Anda.</p>
+      </div>
+      <button class="banner-btn" (click)="showChangePasswordModal = true">
+        Ubah Password Sekarang
+      </button>
+    </div>
+  </div>
+
   <!-- Welcome Section -->
   <div class="welcome-section">
     <h1>DASHBOARD</h1>
@@ -68,9 +82,10 @@
           </span>
 
           <div class="activity-content">
-            <p class="activity-text">
-              {{ activity.text }}
-            </p>
+            <p
+              class="activity-text"
+              [innerHTML]="activity.text"
+            ></p>
             <span class="activity-time">
               {{ activity.time }}
             </span>
@@ -99,3 +114,10 @@
     </div>
   </div>
 </div>
+
+<!-- Change Password Modal (NEW) -->
+<app-change-password
+  *ngIf="showChangePasswordModal"
+  [isFirstLogin]="isFirstLogin"
+  (close)="onCloseModal()">
+</app-change-password>
