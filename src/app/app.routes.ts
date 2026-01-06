@@ -6,6 +6,7 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/client/login/login.component';
 import { ClientFormComponent } from './pages/client/client-form/client-form.component';
 import { WhoWeAreComponent } from './pages/client/who-we-are/who-we-are.component';
+import { WhatWeDoComponent } from './pages/client/what-we-do/what-we-do.component';
 
 import { KlienComponent } from './pages/admin/klien-page/klien.component';
 import { RekapComponent } from './pages/admin/rekap-page/rekap.component';
