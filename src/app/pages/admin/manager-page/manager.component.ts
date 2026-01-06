@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ManagerService, ManagerDTO } from '../../../service/manager.service';
+import { AdminService, RegisterManagerRequest } from '../../../service/admin.service';
+import { AuthService } from '../../../service/auth.service';
 import { ToastService } from '../../../service/toast.service';
 
 @Component({
@@ -20,6 +22,14 @@ export class ManagerComponent implements OnInit {
   // UI State
   loading = false;
   showModal = false;
+  showRegisterUserModal = false;
+
+  canEdit = false;
+  canDelete = false;
+  registerUserForm = {
+    namaLengkap: '',
+    email: ''
+  };
   modalMode: 'create' | 'edit' | 'view' = 'create';
   
   // Form
@@ -32,12 +42,15 @@ export class ManagerComponent implements OnInit {
   
   constructor(
     private managerService: ManagerService,
-    private toast: ToastService
+    private adminService: AdminService,
+    private toast: ToastService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.loadManagers();
     this.loadDivisiList();
+    this.checkPermissions();
   }
 
   // Data loading
@@ -69,6 +82,12 @@ export class ManagerComponent implements OnInit {
         console.error('Error loading divisi:', error);
       }
     });
+  }
+
+  checkPermissions() {
+    const role = this.authService.currentUserValue?.role;
+    this.canEdit = role === 'SUPER_ADMIN';
+    this.canDelete = role === 'SUPER_ADMIN';
   }
 
   // Filtering
@@ -128,10 +147,26 @@ export class ManagerComponent implements OnInit {
     this.showModal = true;
   }
 
+  openRegisterUserModal() {
+    this.showRegisterUserModal = true;
+    this.registerUserForm = {
+      namaLengkap: '',
+      email: ''
+    };
+  }
+
   closeModal() {
     this.showModal = false;
     this.formData = this.getEmptyForm();
     this.formErrors = {};
+  }
+
+  closeRegisterUserModal() {
+    this.showRegisterUserModal = false;
+    this.registerUserForm = {
+      namaLengkap: '',
+      email: ''
+    };
   }
 
   // CRUD operations
@@ -145,6 +180,37 @@ export class ManagerComponent implements OnInit {
     } else if (this.modalMode === 'edit') {
       this.updateManager();
     }
+  }
+
+  onSubmitRegisterUser() {
+    if (!this.registerUserForm.namaLengkap || !this.registerUserForm.email) {
+      this.toast.warning('Warning', 'Nama dan email wajib diisi');
+      return;
+    }
+
+    this.loading = true;
+    
+    const request: RegisterManagerRequest = {
+      namaLengkap: this.registerUserForm.namaLengkap,
+      email: this.registerUserForm.email
+    };
+
+    this.adminService.registerManager(request).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.toast.success('Success!', 'Manager berhasil didaftarkan. Email dengan kredensial telah dikirim ke ' + request.email);
+          this.closeRegisterUserModal();
+        } else {
+          this.toast.error('Error!', response.message);
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error:', error);
+        this.toast.error('Error!', error.error?.message || 'Gagal mendaftarkan manager');
+        this.loading = false;
+      }
+    });
   }
 
   createManager() {
@@ -193,7 +259,7 @@ export class ManagerComponent implements OnInit {
   async deleteManager(manager: ManagerDTO) {
     if (!manager.idManager) return;
 
-    const ok = await this.toast.confirm(
+    const ok = await this.toast.helpConfirm(
       'Hapus manager?',
       `Manager "<b>${manager.namaManager}</b>" akan dihapus permanen.`
     );
