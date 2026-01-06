@@ -337,7 +337,7 @@ export class RekapComponent implements OnInit {
   async deleteRekap(rekap: RekapDTO) {
     if (!rekap.idMeeting) return;
 
-    const ok = await this.toast.confirm(
+    const ok = await this.toast.helpConfirm(
       'Hapus rekap meeting?',
       `
         Klien: <b>${rekap.namaKlien}</b><br>
