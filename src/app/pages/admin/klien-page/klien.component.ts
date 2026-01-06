@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { KlienService, KlienDTO } from '../../../service/klien.service';
+import { AuthService } from '../../../service/auth.service';
 import { ToastService } from '../../../service/toast.service';
 
 enum StatusKlien {
@@ -38,6 +39,9 @@ export class KlienComponent implements OnInit {
   showModal = false;
   isEditMode = false;
 
+  canEdit = false;
+  canDelete = false;
+
   // Dropdown states
   dropdownStates: { [key: string]: boolean } = {
   status: false
@@ -57,15 +61,16 @@ export class KlienComponent implements OnInit {
 
   constructor(
     private klienService: KlienService,
-    private toast: ToastService
+    private toast: ToastService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.loadKlien();
+    this.checkPermissions();
   }
 
   // Data loading
-
   loadKlien() {
     this.loading = true;
     this.klienService.getAllKlien().subscribe({
@@ -83,6 +88,12 @@ export class KlienComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  checkPermissions() {
+    const role = this.authService.currentUserValue?.role;
+    this.canEdit = role === 'SUPER_ADMIN';
+    this.canDelete = role === 'SUPER_ADMIN';
   }
 
   updateStatistics() {
