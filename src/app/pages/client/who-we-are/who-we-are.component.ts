@@ -44,6 +44,17 @@ interface ClientReview {
   styleUrls: ['./who-we-are.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
+    trigger('fadeInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(50px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('800ms ease-out'))
+    ]),
     trigger('navbarSlide', [
       state('hidden', style({
         transform: 'translateY(-100%)',
@@ -61,6 +72,13 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   navbarVisible = true;
   private lastScrollTop = 0;
   private scrollThreshold = 100;
+
+  timelineVisible = false;
+  visionMissionVisible = false;
+  servicesVisible = false;
+  ourteamVisible = false;
+  reviewsVisible = false;
+  contactVisible = false;
 
   heroTitle = 'Who We Are';
   heroSubtitle = 'Discover Pandigi\'s Journey and Values';
@@ -187,7 +205,9 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.checkSectionsVisibility();
+  }
 
   ngAfterViewInit(): void {
     if (this.reviewSwiperRef?.nativeElement) {
@@ -226,6 +246,27 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
       }
       this.lastScrollTop = scrollTop;
     }
+
+    this.checkSectionsVisibility()
+  }
+
+  private checkSectionsVisibility() {
+    this.timelineVisible = this.isElementInViewport('timeline');
+    this.visionMissionVisible = this.isElementInViewport('vision-mission');
+    this.servicesVisible = this.isElementInViewport('services');
+    this.ourteamVisible = this.isElementInViewport('our-team');
+    this.reviewsVisible = this.isElementInViewport('client-reviews');
+    this.contactVisible = this.isElementInViewport('contact');
+  }
+
+  private isElementInViewport(elementId: string): boolean {
+    const element = document.getElementById(elementId);
+    if (!element) return false;
+
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    
+    return rect.top <= windowHeight * 0.75;
   }
 
   scrollToSection(sectionId: string): void {

@@ -22,7 +22,7 @@
     </div>
 </section>
 
-<section id="timeline" class="timeline-section">
+<section id="timeline" class="timeline-section" [@fadeInUp]="timelineVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h2 class="section-title">Our Journey</h2>
         <div class="timeline">
@@ -40,7 +40,7 @@
     </div>
 </section>
 
-<section id="vision-mission" class="vision-mission-section">
+<section id="vision-mission" class="vision-mission-section" [@fadeInUp]="visionMissionVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <div class="vision-mission-container">
             <div class="vision-mission-card">
@@ -57,7 +57,7 @@
     </div>
 </section>
 
-<section class="swiper-section">
+<section id="services" class="swiper-section" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h2 class="section-title">Layanan Kami</h2>
         <div class="swiper-section-content">
@@ -80,7 +80,7 @@
     </div>
 </section>
 
-<section id="our-team" class="our-team-section">
+<section id="our-team" class="our-team-section" [@fadeInUp]="ourteamVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h3 class="section-title">Tim Kami</h3>
 
@@ -99,7 +99,7 @@
     </div>
 </section>
 
-<section class="review-section" id="client-reviews">
+<section class="review-section" id="client-reviews" [@fadeInUp]="reviewsVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h3 class="section-title">Ulasan Client</h3>
 
@@ -134,7 +134,7 @@
     </div>
 </section>
 
-<section id="contact" class="section contact">
+<section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <div class="contact-grid">
             <div class="contact-info">
