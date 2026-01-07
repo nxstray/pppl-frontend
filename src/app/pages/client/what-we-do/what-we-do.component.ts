@@ -8,6 +8,17 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   templateUrl: './what-we-do.component.html',
   styleUrl: './what-we-do.component.scss',
   animations: [
+    trigger('fadeInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(50px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('800ms ease-out'))
+    ]),
     trigger('navbarSlide', [
       state('hidden', style({
         transform: 'translateY(-100%)',
@@ -26,13 +37,17 @@ export class WhatWeDoComponent implements OnInit {
   private lastScrollTop = 0;
   private scrollThreshold = 100;
 
+  contactVisible = false;
+
   heroTitle = 'What We Do';
   heroSubtitle = 'Discover our services and how we can help you achieve your goals.';
   heroVector = 'vector_logo_pandigi.png';
 
   constructor(private router: Router) { }
   
-  ngOnInit() { }
+  ngOnInit() { 
+    this.checkSectionsVisibility();
+  }
 
   @HostListener('window:scroll')
   onScroll() {
@@ -46,6 +61,22 @@ export class WhatWeDoComponent implements OnInit {
       }
       this.lastScrollTop = scrollTop;
     }
+
+    this.checkSectionsVisibility();
+  }
+
+  private checkSectionsVisibility() {
+    this.contactVisible = this.isElementInViewport('contact');
+  }
+
+  private isElementInViewport(elementId: string): boolean {
+    const element = document.getElementById(elementId);
+    if (!element) return false;
+
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+    
+    return rect.top <= windowHeight * 0.75;
   }
 
   scrollToSection(sectionId: string): void {

@@ -156,3 +156,82 @@ body {
     margin-bottom: 3rem;
     opacity: 0.8;
 }
+
+
+
+.contact {
+    background: transparent;
+    padding: 6rem 0 4rem;
+    color: white;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    color: white;
+
+    .section-title {
+        text-align: left;
+        margin-bottom: 2rem;
+
+        &::after {
+            left: 0;
+            transform: translateX(0);
+        }
+    }
+}
+
+.contact-item {
+    margin-bottom: 2rem;
+}
+
+.contact-item h3 {
+    color: #D9953E;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.contact-item p {
+    line-height: 1.6;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    background: #D9953E;
+}
+
+.contact-logo {
+    text-align: right;
+}
+
+.logo-text {
+    max-width: 500px;
+    opacity: 0.8;
+    border-radius: 30px;
+}
