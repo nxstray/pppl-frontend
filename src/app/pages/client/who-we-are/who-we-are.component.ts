@@ -65,6 +65,39 @@ interface ClientReview {
         opacity: 1
       })),
       transition('hidden <=> visible', animate('300ms ease-in-out'))
+    ]),
+    trigger('slideInLeft', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateX(-100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('hidden => visible', animate('1500ms ease-out'))
+    ]),
+    trigger('slideInRight', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateX(100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('hidden => visible', animate('1500ms ease-out'))
+    ]),
+    trigger('slideInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('1000ms ease-out'))
     ])
   ]
 })
@@ -73,6 +106,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   private lastScrollTop = 0;
   private scrollThreshold = 100;
 
+  buildingVisible = false;
   timelineVisible = false;
   visionMissionVisible = false;
   servicesVisible = false;
@@ -205,8 +239,11 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() { 
+  ngOnInit() {
     this.checkSectionsVisibility();
+    setTimeout(() => {
+      this.buildingVisible = true;
+    }, 100);
   }
 
   ngAfterViewInit(): void {
@@ -265,7 +302,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
 
     const rect = element.getBoundingClientRect();
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
-    
+
     return rect.top <= windowHeight * 0.75;
   }
 
