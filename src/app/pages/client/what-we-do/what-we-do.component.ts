@@ -3,6 +3,11 @@ import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CommonModule } from "@angular/common"
 
+interface Service {
+  image: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-what-we-do',
   imports: [CommonModule],

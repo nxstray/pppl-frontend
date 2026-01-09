@@ -28,7 +28,7 @@
 
 <section id="services" class="section services" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <h2 class="section-title">Services</h2>
+        <h2 class="section-title">What we offer?</h2>
         <div class="services-grid">
             <div class="service-card" *ngFor="let service of services" (click)="scrollToSection(service.sectionId)">
                 <div class="service-image">
@@ -43,19 +43,36 @@
     </div>
 </section>
 
-<section id="software" class="software-section">
+<section id="software" class="service-section">
+    <div class="full-container">
+        <h2 class="section-title">
+            Software Service
+        </h2>
+        <div class="service-section-container">
+            <div class="service-section-image">
+                <img src="dummy-photo.png" alt="">
+            </div>
+            <div class="service-section-content">
+                <p>
+                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque officiis odit minima quisquam ut voluptatum maiores tempora vero harum quis repellat necessitatibus dignissimos sunt sapiente, ipsa delectus est libero quod provident consectetur eum temporibus dolore et? Maxime nulla laudantium corrupti vel omnis fugit aliquid
+                </p>
+                <a class="cta-button" (click)="navigateToOtherPage('build')">
+                    Build with us
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="hardware" class="service-section">
 
 </section>
 
-<section id="hardware" class="hardware-section">
+<section id="multimedia" class="service-section">
 
 </section>
 
-<section id="multimedia" class="multimedia-section">
-
-</section>
-
-<section id="computer" class="computer-section">
+<section id="computer" class="service-section">
 
 </section>
 

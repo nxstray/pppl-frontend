@@ -18,6 +18,27 @@ body {
     margin: 0;
 }
 
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: #F5771C;
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    font-weight: 300;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    animation: pulse 3s ease-in-out infinite;
+    box-shadow: 0 4px 15px rgba(255, 140, 66, 0.4);
+    cursor: pointer;
+
+    &:hover {
+        background: #FF7A2E;
+        box-shadow: 0 6px 20px rgba(255, 140, 66, 0.6);
+    }
+    max-width: fit-content;
+}
+
 .hero-section {
     position: relative;
     height: 75vh;
@@ -233,6 +254,24 @@ body {
 .service-card p {
     line-height: 1.6;
     font-size: 0.95rem;
+}
+
+.service-section {
+    margin-top: 1rem;
+    padding: 50px;
+    color: #ffffff;
+}
+
+.service-section-container {
+    display: flex;
+    gap: 5rem;
+}
+
+.service-section-content {
+    display: flex;
+    gap: 2rem;
+    flex-direction: column;
+    line-height: 2;
 }
 
 .contact {
