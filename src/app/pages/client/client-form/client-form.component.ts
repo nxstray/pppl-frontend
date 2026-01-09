@@ -12,9 +12,20 @@ import { ClientFormService, ClientFormDTO, LayananOption } from '../../../servic
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.scss'],
   animations: [
+    trigger('fadeInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(50px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('800ms ease-out'))
+    ]),
     trigger('navbarSlide', [
       state('hidden', style({
-        transform: 'translateY(-150%)',
+        transform: 'translateY(-100%)',
         opacity: 0
       })),
       state('visible', style({
@@ -22,6 +33,39 @@ import { ClientFormService, ClientFormDTO, LayananOption } from '../../../servic
         opacity: 1
       })),
       transition('hidden <=> visible', animate('300ms ease-in-out'))
+    ]),
+    trigger('slideInLeft', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateX(-100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('hidden => visible', animate('1500ms ease-out'))
+    ]),
+    trigger('slideInRight', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateX(100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('hidden => visible', animate('1500ms ease-out'))
+    ]),
+    trigger('slideInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('1000ms ease-out'))
     ])
   ]
 })
@@ -29,10 +73,12 @@ export class ClientFormComponent implements OnInit {
   navbarVisible = true;
   private lastScrollTop = 0;
 
+  buildingVisible = false;
+
   heroTitle = 'Request a Consultation Form';
   heroSubtitle = 'Let\'s Build Something Great Together';
   heroVector = 'vector_logo_pandigi.png';
-  
+
   // Form Data - sesuaikan dengan DTO backend
   formData: ClientFormDTO = {
     firstName: '',
@@ -58,14 +104,14 @@ export class ClientFormComponent implements OnInit {
 
   // Dropdown Options - load dari backend
   layananOptions: LayananOption[] = [];
-  
+
   anggaranOptions = [
     'Kurang dari 20 Juta',
     'Antara 20 - 50 Juta',
     'Lebih dari 50 Juta',
     'Belum tahu'
   ];
-  
+
   waktuOptions = [
     'Kurang dari 1 bulan',
     'Antara 1 - 3 Bulan',
@@ -81,15 +127,15 @@ export class ClientFormComponent implements OnInit {
   constructor(
     private clientFormService: ClientFormService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadLayananOptions();
+    setTimeout(() => {
+      this.buildingVisible = true;
+    }, 100);
   }
 
-  /**
-   * Load layanan options dari backend
-   */
   loadLayananOptions() {
     this.loadingLayanan = true;
     this.clientFormService.getLayananOptions().subscribe({
@@ -110,7 +156,7 @@ export class ClientFormComponent implements OnInit {
   @HostListener('window:scroll')
   onScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    
+
     if (Math.abs(scrollTop - this.lastScrollTop) > 100) {
       if (scrollTop > this.lastScrollTop && scrollTop > 200) {
         this.navbarVisible = false;
@@ -205,7 +251,7 @@ export class ClientFormComponent implements OnInit {
       next: (response) => {
         if (response.success) {
           this.submitted = true;
-          
+
           // Show success message dengan info
           const data = response.data;
           if (data) {
@@ -213,14 +259,14 @@ export class ClientFormComponent implements OnInit {
           } else {
             alert(`${response.message}`);
           }
-          
+
           this.resetForm();
-          
+
           // Auto hide success message after 5 seconds
           setTimeout(() => {
             this.submitted = false;
           }, 5000);
-          
+
           // Optional: redirect ke landing page
           // this.router.navigate(['/']);
         } else {
