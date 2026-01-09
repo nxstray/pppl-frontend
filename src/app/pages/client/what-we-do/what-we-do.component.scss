@@ -258,7 +258,7 @@ body {
 
 .service-section {
     position: relative;
-    padding: 5rem 0;
+    padding: 10rem 0;
     box-sizing: border-box;
     color: #ffffff;
     overflow: hidden;
@@ -328,9 +328,37 @@ body {
     }
 }
 
-// Alternate layout for every other service section
-.service-section:nth-child(even) .service-section-container {
+.service-wrapper:nth-child(even) .service-section-container {
     flex-direction: row-reverse;
+}
+
+.service-wrapper:nth-child(even) .service-section-content {
+    text-align: right;
+}
+
+.service-wrapper:nth-child(even) .service-section-content .cta-button {
+    align-self: flex-end;
+}
+
+@media (max-width: 900px) {
+    .service-section-container {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0 2rem;
+    }
+
+    .service-section-image {
+        flex: 0 0 auto;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .service-section-content {
+        text-align: left !important;
+        .cta-button {
+            align-self: flex-start !important;
+        }
+    }
 }
 
 .contact {
