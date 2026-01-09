@@ -8,8 +8,8 @@
                 <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
             </div>
             <ul class="navbar-menu">
-                <li><a (click)="navigateToOtherPage('/')">WHAT WE DO</a></li>
-                <li><a (click)="scrollToSection('hero')">WHO WE ARE</a></li>
+                <li><a (click)="scrollToSection('hero')">WHAT WE DO</a></li>
+                <li><a (click)="navigateToOtherPage('/who-we-are')">WHO WE ARE</a></li>
                 <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
                 <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
             </ul>
@@ -20,8 +20,7 @@
         <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}
         </h1>
         <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
-        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy"
-            [@fadeInUp]="buildingVisible ? 'visible' : 'hidden'">
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
 </section>
 
