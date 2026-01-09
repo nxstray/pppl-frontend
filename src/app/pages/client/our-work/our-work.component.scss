@@ -1,0 +1,439 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.full-container {
+    width: 100%;
+    padding: 0 2rem;
+    margin: 0;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background: #F5771C;
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    font-weight: 300;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    animation: pulse 3s ease-in-out infinite;
+    box-shadow: 0 4px 15px rgba(255, 140, 66, 0.4);
+    cursor: pointer;
+
+    &:hover {
+        background: #FF7A2E;
+        box-shadow: 0 6px 20px rgba(255, 140, 66, 0.6);
+    }
+    max-width: fit-content;
+}
+
+.hero-section {
+    position: relative;
+    height: 75vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+
+    background: linear-gradient(135deg,
+            #0C2B40 0%,
+            #008080 98%);
+
+    overflow: hidden;
+}
+
+.building-image {
+    position: absolute;
+    bottom: 0;
+    right: -0.2%;
+    height: 90%;
+    z-index: 3;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 4;
+    padding-left: 4rem;
+    max-width: 650px;
+    color: white;
+}
+
+.hero-logo {
+    position: absolute;
+    top: 24%;
+    right: 12%;
+    width: 350px;
+    height: auto;
+    opacity: 0.3;
+    z-index: -999;
+}
+
+.hero-title {
+    font-size: 5.5rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    text-align: left;
+}
+
+.hero-subtitle {
+    font-size: 1.15rem;
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+    font-weight: 200;
+}
+
+.navbar-floating {
+    position: fixed;
+    top: 2rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    border-radius: 15px;
+    padding: 0.8rem 2.5rem;
+    transition: all 0.3s ease;
+    width: fit-content;
+    max-width: 90%;
+}
+
+.navbar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.navbar-logo {
+    flex-shrink: 0;
+}
+
+.navbar-logo img {
+    height: 30px;
+    cursor: pointer;
+    display: block;
+    margin-right: 40px;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 2.5rem;
+    margin: 0;
+    padding: 0;
+    flex-wrap: nowrap;
+    align-items: center;
+}
+
+.navbar-menu li a {
+    color: #0C2B40;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+    letter-spacing: 0.5px;
+}
+
+.navbar-menu li a:hover {
+    color: #D9953E;
+}
+
+.section {
+    padding: 6rem 0;
+    position: relative;
+    background: transparent;
+    width: 100%;
+    margin: 0;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    color: white;
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: white;
+    font-size: 1rem;
+    margin-bottom: 3rem;
+    opacity: 0.8;
+}
+
+.services {
+    background: transparent;
+    color: white;
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg,
+            #ffffff 32%,
+            #999999 100%);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    color: #0C2B40;
+    cursor: pointer;
+
+    &:hover {
+        background: linear-gradient(135deg,
+                #008080 0%,
+                #4CABAB 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(76, 171, 171, 0.3);
+
+        h3,
+        .service-code {
+            color: white;
+        }
+    }
+}
+
+.service-icon {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 50%;
+
+    img {
+        width: 20px !important;
+        height: 20px !important;
+        object-fit: contain;
+    }
+}
+
+.service-card h3 {
+    color: #0C2B40;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.service-code {
+    color: #0C2B40;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.service-card p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.service-section {
+    position: relative;
+    padding: 10rem 0;
+    box-sizing: border-box;
+    color: #ffffff;
+    overflow: hidden;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle at 20% 50%, rgba(0, 128, 128, 0.1) 0%, transparent 50%);
+        pointer-events: none;
+    }
+}
+
+.service-section-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 4rem;
+}
+
+.service-section-image {
+    flex: 0 0 45%;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 15px 50px rgba(0, 128, 128, 0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+
+    &:hover {
+        transform: translateY(-5px) scale(1.02);
+        box-shadow: 0 20px 60px rgba(0, 128, 128, 0.4);
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+.service-section-content {
+    flex: 1;
+    display: flex;
+    gap: 2.5rem;
+    flex-direction: column;
+    line-height: 1.8;
+    animation: fadeInUp 0.8s ease;
+
+    p {
+        font-size: 1.05rem;
+        color: rgba(255, 255, 255, 0.9);
+        font-weight: 300;
+        letter-spacing: 0.3px;
+    }
+
+    .cta-button {
+        align-self: flex-start;
+        margin-top: 1rem;
+    }
+}
+
+.service-wrapper:nth-child(even) .service-section-container {
+    flex-direction: row-reverse;
+}
+
+.service-wrapper:nth-child(even) .service-section-content {
+    text-align: right;
+}
+
+.service-wrapper:nth-child(even) .service-section-content .cta-button {
+    align-self: flex-end;
+}
+
+@media (max-width: 900px) {
+    .service-section-container {
+        flex-direction: column;
+        gap: 2rem;
+        padding: 0 2rem;
+    }
+
+    .service-section-image {
+        flex: 0 0 auto;
+        width: 100%;
+        border-radius: 12px;
+    }
+
+    .service-section-content {
+        text-align: left !important;
+        .cta-button {
+            align-self: flex-start !important;
+        }
+    }
+}
+
+.contact {
+    background: transparent;
+    padding: 6rem 0 4rem;
+    color: white;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.contact-info {
+    color: white;
+
+    .section-title {
+        text-align: left;
+        margin-bottom: 2rem;
+
+        &::after {
+            left: 0;
+            transform: translateX(0);
+        }
+    }
+}
+
+.contact-item {
+    margin-bottom: 2rem;
+}
+
+.contact-item h3 {
+    color: #D9953E;
+    margin-bottom: 0.5rem;
+    font-size: 1.3rem;
+}
+
+.contact-item p {
+    line-height: 1.6;
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.social-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    text-decoration: none;
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    background: #D9953E;
+}
+
+.contact-logo {
+    text-align: right;
+}
+
+.logo-text {
+    max-width: 500px;
+    opacity: 0.8;
+    border-radius: 30px;
+}

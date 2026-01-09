@@ -1,1 +1,57 @@
+<section id="hero" class="hero-section">
+    <img src="building.png" alt="Pandigi Building" class="building-image"
+        [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
+
+    <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
+        <div class="navbar-container">
+            <div class="navbar-logo">
+                <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+            </div>
+            <ul class="navbar-menu">
+                <li><a (click)="navigateToOtherPage('/what-we-do')">WHAT WE DO</a></li>
+                <li><a (click)="navigateToOtherPage('/who-we-are')">WHO WE ARE</a></li>
+                <li><a (click)="scrollToSection('hero')">OUR WORK</a></li>
+                <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="hero-text" class="hero-content">
+        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}
+        </h1>
+        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+    </div>
+</section>
+
+
+
+<section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
+    <div class="full-container">
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h2 class="section-title">Get in touch with us</h2>
+                <div class="contact-item">
+                    <h3>Phone</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Email</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                </div>
+                <div class="contact-item">
+                    <h3>Social</h3>
+                </div>
+                <div class="social-links">
+                    <a href="#" class="social-icon"></a>
+                    <a href="#" class="social-icon"></a>
+                    <a href="#" class="social-icon"></a>
+                </div>
+            </div>
+            <div class="contact-logo">
+                <img src="logo-text.png" alt="Pandigi Text" class="logo-text">
+            </div>
+        </div>
+    </div>
+</section>
 <p>our-work works!</p>
