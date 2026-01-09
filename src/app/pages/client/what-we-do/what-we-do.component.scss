@@ -143,7 +143,7 @@ body {
     font-size: 2.5rem;
     color: white;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     position: relative;
     font-weight: 700;
     letter-spacing: 1px;
@@ -157,7 +157,83 @@ body {
     opacity: 0.8;
 }
 
+.services {
+    background: transparent;
+    color: white;
+}
 
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.service-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(135deg,
+            #ffffff 32%,
+            #999999 100%);
+    padding: 2.5rem 2rem;
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    color: #0C2B40;
+    cursor: pointer;
+
+    &:hover {
+        background: linear-gradient(135deg,
+                #008080 0%,
+                #4CABAB 100%);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 15px 40px rgba(76, 171, 171, 0.3);
+
+        h3,
+        .service-code {
+            color: white;
+        }
+    }
+}
+
+.service-icon {
+    width: 40px !important;
+    height: 40px !important;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0f0f0;
+    border-radius: 50%;
+
+    img {
+        width: 20px !important;
+        height: 20px !important;
+        object-fit: contain;
+    }
+}
+
+.service-card h3 {
+    color: #0C2B40;
+    margin-bottom: 0.5rem;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.service-code {
+    color: #0C2B40;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.service-card p {
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
 
 .contact {
     background: transparent;

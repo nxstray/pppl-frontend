@@ -1,5 +1,6 @@
 <section id="hero" class="hero-section">
-    <img src="building.png" alt="Pandigi Building" class="building-image">
+    <img src="building.png" alt="Pandigi Building" class="building-image"
+        [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
 
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
@@ -15,11 +16,47 @@
         </div>
     </nav>
 
-    <div class="hero-content" role="banner" aria-labelledby="hero-title">
-        <h1 id="hero-title" class="hero-title">{{ heroTitle }}</h1>
-        <p class="hero-subtitle">{{ heroSubtitle }}</p>
-        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+    <div id="hero-text" class="hero-content">
+        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}
+        </h1>
+        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy"
+            [@fadeInUp]="buildingVisible ? 'visible' : 'hidden'">
     </div>
+</section>
+
+
+<section id="services" class="section services" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
+    <div class="full-container">
+        <h2 class="section-title">Services</h2>
+        <div class="services-grid">
+            <div class="service-card" *ngFor="let service of services" (click)="scrollToSection(service.sectionId)">
+                <div class="service-image">
+                    <img [src]="service.icon" [alt]="service.title">
+                </div>
+                <div class="service-content">
+                    <h3>{{ service.title }}</h3>
+                    <p class="text-justify">{{ service.description }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="software" class="software-section">
+
+</section>
+
+<section id="hardware" class="hardware-section">
+
+</section>
+
+<section id="multimedia" class="multimedia-section">
+
+</section>
+
+<section id="computer" class="computer-section">
+
 </section>
 
 <section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
