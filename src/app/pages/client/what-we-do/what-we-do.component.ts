@@ -3,11 +3,6 @@ import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CommonModule } from "@angular/common"
 
-interface Service {
-  image: string;
-  description: string;
-}
-
 @Component({
   selector: 'app-what-we-do',
   imports: [CommonModule],
@@ -45,7 +40,7 @@ interface Service {
         opacity: 1,
         transform: 'translateX(0)'
       })),
-      transition('hidden => visible', animate('1000ms ease-out'))
+      transition('hidden => visible', animate('1500ms ease-out'))
     ]),
     trigger('slideInRight', [
       state('hidden', style({
@@ -56,7 +51,7 @@ interface Service {
         opacity: 1,
         transform: 'translateX(0)'
       })),
-      transition('hidden => visible', animate('1000ms ease-out'))
+      transition('hidden => visible', animate('1500ms ease-out'))
     ]),
     trigger('slideInUp', [
       state('hidden', style({
@@ -79,6 +74,12 @@ export class WhatWeDoComponent implements OnInit {
   contactVisible = false;
   buildingVisible = false;
   servicesVisible = false;
+  softwareVisible = false;
+  hardwareVisible = false;
+  multimediaVisible = false;
+  computerVisible = false;
+
+  sectionStates: { [id: string]: boolean } = {};
 
   heroTitle = 'What We Do';
   heroSubtitle = 'Discover our services and how we can help you achieve your goals.';
@@ -141,8 +142,15 @@ export class WhatWeDoComponent implements OnInit {
   }
 
   private checkSectionsVisibility() {
-    this.servicesVisible = this.isElementInViewport('services');
-    this.contactVisible = this.isElementInViewport('contact');
+    const ids = ['services', 'contact', 'software', 'hardware', 'multimedia', 'computer'];
+    ids.forEach(id => this.sectionStates[id] = this.isElementInViewport(id));
+
+    this.servicesVisible = !!this.sectionStates['services'];
+    this.contactVisible = !!this.sectionStates['contact'];
+    this.softwareVisible = !!this.sectionStates['software'];
+    this.hardwareVisible = !!this.sectionStates['hardware'];
+    this.multimediaVisible = !!this.sectionStates['multimedia'];
+    this.computerVisible = !!this.sectionStates['computer'];
   }
 
   private isElementInViewport(elementId: string): boolean {

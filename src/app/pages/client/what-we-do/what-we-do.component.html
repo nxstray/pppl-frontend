@@ -43,38 +43,28 @@
     </div>
 </section>
 
-<section id="software" class="service-section">
-    <div class="full-container">
-        <h2 class="section-title">
-            Software Service
-        </h2>
-        <div class="service-section-container">
-            <div class="service-section-image">
-                <img src="dummy-photo.png" alt="">
-            </div>
-            <div class="service-section-content">
-                <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Doloremque officiis odit minima quisquam ut voluptatum maiores tempora vero harum quis repellat necessitatibus dignissimos sunt sapiente, ipsa delectus est libero quod provident consectetur eum temporibus dolore et? Maxime nulla laudantium corrupti vel omnis fugit aliquid
-                </p>
-                <a class="cta-button" (click)="navigateToOtherPage('build')">
-                    Build with us
-                </a>
+<div class="service-wrapper" *ngFor="let service of services ">
+    <section [id]="service.sectionId" class="service-section" [@fadeInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
+        <div class="full-container">
+            <h2 class="section-title">
+                {{ service.title }} Service
+            </h2>
+            <div class="service-section-container">
+                <div class="service-section-image" [@slideInRight]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
+                    <img src="dummy-photo.png" alt="">
+                </div>
+                <div class="service-section-content" [@slideInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
+                    <p>
+                        {{ service.description }}
+                    </p>
+                    <a class="cta-button" (click)="navigateToOtherPage('build')">
+                        Build with us
+                    </a>
+                </div>
             </div>
         </div>
-    </div>
-</section>
-
-<section id="hardware" class="service-section">
-
-</section>
-
-<section id="multimedia" class="service-section">
-
-</section>
-
-<section id="computer" class="service-section">
-
-</section>
+    </section>
+</div>
 
 <section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
     <div class="full-container">
