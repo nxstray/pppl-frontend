@@ -1,7 +1,4 @@
-import {
-  Component, HostListener, OnInit, CUSTOM_ELEMENTS_SCHEMA,
-  AfterViewInit, ViewChild, ElementRef
-} from '@angular/core';
+import { Component, HostListener, OnInit, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -10,7 +7,6 @@ interface TimelineItem {
   date: string;
   title: string;
   description: string;
-  icon?: string;
 }
 
 interface VisionAndMission {
@@ -62,7 +58,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   private lastScrollTop = 0;
   private scrollThreshold = 100;
 
-  heroTitle = 'Who We Are';
+  heroTitle = 'WHO WE ARE';
   heroSubtitle = 'Discover Pandigi\'s Journey and Values';
   heroVector = 'vector_logo_pandigi.png';
 
@@ -71,37 +67,31 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
       date: '2010',
       title: 'Company Founded',
       description: 'Pandigi was established with a vision to innovate in digital solutions.',
-      icon: '🏢'
     },
     {
       date: '2012',
       title: 'First Major Project',
       description: 'Launched our flagship software product, revolutionizing the industry.',
-      icon: '🚀'
     },
     {
       date: '2015',
       title: 'Expansion',
       description: 'Opened new offices and expanded our team to serve global clients.',
-      icon: '🌍'
     },
     {
       date: '2018',
       title: 'Award Recognition',
       description: 'Received industry awards for excellence in technology and innovation.',
-      icon: '🏆'
     },
     {
       date: '2021',
       title: 'Digital Transformation',
       description: 'Embraced cutting-edge technologies to enhance our services.',
-      icon: '💡'
     },
     {
       date: '2023',
       title: 'Sustainability Initiative',
       description: 'Committed to eco-friendly practices and sustainable development.',
-      icon: '🌱'
     }
   ];
 
