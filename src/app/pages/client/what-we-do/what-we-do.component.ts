@@ -26,7 +26,7 @@ export class WhatWeDoComponent implements OnInit {
   private lastScrollTop = 0;
   private scrollThreshold = 100;
 
-  heroTitle = 'What We Do';
+  heroTitle = 'WHAT WE DO';
   heroSubtitle = 'Discover our services and how we can help you achieve your goals.';
   heroVector = 'vector_logo_pandigi.png';
 
