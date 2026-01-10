@@ -12,11 +12,19 @@ import { AuthService } from '../../../service/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  // Login form
   username: string = '';
   password: string = '';
   errorMessage: string = '';
   isLoading: boolean = false;
   showPassword: boolean = false;
+
+  // Forgot password modal
+  showForgotPasswordModal: boolean = false;
+  forgotPasswordEmail: string = '';
+  forgotPasswordError: string = '';
+  forgotPasswordSuccess: string = '';
+  isSendingResetLink: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -24,17 +32,14 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Check and clean expired token first
     this.authService.checkAndCleanExpiredToken();
 
-    // Redirect jika masih login dengan token valid
     if (this.authService.isLoggedIn() && !this.authService.isTokenExpired()) {
       this.router.navigate(['/admin/dashboard']);
     }
   }
 
   onSubmit() {
-    // Validasi input
     if (!this.username || !this.password) {
       this.errorMessage = 'Username dan password harus diisi';
       return;
@@ -46,7 +51,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(this.username, this.password).subscribe({
       next: (response) => {
         if (response.success) {
-          // Login berhasil, redirect ke dashboard
           this.router.navigate(['/admin/dashboard']);
         } else {
           this.errorMessage = response.message;
@@ -67,5 +71,58 @@ export class LoginComponent implements OnInit {
 
   clearError() {
     this.errorMessage = '';
+  }
+
+  // Forgot password methods
+  openForgotPasswordModal() {
+    this.showForgotPasswordModal = true;
+    this.forgotPasswordEmail = '';
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+  }
+
+  closeForgotPasswordModal() {
+    this.showForgotPasswordModal = false;
+    this.forgotPasswordEmail = '';
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+  }
+
+  onForgotPasswordSubmit() {
+    if (!this.forgotPasswordEmail || !this.forgotPasswordEmail.trim()) {
+      this.forgotPasswordError = 'Email harus diisi';
+      return;
+    }
+
+    if (!this.validateEmail(this.forgotPasswordEmail)) {
+      this.forgotPasswordError = 'Format email tidak valid';
+      return;
+    }
+
+    this.isSendingResetLink = true;
+    this.forgotPasswordError = '';
+    this.forgotPasswordSuccess = '';
+
+    this.authService.forgotPassword(this.forgotPasswordEmail).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.forgotPasswordSuccess = response.message;
+          this.forgotPasswordEmail = '';
+        } else {
+          this.forgotPasswordError = response.message;
+        }
+        this.isSendingResetLink = false;
+      },
+      error: (error) => {
+        console.error('Forgot password error:', error);
+        this.forgotPasswordError = error.error?.message || 'Gagal mengirim link reset password';
+        this.isSendingResetLink = false;
+      }
+    });
+  }
+
+  validateEmail(email: string): boolean {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
   }
 }
