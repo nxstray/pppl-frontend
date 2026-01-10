@@ -6,13 +6,13 @@
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
       <div class="navbar-container">
         <div class="navbar-logo">
-          <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+          <img src="logo-no-bg.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
         </div>
         <ul class="navbar-menu">
           <li><a (click)="navigateToOtherPage('/')">WHAT WE DO</a></li>
           <li><a (click)="navigateToOtherPage('who-we-are')">WHO WE ARE</a></li>
           <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
-          <li><a (click)="scrollToSection('hero')">BUILD WITH US</a></li>
+          <li><a (click)="scrollToSection('hero')" class="active">BUILD WITH US</a></li>
         </ul>
       </div>
     </nav>
@@ -26,7 +26,7 @@
 
   <!-- Main Content -->
   <div class="form-container">
-    <h1 class="form-title">Lets Get Started</h1>
+    <h1 class="form-title">Lets get started</h1>
 
     <div class="form-content">
       <div class="form-left">
