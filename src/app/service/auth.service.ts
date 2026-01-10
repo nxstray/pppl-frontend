@@ -94,41 +94,14 @@ export class AuthService {
   }
 
   /**
-   * Check if user is logged in (with token existence check only)
+   * Check if user is logged in
    */
   isLoggedIn(): boolean {
     return !!this.getToken();
   }
 
   /**
-   * Check if token is valid (call backend to validate)
-   */
-  isTokenValid(): Observable<boolean> {
-    const token = this.getToken();
-    
-    if (!token) {
-      return of(false);
-    }
-
-    return this.validateToken().pipe(
-      // Map ApiResponse<boolean> to boolean
-      map(response => response.success && response.data === true),
-      tap(isValid => {
-        if (!isValid) {
-          // Token invalid, clean up
-          this.clearAuthData();
-        }
-      }),
-      catchError(() => {
-        // Error validating, assume invalid
-        this.clearAuthData();
-        return of(false);
-      })
-    );
-  }
-
-  /**
-   * Check token validity synchronously (check expiration from JWT)
+   * Check token validity synchronously
    */
   isTokenExpired(): boolean {
     const token = this.getToken();
@@ -138,20 +111,18 @@ export class AuthService {
     }
 
     try {
-      // Decode JWT payload (without verification, just parse)
       const payload = JSON.parse(atob(token.split('.')[1]));
-      const expiry = payload.exp * 1000; // Convert to milliseconds
+      const expiry = payload.exp * 1000;
       const now = Date.now();
       
       return now >= expiry;
     } catch (e) {
-      // Invalid token format
       return true;
     }
   }
 
   /**
-   * Clear authentication data - NEW
+   * Clear authentication data
    */
   private clearAuthData(): void {
     localStorage.removeItem('currentUser');
@@ -160,7 +131,7 @@ export class AuthService {
   }
 
   /**
-   * Check and clean expired token - NEW
+   * Check and clean expired token
    */
   checkAndCleanExpiredToken(): void {
     if (this.isTokenExpired()) {
@@ -196,6 +167,25 @@ export class AuthService {
   changePassword(oldPassword: string, newPassword: string): Observable<ApiResponse<void>> {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/change-password`, {
       oldPassword,
+      newPassword
+    });
+  }
+
+  /**
+   * Forgot password - Request reset link (NEW)
+   */
+  forgotPassword(email: string): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.apiUrl}/forgot-password`, {
+      email
+    });
+  }
+
+  /**
+   * Reset password with token (NEW)
+   */
+  resetPassword(token: string, newPassword: string): Observable<ApiResponse<void>> {
+    return this.http.post<ApiResponse<void>>(`${this.apiUrl}/reset-password`, {
+      token,
       newPassword
     });
   }
