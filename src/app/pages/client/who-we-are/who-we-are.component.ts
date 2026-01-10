@@ -40,6 +40,17 @@ interface ClientReview {
   styleUrls: ['./who-we-are.component.scss'],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
+    trigger('fadeInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(50px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('800ms ease-out'))
+    ]),
     trigger('navbarSlide', [
       state('hidden', style({
         transform: 'translateY(-100%)',
@@ -50,6 +61,39 @@ interface ClientReview {
         opacity: 1
       })),
       transition('hidden <=> visible', animate('300ms ease-in-out'))
+    ]),
+    trigger('slideInLeft', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateX(-100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('hidden => visible', animate('1500ms ease-out'))
+    ]),
+    trigger('slideInRight', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateX(100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('hidden => visible', animate('1500ms ease-out'))
+    ]),
+    trigger('slideInUp', [
+      state('hidden', style({
+        opacity: 0,
+        transform: 'translateY(100px)'
+      })),
+      state('visible', style({
+        opacity: 1,
+        transform: 'translateY(0)'
+      })),
+      transition('hidden => visible', animate('1000ms ease-out'))
     ])
   ]
 })
@@ -58,7 +102,15 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   private lastScrollTop = 0;
   private scrollThreshold = 100;
 
-  heroTitle = 'WHO WE ARE';
+  buildingVisible = false;
+  timelineVisible = false;
+  visionMissionVisible = false;
+  servicesVisible = false;
+  ourteamVisible = false;
+  reviewsVisible = false;
+  contactVisible = false;
+
+  heroTitle = 'Who We Are';
   heroSubtitle = 'Discover Pandigi\'s Journey and Values';
   heroVector = 'vector_logo_pandigi.png';
 
@@ -177,7 +229,12 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
 
   constructor(private router: Router) { }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.checkSectionsVisibility();
+    setTimeout(() => {
+      this.buildingVisible = true;
+    }, 100);
+  }
 
   ngAfterViewInit(): void {
     if (this.reviewSwiperRef?.nativeElement) {
@@ -216,6 +273,27 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
       }
       this.lastScrollTop = scrollTop;
     }
+
+    this.checkSectionsVisibility()
+  }
+
+  private checkSectionsVisibility() {
+    this.timelineVisible = this.isElementInViewport('timeline');
+    this.visionMissionVisible = this.isElementInViewport('vision-mission');
+    this.servicesVisible = this.isElementInViewport('services');
+    this.ourteamVisible = this.isElementInViewport('our-team');
+    this.reviewsVisible = this.isElementInViewport('client-reviews');
+    this.contactVisible = this.isElementInViewport('contact');
+  }
+
+  private isElementInViewport(elementId: string): boolean {
+    const element = document.getElementById(elementId);
+    if (!element) return false;
+
+    const rect = element.getBoundingClientRect();
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+
+    return rect.top <= windowHeight * 0.75;
   }
 
   scrollToSection(sectionId: string): void {

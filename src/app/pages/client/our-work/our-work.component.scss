@@ -141,15 +141,14 @@ body {
 .navbar-menu li a {
     color: #0C2B40;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 400;
     font-size: 0.95rem;
     cursor: pointer;
     transition: color 0.3s ease;
     letter-spacing: 0.5px;
 }
 
-.navbar-menu li a:hover,
-.navbar-menu li a.active {
+.navbar-menu li a:hover {
     color: #D9953E;
 }
 

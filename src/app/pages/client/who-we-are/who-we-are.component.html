@@ -1,5 +1,5 @@
 <section id="hero" class="hero-section">
-    <img src="building.png" alt="Pandigi Building" class="building-image">
+    <img src="building.png" alt="Pandigi Building" class="building-image" [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
 
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
@@ -8,7 +8,7 @@
             </div>
             <ul class="navbar-menu">
                 <li><a (click)="navigateToOtherPage('/what-we-do')">WHAT WE DO</a></li>
-                <li><a (click)="scrollToSection('hero')" class="active">WHO WE ARE</a></li>
+                <li><a (click)="scrollToSection('hero')">WHO WE ARE</a></li>
                 <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
                 <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
             </ul>
@@ -16,13 +16,13 @@
     </nav>
 
     <div class="hero-content" role="banner" aria-labelledby="hero-title">
-        <h1 id="hero-title" class="hero-title">{{ heroTitle }}</h1>
-        <p class="hero-subtitle">{{ heroSubtitle }}</p>
+        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}</h1>
+        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
         <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
 </section>
 
-<section id="timeline" class="timeline-section">
+<section id="timeline" class="timeline-section" [@fadeInUp]="timelineVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h2 class="section-title">Our Journey</h2>
         <div class="timeline">
@@ -39,7 +39,7 @@
     </div>
 </section>
 
-<section id="vision-mission" class="vision-mission-section">
+<section id="vision-mission" class="vision-mission-section" [@fadeInUp]="visionMissionVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <div class="vision-mission-container">
             <div class="vision-mission-card">
@@ -56,7 +56,7 @@
     </div>
 </section>
 
-<section class="swiper-section">
+<section id="services" class="swiper-section" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h2 class="section-title">Layanan Kami</h2>
         <div class="swiper-section-content">
@@ -79,7 +79,7 @@
     </div>
 </section>
 
-<section id="our-team" class="our-team-section">
+<section id="our-team" class="our-team-section" [@fadeInUp]="ourteamVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h3 class="section-title">Tim Kami</h3>
 
@@ -98,7 +98,7 @@
     </div>
 </section>
 
-<section class="review-section" id="client-reviews">
+<section class="review-section" id="client-reviews" [@fadeInUp]="reviewsVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <h3 class="section-title">Ulasan Client</h3>
 
@@ -133,7 +133,7 @@
     </div>
 </section>
 
-<section id="contact" class="section contact">
+<section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         <div class="contact-grid">
             <div class="contact-info">

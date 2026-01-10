@@ -1,7 +1,7 @@
 <div class="client-form-page">
   <!-- Floating Navbar -->
   <section id="hero" class="hero-section">
-    <img src="building.png" alt="Pandigi Building" class="building-image">
+    <img src="building.png" alt="Pandigi Building" class="building-image" [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
 
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
       <div class="navbar-container">
@@ -18,8 +18,8 @@
     </nav>
 
     <div class="hero-content" role="banner" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="hero-title">{{ heroTitle }}</h1>
-      <p class="hero-subtitle">{{ heroSubtitle }}</p>
+      <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}</h1>
+      <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
       <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
   </section>

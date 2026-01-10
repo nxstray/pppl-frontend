@@ -5,12 +5,12 @@
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <img src="logo-no-bg.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+                <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
             </div>
             <ul class="navbar-menu">
-                <li><a (click)="scrollToSection('hero')">WHAT WE DO</a></li>
+                <li><a (click)="navigateToOtherPage('/what-we-do')">WHAT WE DO</a></li>
                 <li><a (click)="navigateToOtherPage('/who-we-are')">WHO WE ARE</a></li>
-                <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
+                <li><a (click)="scrollToSection('hero')">OUR WORK</a></li>
                 <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
             </ul>
         </div>
@@ -25,45 +25,6 @@
 </section>
 
 
-<section id="services" class="section services" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
-    <div class="full-container">
-        <h2 class="section-title">What we offer?</h2>
-        <div class="services-grid">
-            <div class="service-card" *ngFor="let service of services" (click)="scrollToSection(service.sectionId)">
-                <div class="service-image">
-                    <img [src]="service.icon" [alt]="service.title">
-                </div>
-                <div class="service-content">
-                    <h3>{{ service.title }}</h3>
-                    <p class="text-justify">{{ service.description }}</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<div class="service-wrapper" *ngFor="let service of services ">
-    <section [id]="service.sectionId" class="service-section" [@fadeInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
-        <div class="full-container">
-            <h2 class="section-title">
-                {{ service.title }} Service
-            </h2>
-            <div class="service-section-container">
-                <div class="service-section-image" [@slideInRight]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
-                    <img src="dummy-photo.png" alt="">
-                </div>
-                <div class="service-section-content" [@slideInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
-                    <p>
-                        {{ service.description }}
-                    </p>
-                    <a class="cta-button" (click)="navigateToOtherPage('build')">
-                        Build with us
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-</div>
 
 <section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
     <div class="full-container">
@@ -93,3 +54,4 @@
         </div>
     </div>
 </section>
+<p>our-work works!</p>
