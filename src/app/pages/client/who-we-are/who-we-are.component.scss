@@ -124,14 +124,15 @@ body {
 .navbar-menu li a {
     color: #0C2B40;
     text-decoration: none;
-    font-weight: 400;
+    font-weight: 600;
     font-size: 0.95rem;
     cursor: pointer;
     transition: color 0.3s ease;
     letter-spacing: 0.5px;
 }
 
-.navbar-menu li a:hover {
+.navbar-menu li a:hover,
+.navbar-menu li a.active {
     color: #D9953E;
 }
 
@@ -281,19 +282,6 @@ body {
     background: linear-gradient(180deg, #008080 0%, #F5771C 50%, #008080 100%);
     transform: translateX(-50%);
     border-radius: 2px;
-    animation: pulseLine 3s ease-in-out infinite;
-}
-
-@keyframes pulseLine {
-
-    0%,
-    100% {
-        box-shadow: 0 0 10px rgba(0, 128, 128, 0.5);
-    }
-
-    50% {
-        box-shadow: 0 0 20px rgba(245, 119, 28, 0.8);
-    }
 }
 
 .timeline-item {
