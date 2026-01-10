@@ -4,6 +4,7 @@ import { AnalysisGuard } from './guard/analysis.guard';
 
 import { LandingComponent } from './pages/landing/landing.component';
 import { LoginComponent } from './pages/client/login/login.component';
+import { ResetPageComponent } from './pages/client/reset-page/reset-page.component';
 import { ClientFormComponent } from './pages/client/client-form/client-form.component';
 import { WhoWeAreComponent } from './pages/client/who-we-are/who-we-are.component';
 import { WhatWeDoComponent } from './pages/client/what-we-do/what-we-do.component';
@@ -26,6 +27,10 @@ export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./pages/client/login/login.component').then(m => m.LoginComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./pages/client/reset-page/reset-page.component').then(m => m.ResetPageComponent)
   },
   {
     path: 'build',
