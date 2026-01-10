@@ -4,11 +4,11 @@
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <img src="logo.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+                <img src="logo-no-bg.png" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
             </div>
             <ul class="navbar-menu">
-                <li><a (click)="navigateToOtherPage('/')">WHAT WE DO</a></li>
-                <li><a (click)="scrollToSection('hero')">WHO WE ARE</a></li>
+                <li><a (click)="navigateToOtherPage('/what-we-do')">WHAT WE DO</a></li>
+                <li><a (click)="scrollToSection('hero')" class="active">WHO WE ARE</a></li>
                 <li><a (click)="navigateToOtherPage('/')">OUR WORK</a></li>
                 <li><a (click)="navigateToOtherPage('/build')">BUILD WITH US</a></li>
             </ul>
@@ -31,7 +31,6 @@
                 [ngClass]="{'left': i % 2 === 0, 'right': i % 2 !== 0}">
                 <div class="timeline-content">
                     <div class="timeline-date">{{ item.date }}</div>
-                    <div class="timeline-icon">{{ item.icon }}</div>
                     <h3 class="timeline-title">{{ item.title }}</h3>
                     <p class="timeline-description">{{ item.description }}</p>
                 </div>
