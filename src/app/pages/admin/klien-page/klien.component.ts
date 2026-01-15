@@ -68,6 +68,14 @@ export class KlienComponent implements OnInit {
   ngOnInit() {
     this.loadKlien();
     this.checkPermissions();
+
+    this.authService.currentUser.subscribe(user => {
+      if (user) {
+        this.canEdit = user.role === 'SUPER_ADMIN';
+        this.canDelete = user.role === 'SUPER_ADMIN';
+        console.log('Permissions updated - canEdit:', this.canEdit);
+      }
+    });
   }
 
   // Data loading
@@ -103,7 +111,6 @@ export class KlienComponent implements OnInit {
   }
 
   // Filtering
-
   selectStatus(status: string | null) {
     this.selectedStatus = status;
     this.applyFilters();
