@@ -188,7 +188,7 @@
           </div>
 
           <div class="reason-box">
-            <h4>Alasan Scoring :</h4>
+            <h4>Alasan scoring :</h4>
             <p>{{ selectedLead.alasanSkor }}</p>
           </div>
 
@@ -207,8 +207,8 @@
             (click)="analyzeLead(selectedLead.idRequest); closeModal()"
             [disabled]="analyzing || isAnalyzing(selectedLead.idRequest)"
           >
-            <span *ngIf="!isAnalyzing(selectedLead.idRequest)">Analyze Now</span>
-            <span *ngIf="isAnalyzing(selectedLead.idRequest)">Analyzing...</span>
+            <span *ngIf="!isAnalyzing(selectedLead.idRequest)">Analisa sekarang</span>
+            <span *ngIf="isAnalyzing(selectedLead.idRequest)">menganalisa...</span>
           </button>
         </div>
       </div>
