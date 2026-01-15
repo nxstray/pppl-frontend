@@ -80,7 +80,7 @@
 
 .navbar-container {
   display: flex;
-  align-items: center;
+  justify-content: center;
   align-items: center;
   gap: 3rem;
 }
@@ -93,7 +93,7 @@
   height: 30px;
   cursor: pointer;
   display: block;
-  margin-right: 39.2px;
+  margin-right: 40px;
 }
 
 .navbar-menu {
