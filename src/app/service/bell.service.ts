@@ -26,7 +26,6 @@ export interface ApiResponse<T> {
 export class BellService implements OnDestroy {
 
   private apiUrl = `${environment.apiUrl}/admin/notifications`;
-  private wsUrl = `${environment.apiUrl}/ws`;
 
   private stompClient!: Client;
 
@@ -61,8 +60,12 @@ export class BellService implements OnDestroy {
    * WebSocket Initialization
    */
   private initWebSocket(): void {
+    // Get WebSocket URL from environment
+    const wsBaseUrl = environment.apiUrl.replace('/api', '');
+    const wsUrl = `${wsBaseUrl}/ws`;
+    
     this.stompClient = new Client({
-      webSocketFactory: () => new SockJS('http://localhost:8083/ws'),
+      webSocketFactory: () => new SockJS(wsUrl),
       reconnectDelay: 5000,
       debug: (msg) => console.log('[STOMP]', msg)
     });
