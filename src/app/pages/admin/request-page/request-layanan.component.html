@@ -241,11 +241,32 @@
             </div>
           </div>
           <div class="timeline-item" *ngIf="selectedRequest.tglVerifikasi">
-            <div [innerHTML]="selectedRequest.status === 'VERIFIKASI' ? '' : ''"></div>
             <div class="timeline-content">
               <strong>{{ selectedRequest.status === 'VERIFIKASI' ? 'Diverifikasi' : 'Ditolak' }}</strong>
               <span>{{ formatDate(selectedRequest.tglVerifikasi) }}</span>
+              <div class="timeline-manager" *ngIf="selectedRequest.status === 'VERIFIKASI' && selectedRequest.approvedByName">
+                <span class="manager-badge">
+                  <span class="icon-user">👤</span> {{ selectedRequest.approvedByName }}
+                </span>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verification Info -->
+      <div class="detail-section" *ngIf="selectedRequest.status === 'VERIFIKASI' && selectedRequest.approvedByName">
+        <h3>Informasi Verifikasi</h3>
+        <div class="verification-info">
+          <div class="verified-badge">
+            <i class="icon-check-circle"></i>
+            <div class="verified-details">
+              <strong>Diverifikasi oleh:</strong>
+              <span class="manager-name">{{ selectedRequest.approvedByName }}</span>
+            </div>
+          </div>
+          <div class="verified-date">
+            <small>{{ formatDate(selectedRequest.tglVerifikasi) }}</small>
           </div>
         </div>
       </div>
