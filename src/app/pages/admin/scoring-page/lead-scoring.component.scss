@@ -316,10 +316,12 @@
   color: #999;
   padding: 0.25rem;
   line-height: 1;
-}
+  transition: all 0.2s ease;
 
-.close-btn:hover {
-  color: #333;
+  &:hover {
+    color: #333;
+    transform: rotate(90deg);
+  }
 }
 
 .modal-body {
