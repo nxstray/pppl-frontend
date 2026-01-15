@@ -8,7 +8,6 @@ import { BellComponent } from '../../animation/bell-notification/bell.component'
 interface MenuItem {
   label: string;
   route: string;
-  badge?: number;
   roles?: string[];
 }
 
@@ -25,7 +24,7 @@ export class AdminLayoutComponent implements OnInit {
   
   menuItems: MenuItem[] = [
     { label: 'DASHBOARD', route: '/admin/dashboard' },
-    { label: 'LEAD SCORING', route: '/admin/lead-scoring', badge: 5 },
+    { label: 'LEAD SCORING', route: '/admin/lead-scoring'},
     { label: 'KARYAWAN', route: '/admin/karyawan' },
     { label: 'MANAGER', route: '/admin/manager' },
     { label: 'KLIEN', route: '/admin/klien' },
