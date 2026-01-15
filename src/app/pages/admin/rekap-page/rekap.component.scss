@@ -288,15 +288,22 @@
   transition: all 0.3s ease;
   color: #666;
 
-  &:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  &.btn-view:hover:not(:disabled) {
+    border-color: #2558b0;
+    color: #2558b0;
+    background: #f5f4f059;
+  }
+
+  &.btn-edit:hover:not(:disabled) {
+    border-color: #ea9d39;
+    color: #ea9d39;
+    background: #f5f4f059;
   }
 
   &.btn-delete:hover:not(:disabled) {
     border-color: #dc3545;
     color: #dc3545;
-    background: #f8d7da;
+    background: #f5f4f059;
   }
 
   &:disabled {
