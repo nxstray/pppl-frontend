@@ -375,8 +375,8 @@
   color: #666;
 
   &:hover:not(:disabled) {
-    border-color: #ea9d39;
-    color: #ea9d39;
+    border-color: #2558b0;
+    color: #2558b0;
     background: #f5f4f059;
   }
 
@@ -395,6 +395,52 @@
   &:disabled {
     opacity: 0.4;
     cursor: not-allowed;
+  }
+}
+
+// Verification Info
+.verification-info {
+  padding: 1rem;
+  background: #e8f5e9;
+  border: 1px solid #4caf50;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.verified-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  i {
+    font-size: 1.5rem;
+    color: #4caf50;
+  }
+
+  .verified-details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    strong {
+      font-size: 0.85rem;
+      color: #666;
+    }
+
+    .manager-name {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #2e7d32;
+    }
+  }
+}
+
+.verified-date {
+  small {
+    color: #666;
+    font-size: 0.85rem;
   }
 }
 
@@ -625,6 +671,29 @@
     font-family: 'Figtree', sans-serif;
     color: #666;
     font-size: 0.875rem;
+  }
+}
+
+.timeline-manager {
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px dashed #e0e0e0;
+}
+
+.manager-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  background: #e3f2fd;
+  border: 1px solid #2196f3;
+  border-radius: 16px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1565c0;
+
+  .icon-user {
+    font-size: 0.9rem;
   }
 }
 
