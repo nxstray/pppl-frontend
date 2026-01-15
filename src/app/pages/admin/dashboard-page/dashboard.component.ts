@@ -158,8 +158,8 @@ export class DashboardComponent implements OnInit {
   ): 'success' | 'info' | 'primary' {
     switch (priority) {
       case 'HOT': return 'success';
-      case 'WARM': return 'primary';
-      case 'COLD': return 'info';
+      case 'WARM': return 'info';
+      case 'COLD': return 'primary';
       default: return 'info';
     }
   }
