@@ -10,12 +10,20 @@ export interface KlienDTO {
   noTelp: string;
   status: 'BELUM' | 'AKTIF';
   tglRequest?: Date | string;
+  approvedByManagers?: ManagerInfo[];
+  lastApprovedBy?: string;
 }
 
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
   data?: T;
+}
+
+export interface ManagerInfo {
+  idManager: number;
+  namaManager: string;
+  tglApprove?: Date | string;
 }
 
 @Injectable({

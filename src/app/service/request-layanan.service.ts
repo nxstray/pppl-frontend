@@ -14,6 +14,8 @@ export interface RequestLayananDTO {
   status: StatusRequest;
   tglVerifikasi?: Date | string;
   keteranganPenolakan?: string;
+  approvedByManagerId?: number;
+  approvedByName?: string;
   
   // Client details
   emailKlien?: string;
