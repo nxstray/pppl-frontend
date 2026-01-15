@@ -104,8 +104,8 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
     if (confirmed) {
       // SHOW FULL SCREEN LOADING
       this.showLoadingOverlay = true;
-      this.loadingTitle = 'AI Sedang Menganalisa';
-      this.loadingMessage = `Menganalisa lead: <strong>${leadInfo}</strong><br><small>Estimasi: ~10-15 detik</small>`;
+      this.loadingTitle = 'Sedang Menganalisa';
+      this.loadingMessage = `Menganalisa lead : <strong>${leadInfo}</strong><br>`;
       this.showProgress = true;
       this.progress = 0;
 
@@ -168,10 +168,10 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
     const estimatedTime = Math.ceil(unanalyzed.length / 15) * 2;
     
     const confirmed = await this.toastService.helpConfirm(
-      'Analisa Semua Lead?',
+      'Analisa semua lead?',
       `Sistem akan menganalisa ${unanalyzed.length} lead yang belum dianalisa.\n\n` +
-      `Estimasi waktu: ~${estimatedTime} menit\n\n` +
-      `Lanjutkan?`
+      `Butuh sekitar ${estimatedTime} menit\n\n` +
+      `untuk menyelesaikan proses ini.`
     );
 
     if (confirmed) {

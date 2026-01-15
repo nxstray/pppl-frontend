@@ -184,7 +184,7 @@ export class RequestLayananComponent implements OnInit {
       `
         Klien: <strong>${request.namaKlien}</strong><br>
         Layanan: ${request.namaLayanan}<br><br>
-        Status klien akan diubah menjadi <strong>AKTIF</strong>.<br>
+        <strong>${request.namaKlien}</strong> akan dipindahkan ke halaman klien.
       `
     );
 
@@ -197,7 +197,7 @@ export class RequestLayananComponent implements OnInit {
         if (response.success) {
           this.toastService.success(
             'Request Diverifikasi',
-            'Status klien berhasil diubah menjadi <b>AKTIF</b>.'
+            'Request berhasil diverifikasi.'
           );
 
           this.loadRequests();
