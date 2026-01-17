@@ -137,7 +137,7 @@ export class DashboardComponent implements OnInit {
 
   private setEmptyActivity(): void {
     this.recentActivities = [{
-      icon: '📊',
+      icon: '',
       text: 'Belum ada aktivitas lead scoring',
       time: 'Baru saja',
       type: 'info'
@@ -149,7 +149,7 @@ export class DashboardComponent implements OnInit {
       case 'HOT': return '';
       case 'WARM': return '';
       case 'COLD': return '';
-      default: return '📊';
+      default: return '';
     }
   }
 
