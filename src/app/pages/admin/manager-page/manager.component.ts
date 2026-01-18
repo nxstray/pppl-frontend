@@ -29,6 +29,11 @@ export class ManagerComponent implements OnInit {
   canDelete = false;
   canAdd = false;
 
+  // Dropdown States
+  dropdownStates: { [key: string]: boolean } = {
+    divisi: false
+  };
+
   // Register User Form
   registerUserForm = {
     namaLengkap: '',
@@ -53,7 +58,7 @@ export class ManagerComponent implements OnInit {
 
   ngOnInit() {
     this.loadManagers();
-    this.loadDivisiList();
+    this.loadDivisiFromLayanan();
     this.checkPermissions();
   }
 
@@ -88,11 +93,53 @@ export class ManagerComponent implements OnInit {
     });
   }
 
+  loadDivisiFromLayanan() {
+    this.managerService.getDivisiFromLayanan().subscribe({
+      next: (layananResponse) => {
+        this.managerService.getDivisiList().subscribe({
+          next: (existingResponse) => {
+            const layananDivisi = layananResponse.data || [];
+            const existingDivisi = existingResponse.data || [];
+            
+            // Gabung dan hapus duplikat (case-insensitive)
+            const combined = [...layananDivisi, ...existingDivisi];
+            
+            // Gunakan Map untuk deduplicate case-insensitive
+            const uniqueMap = new Map<string, string>();
+            combined.forEach(divisi => {
+              const lowerKey = divisi.toLowerCase();
+              if (!uniqueMap.has(lowerKey)) {
+                uniqueMap.set(lowerKey, divisi);
+              }
+            });
+            
+            this.divisiList = Array.from(uniqueMap.values()).sort();
+            
+            console.log('Divisi gabungan:', this.divisiList);
+          },
+          error: (error) => {
+            console.error('Error loading existing divisi:', error);
+            this.divisiList = layananResponse.data || [];
+          }
+        });
+      },
+      error: (error) => {
+        console.error('Error loading divisi from layanan:', error);
+        this.loadDivisiList();
+      }
+    });
+  }
+
   checkPermissions() {
     const role = this.authService.currentUserValue?.role;
     this.canEdit = role === 'SUPER_ADMIN';
     this.canDelete = role === 'SUPER_ADMIN';
     this.canAdd = role === 'SUPER_ADMIN';
+  }
+
+  selectDivisi(divisi: string) {
+    this.formData.divisi = divisi;
+    this.dropdownStates['divisi'] = false;
   }
 
   // Filtering
@@ -129,6 +176,14 @@ export class ManagerComponent implements OnInit {
     this.searchKeyword = '';
     this.selectedDivisi = '';
     this.applyFilters();
+  }
+
+  toggleDropdown(dropdown: string, event?: Event) {
+    if (event) event.stopPropagation();
+    Object.keys(this.dropdownStates).forEach(key => {
+      if (key !== dropdown) this.dropdownStates[key] = false;
+    });
+    this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
   }
 
   // Modal
@@ -367,5 +422,30 @@ export class ManagerComponent implements OnInit {
       case 'view': return 'Detail Manager';
       default: return 'Manager';
     }
+  }
+
+  getDivisiClass(divisi: string): string {
+    const divisiLower = divisi.toLowerCase();
+    
+    // Mapping divisi ke kategori layanan
+    if (divisiLower.includes('website') || divisiLower.includes('mobile app')) {
+      return 'badge-piranti-lunak'; // Pink/Ungu
+    }
+    
+    if (divisiLower.includes('digital marketing') || divisiLower.includes('sosial')) {
+      return 'badge-sosial'; // Biru
+    }
+    
+    if (divisiLower.includes('cyber') || divisiLower.includes('security') || 
+        divisiLower.includes('sekuritas')) {
+      return 'badge-mesin-sekuritas'; // Hijau
+    }
+    
+    if (divisiLower.includes('multimedia')) {
+      return 'badge-multimedia'; // Orange
+    }
+    
+    // Default
+    return 'badge-divisi';
   }
 }
