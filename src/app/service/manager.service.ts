@@ -78,4 +78,11 @@ export class ManagerService {
   getDivisiList(): Observable<ApiResponse<string[]>> {
     return this.http.get<ApiResponse<string[]>>(`${this.apiUrl}/divisi`);
   }
+
+  /**
+   * Get divisi list from layanan categories
+   */
+  getDivisiFromLayanan(): Observable<ApiResponse<string[]>> {
+    return this.http.get<ApiResponse<string[]>>(`${this.apiUrl}/divisi-layanan`);
+  }
 }
