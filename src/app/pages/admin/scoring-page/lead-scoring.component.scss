@@ -262,11 +262,17 @@
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
-}
 
-.empty-illustration {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  .empty-illustration {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    font-family: 'Figtree', sans-serif;
+    color: #666;
+    font-size: 1rem;
+  }
 }
 
 /* Modal */
