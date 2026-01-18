@@ -210,6 +210,30 @@
   border: 1px solid #90caf9;
 }
 
+.badge-sosial {
+  background: #e3f2fd;
+  color: #2196f3;
+  border: 1px solid #90caf9;
+}
+
+.badge-piranti-lunak {
+  background: #f3e5f5;
+  color: #9c27b0;
+  border: 1px solid #ce93d8;
+}
+
+.badge-multimedia {
+  background: #fff3e0;
+  color: #ff9800;
+  border: 1px solid #ffb74d;
+}
+
+.badge-mesin-sekuritas {
+  background: #e8f5e9;
+  color: #4caf50;
+  border: 1px solid #81c784;
+}
+
 /* Action Buttons */
 .action-buttons {
   display: flex;
@@ -416,6 +440,115 @@
   margin-top: 2rem;
   padding-top: 1.5rem;
   border-top: 1px solid #e8e9ef;
+}
+
+/* Custom dropdown animations */
+.custom-dropdown {
+  position: relative;
+  width: 100%;
+  z-index: 10;
+  
+  &:has(.custom-dropdown-trigger.active) {
+    z-index: 1001;
+  }
+}
+
+.custom-dropdown-trigger {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e8e9ef;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s ease;
+  min-height: 48px;
+
+  &:hover {
+    border-color: #d4af37;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  &.active {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+  }
+}
+
+.custom-dropdown-label {
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: #333;
+  flex: 1;
+}
+
+.custom-dropdown-arrow {
+  color: #666;
+  display: flex;
+  align-items: center;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.rotated {
+    transform: rotate(-180deg);
+  }
+}
+
+.custom-dropdown-menu {
+  background: white;
+  border: 2px solid #d4af37;
+  border-top: 1px solid #e8e9ef;
+  border-radius: 0 0 8px 8px;
+  margin-top: 0.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &.show {
+    max-height: 300px;
+    opacity: 1;
+    overflow-y: auto;
+  }
+}
+
+.custom-dropdown-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-top: 1px solid #e8e9ef;
+  font-family: 'Figtree', sans-serif;
+  font-size: 1rem;
+  color: #333;
+  background: white;
+
+  &:first-child {
+    border-top: none;
+  }
+
+  &:hover {
+    background: #f8f9fa;
+    color: #d4af37;
+    padding-left: 1.25rem;
+  }
+
+  &.selected {
+    background: linear-gradient(to right, #d4af37 4px, #f8f9fa 4px);
+    color: #1e3a5f;
+    font-weight: 600;
+  }
+}
+
+.form-group {
+  position: relative;
+  z-index: 1;
+
+  &:has(.custom-dropdown-trigger.active) {
+    z-index: 1001;
+  }
 }
 
 /* Animations */
