@@ -149,8 +149,9 @@ body {
     letter-spacing: 0.5px;
 }
 
-.navbar-menu li a:hover {
-    color: #D9953E;
+.navbar-menu li a:hover,
+.navbar-menu li a.active {
+  color: #D9953E;
 }
 
 .section {
