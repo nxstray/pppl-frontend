@@ -78,7 +78,9 @@
           <td>{{ manager.emailManager }}</td>
           <td>{{ manager.noTelp }}</td>
           <td>
-            <span class="badge badge-divisi">{{ manager.divisi }}</span>
+            <span class="badge" [ngClass]="getDivisiClass(manager.divisi)">
+              {{ manager.divisi }}
+            </span>
           </td>
           <td>{{ formatDate(manager.tglMulai) }}</td>
           <td>
@@ -196,20 +198,30 @@
           <label for="divisi">
             Divisi <span class="required">*</span>
           </label>
-          <input 
-            type="text"
-            id="divisi"
-            [(ngModel)]="formData.divisi"
-            name="divisi"
-            class="form-control"
-            [class.error]="formErrors.divisi"
-            [disabled]="modalMode === 'view'"
-            placeholder="e.g., IT, Marketing, Finance"
-            list="divisiSuggestions"
-          />
-          <datalist id="divisiSuggestions">
-            <option *ngFor="let divisi of divisiList" [value]="divisi"></option>
-          </datalist>
+          <div class="custom-dropdown" (click)="$event.stopPropagation()">
+            <div 
+              class="custom-dropdown-trigger"
+              [class.active]="dropdownStates['divisi']"
+              (click)="toggleDropdown('divisi', $event)"
+            >
+              <span class="custom-dropdown-label">{{ formData.divisi || 'Pilih Divisi' }}</span>
+              <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['divisi']">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                  <path d="M6 9L1 4h10z" fill="currentColor"/>
+                </svg>
+              </span>
+            </div>
+            <div class="custom-dropdown-menu" [class.show]="dropdownStates['divisi']">
+              <div 
+                *ngFor="let divisi of divisiList"
+                class="custom-dropdown-item"
+                [class.selected]="formData.divisi === divisi"
+                (click)="selectDivisi(divisi)"
+              >
+                {{ divisi }}
+              </div>
+            </div>
+          </div>
           <span *ngIf="formErrors.divisi" class="error-message">
             {{ formErrors.divisi }}
           </span>
