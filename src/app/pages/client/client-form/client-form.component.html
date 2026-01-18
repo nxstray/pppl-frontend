@@ -108,23 +108,37 @@
           <div class="form-group">
             <textarea id="message" name="message" [(ngModel)]="formData.message" [class.error]="formErrors.message"
               class="form-control" rows="6" placeholder="Tell us about your project..." required></textarea>
-            <span *ngIf="formErrors.message" class="error-message">
-              Message is required
-            </span>
           </div>
 
           <!-- Submit Button -->
           <button type="submit" class="submit-btn" [disabled]="submitting">
             <span *ngIf="!submitting">SUBMIT</span>
-            <span *ngIf="submitting">SENDING...</span>
+            <span *ngIf="submitting">
+              <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10" stroke-width="3" stroke-dasharray="60" stroke-dashoffset="40" />
+              </svg>
+              SENDING...
+            </span>
           </button>
         </form>
 
         <!-- Success Message -->
-        <div class="success-message" *ngIf="submitted">
+        <div class="success-message" *ngIf="submitted" [@fadeIn]>
           <div class="success-icon">✓</div>
           <h3>Terima Kasih!</h3>
-          <p>Form Anda telah diterima. Tim kami akan segera menghubungi Anda.</p>
+          <p class="success-main">Form Anda telah diterima dengan sukses</p>
+        </div>
+
+        <!-- Error Message -->
+        <div class="error-message" *ngIf="showError" [@fadeIn] (click)="showError = false">
+          <div class="error-content" (click)="$event.stopPropagation()">
+            <div class="error-icon">✕</div>
+            <h3>Oops!</h3>
+            <p>{{ errorMessage }}</p>
+            <button class="btn-understand" (click)="showError = false">
+              Mengerti
+            </button>
+          </div>
         </div>
       </div>
     </div>
