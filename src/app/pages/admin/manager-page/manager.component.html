@@ -198,7 +198,9 @@
           <label for="divisi">
             Divisi <span class="required">*</span>
           </label>
-          <div class="custom-dropdown" (click)="$event.stopPropagation()">
+          
+          <!-- Tampilkan dropdown hanya saat bukan mode view -->
+          <div *ngIf="modalMode !== 'view'" class="custom-dropdown" (click)="$event.stopPropagation()">
             <div 
               class="custom-dropdown-trigger"
               [class.active]="dropdownStates['divisi']"
@@ -222,6 +224,14 @@
               </div>
             </div>
           </div>
+          
+          <!-- Tampilkan badge saat mode view -->
+          <div *ngIf="modalMode === 'view'" style="margin-top: 0.5rem;">
+            <span class="badge" [ngClass]="getDivisiClass(formData.divisi)">
+              {{ formData.divisi }}
+            </span>
+          </div>
+          
           <span *ngIf="formErrors.divisi" class="error-message">
             {{ formErrors.divisi }}
           </span>
@@ -250,7 +260,8 @@
         <div class="modal-actions" *ngIf="modalMode !== 'view'">
           <button 
             type="button" 
-            class="btn-secondary" 
+            class="btn-secondary"
+            *ngIf="canEdit"
             (click)="closeModal()"
             [disabled]="loading"
           >
@@ -259,6 +270,7 @@
           <button 
             type="submit" 
             class="btn-primary"
+            *ngIf="canEdit"
             [disabled]="loading"
           >
             <span *ngIf="!loading">
@@ -278,7 +290,8 @@
           </button>
           <button 
             type="button" 
-            class="btn-primary" 
+            class="btn-primary"
+            *ngIf="canEdit"
             (click)="openEditModal(formData)"
           >
             Edit Manager
