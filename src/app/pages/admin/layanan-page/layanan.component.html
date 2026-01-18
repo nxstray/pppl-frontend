@@ -4,7 +4,7 @@
     <div>
       <h1>LAYANAN</h1>
     </div>
-    <button class="btn-primary" (click)="openCreateModal()">
+    <button class="btn-primary" (click)="openCreateModal()" *ngIf="canAdd">
       Tambah Layanan
     </button>
   </div>
@@ -116,13 +116,15 @@
           </td>
           <td>
             <div class="action-buttons">
-              <button 
+              <button
+                *ngIf="canEdit"
                 class="btn-icon" 
                 (click)="openEditModal(layanan)"
               >
                 Edit
               </button>
-              <button 
+              <button
+                *ngIf="canDelete"
                 class="btn-icon btn-delete" 
                 (click)="deleteLayanan(layanan)"
               >

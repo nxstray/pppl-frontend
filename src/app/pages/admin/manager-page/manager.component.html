@@ -5,10 +5,10 @@
       <h1>MANAGER</h1>
     </div>
     <div style="display: flex; gap: 10px;">
-      <button class="btn-primary" (click)="openCreateModal()" [disabled]="loading">
+      <button class="btn-primary" (click)="openCreateModal()" [disabled]="loading" *ngIf="canAdd">
         <span>Tambah Manager</span>
       </button>
-      <button class="btn-primary" (click)="openRegisterUserModal()" [disabled]="loading" *ngIf="canEdit">
+      <button class="btn-primary" (click)="openRegisterUserModal()" [disabled]="loading" *ngIf="canAdd">
         <span>Register Manager</span>
       </button>
     </div>
