@@ -13,73 +13,51 @@ import { ClientFormService, ClientFormDTO, LayananOption } from '../../../servic
   styleUrls: ['./client-form.component.scss'],
   animations: [
     trigger('fadeInUp', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateY(50px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateY(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateY(50px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
       transition('hidden => visible', animate('800ms ease-out'))
     ]),
     trigger('navbarSlide', [
-      state('hidden', style({
-        transform: 'translateY(-100%)',
-        opacity: 0
-      })),
-      state('visible', style({
-        transform: 'translateY(0)',
-        opacity: 1
-      })),
+      state('hidden', style({ transform: 'translateY(-100%)', opacity: 0 })),
+      state('visible', style({ transform: 'translateY(0)', opacity: 1 })),
       transition('hidden <=> visible', animate('300ms ease-in-out'))
     ]),
     trigger('slideInLeft', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateX(-100px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateX(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateX(-100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
       transition('hidden => visible', animate('1500ms ease-out'))
     ]),
     trigger('slideInRight', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateX(100px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateX(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateX(100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
       transition('hidden => visible', animate('1500ms ease-out'))
     ]),
     trigger('slideInUp', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateY(100px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateY(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateY(100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
       transition('hidden => visible', animate('1000ms ease-out'))
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ opacity: 0 }))
+      ])
     ])
   ]
 })
 export class ClientFormComponent implements OnInit {
   navbarVisible = true;
   private lastScrollTop = 0;
-
   buildingVisible = false;
 
   heroTitle = 'Request a Consultation Form';
   heroSubtitle = 'Let\'s Build Something Great Together';
   heroVector = 'vector_logo_pandigi.png';
 
-  // Form Data - sesuaikan dengan DTO backend
+  // Form Data
   formData: ClientFormDTO = {
     firstName: '',
     lastName: '',
@@ -102,16 +80,14 @@ export class ClientFormComponent implements OnInit {
     message: false
   };
 
-  // Dropdown Options - load dari backend
+  // Dropdown Options
   layananOptions: LayananOption[] = [];
-
   anggaranOptions = [
     'Kurang dari 20 Juta',
     'Antara 20 - 50 Juta',
     'Lebih dari 50 Juta',
     'Belum tahu'
   ];
-
   waktuOptions = [
     'Kurang dari 1 bulan',
     'Antara 1 - 3 Bulan',
@@ -123,6 +99,14 @@ export class ClientFormComponent implements OnInit {
   submitting = false;
   submitted = false;
   loadingLayanan = false;
+  showError = false;
+  errorMessage = '';
+  
+  // Success data for display
+  successData: {
+    idRequest?: number;
+    serviceName?: string;
+  } = {};
 
   constructor(
     private clientFormService: ClientFormService,
@@ -147,7 +131,7 @@ export class ClientFormComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading layanan options:', error);
-        alert('Gagal memuat pilihan layanan. Silakan refresh halaman.');
+        this.showErrorMessage('Gagal memuat pilihan layanan. Silakan refresh halaman.');
         this.loadingLayanan = false;
       }
     });
@@ -168,18 +152,13 @@ export class ClientFormComponent implements OnInit {
   }
 
   scrollToSection(sectionId: string): void {
-    console.log('Scrolling to section:', sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
-      console.log('Element found, scrolling to:', sectionId);
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      console.log('Element not found for section:', sectionId);
     }
   }
 
   navigateToOtherPage(path: string) {
-    console.log(`Navigating to ${path} page`);
     this.router.navigate([path]);
   }
 
@@ -196,7 +175,6 @@ export class ClientFormComponent implements OnInit {
 
     let isValid = true;
 
-    // Check required fields
     if (!this.formData.firstName.trim()) {
       this.formErrors.firstName = true;
       isValid = false;
@@ -220,7 +198,6 @@ export class ClientFormComponent implements OnInit {
       isValid = false;
     }
 
-    // FIXED: validasi idLayanan
     if (!this.formData.idLayanan || this.formData.idLayanan === 0) {
       this.formErrors.idLayanan = true;
       isValid = false;
@@ -241,7 +218,7 @@ export class ClientFormComponent implements OnInit {
 
   onSubmit() {
     if (!this.validateForm()) {
-      alert('Mohon lengkapi semua field yang wajib diisi');
+      this.showErrorMessage('Mohon lengkapi semua field yang wajib diisi');
       return;
     }
 
@@ -250,34 +227,28 @@ export class ClientFormComponent implements OnInit {
     this.clientFormService.submitForm(this.formData).subscribe({
       next: (response) => {
         if (response.success) {
+          // Store success data for display
+          this.successData = {
+            idRequest: response.data?.idRequest,
+            serviceName: response.data?.serviceName
+          };
+          
           this.submitted = true;
-
-          // Show success message dengan info
-          const data = response.data;
-          if (data) {
-            alert(`${response.message}\n\nID Request: #${data.idRequest}\nLayanan: ${data.serviceName}\n\nTim kami akan segera menghubungi Anda!`);
-          } else {
-            alert(`${response.message}`);
-          }
-
           this.resetForm();
 
-          // Auto hide success message after 5 seconds
+          // Auto hide success message after 8 seconds
           setTimeout(() => {
             this.submitted = false;
-          }, 5000);
-
-          // Optional: redirect ke landing page
-          // this.router.navigate(['/']);
+          }, 8000);
         } else {
-          alert('❌ Gagal mengirim form: ' + response.message);
+          this.showErrorMessage('Gagal mengirim form: ' + response.message);
         }
         this.submitting = false;
       },
       error: (error) => {
         console.error('Error submitting form:', error);
-        const errorMessage = error.error?.message || 'Terjadi kesalahan pada server';
-        alert('❌ Gagal mengirim form: ' + errorMessage);
+        const errorMsg = error.error?.message || 'Terjadi kesalahan pada server';
+        this.showErrorMessage('Gagal mengirim form: ' + errorMsg);
         this.submitting = false;
       }
     });
@@ -295,11 +266,27 @@ export class ClientFormComponent implements OnInit {
       anggaran: '',
       waktuImplementasi: ''
     };
+    
+    this.formErrors = {
+      firstName: false,
+      lastName: false,
+      email: false,
+      phoneNumber: false,
+      idLayanan: false,
+      message: false
+    };
   }
 
-  /**
-   * Helper untuk display nama layanan berdasarkan ID
-   */
+  showErrorMessage(message: string) {
+    this.errorMessage = message;
+    this.showError = true;
+    
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      this.showError = false;
+    }, 5000);
+  }
+
   getLayananName(id: number): string {
     const layanan = this.layananOptions.find(l => l.id === id);
     return layanan ? layanan.name : '';
