@@ -30,8 +30,10 @@ export class KaryawanComponent implements OnInit {
   showModal = false;
   isEditMode = false;
 
+  // Permissions
   canEdit = false;
   canDelete = false;
+  canAdd = false;
 
   // Upload Photo State
   selectedFile: File | null = null;
@@ -107,6 +109,7 @@ export class KaryawanComponent implements OnInit {
     const role = this.authService.currentUserValue?.role;
     this.canEdit = role === 'SUPER_ADMIN';
     this.canDelete = role === 'SUPER_ADMIN';
+    this.canAdd = role === 'SUPER_ADMIN';
   }
 
   updateStatistics() {
@@ -157,9 +160,9 @@ export class KaryawanComponent implements OnInit {
     this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
   }
 
-  //  fixed: Bug dropdown tidak bisa select
+  //  dropdown item selection
   selectDropdownItem(dropdown: string, value: any) {
-    if (dropdown === 'manager') {  // 'status' jadi 'manager'
+    if (dropdown === 'manager') {
       this.formData.idManager = value;
       console.log('Manager selected:', value);
     }
@@ -227,6 +230,11 @@ export class KaryawanComponent implements OnInit {
 
   // Modal handling
   openCreateModal() {
+    if (!this.canAdd) {
+      this.toast.error('Akses ditolak', 'Anda tidak memiliki izin menambah karyawan');
+      return;
+    }
+
     this.isEditMode = false;
     this.formData = {
       namaKaryawan: '',

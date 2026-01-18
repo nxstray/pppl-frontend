@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { LayananService, LayananDTO } from '../../../service/layanan.service';
+import { AuthService } from '../../../service/auth.service';
 import { ToastService } from '../../../service/toast.service';
 
 interface LayananStatistics {
@@ -42,6 +43,11 @@ export class LayananComponent implements OnInit {
   showModal = false;
   isEditMode = false;
 
+  // Permissions
+  canEdit = false;
+  canDelete = false;
+  canAdd = false;
+
   // Dropdown States
   dropdownStates: { [key: string]: boolean } = {
   kategori: false
@@ -68,11 +74,13 @@ export class LayananComponent implements OnInit {
 
   constructor(
     private layananService: LayananService,
-    private toast: ToastService
+    private toast: ToastService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
     this.loadLayanan();
+    this.checkPermissions();
   }
 
   // Data loading
@@ -93,6 +101,13 @@ export class LayananComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  checkPermissions() {
+    const role = this.authService.currentUserValue?.role;
+    this.canEdit = role === 'SUPER_ADMIN';
+    this.canDelete = role === 'SUPER_ADMIN';
+    this.canAdd = role === 'SUPER_ADMIN';
   }
 
   updateStatistics() {
@@ -171,6 +186,11 @@ export class LayananComponent implements OnInit {
 
   // Modal
   openCreateModal() {
+    if (!this.canAdd) {
+      this.toast.error('Akses ditolak', 'Anda tidak memiliki izin menambah layanan');
+      return;
+    }
+
     this.isEditMode = false;
     this.formData = {
       namaLayanan: '',

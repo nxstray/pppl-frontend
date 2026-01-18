@@ -24,8 +24,12 @@ export class ManagerComponent implements OnInit {
   showModal = false;
   showRegisterUserModal = false;
 
+  // Permissions
   canEdit = false;
   canDelete = false;
+  canAdd = false;
+
+  // Register User Form
   registerUserForm = {
     namaLengkap: '',
     email: ''
@@ -88,6 +92,7 @@ export class ManagerComponent implements OnInit {
     const role = this.authService.currentUserValue?.role;
     this.canEdit = role === 'SUPER_ADMIN';
     this.canDelete = role === 'SUPER_ADMIN';
+    this.canAdd = role === 'SUPER_ADMIN';
   }
 
   // Filtering
@@ -128,6 +133,11 @@ export class ManagerComponent implements OnInit {
 
   // Modal
   openCreateModal() {
+    if (!this.canAdd) {
+      this.toast.error('Akses ditolak', 'Anda tidak memiliki izin menambah manager');
+      return;
+    }
+
     this.modalMode = 'create';
     this.formData = this.getEmptyForm();
     this.formErrors = {};
