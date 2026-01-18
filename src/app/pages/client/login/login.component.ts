@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
 
 @Component({
@@ -28,10 +28,30 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
+    // Check for action=newuser query parameter from email
+    const action = this.route.snapshot.queryParamMap.get('action');
+    
+    if (action === 'newuser') {
+      // User came from welcome email - force logout current session
+      if (this.authService.isLoggedIn()) {
+        localStorage.removeItem('currentUser');
+        localStorage.removeItem('token');
+        this.authService['currentUserSubject'].next(null);
+      }
+      // Remove query parameter from URL for clean look
+      this.router.navigate([], {
+        queryParams: {},
+        replaceUrl: true
+      });
+      return; // Stay on login page
+    }
+
+    // Normal flow - if already logged in, go to dashboard
     this.authService.checkAndCleanExpiredToken();
 
     if (this.authService.isLoggedIn() && !this.authService.isTokenExpired()) {
