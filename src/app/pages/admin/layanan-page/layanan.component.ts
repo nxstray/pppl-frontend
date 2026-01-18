@@ -50,7 +50,7 @@ export class LayananComponent implements OnInit {
 
   // Dropdown States
   dropdownStates: { [key: string]: boolean } = {
-  kategori: false
+    kategori: false
   };
 
   // Filters
