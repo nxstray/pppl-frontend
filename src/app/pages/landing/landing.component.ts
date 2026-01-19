@@ -44,33 +44,6 @@ export class LandingComponent implements OnInit {
   ourWorkVisible = false;
   contactVisible = false;
 
-  services = [
-    {
-      title: 'Software',
-      code: '(46152)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'software-wwd.png'
-    },
-    {
-      title: 'Hardware',
-      code: '(46599)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'hardware-wwd.png'
-    },
-    {
-      title: 'Multimedia',
-      code: '(61929)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'media-wwd.png'
-    },
-    {
-      title: 'Computer',
-      code: '(46511)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'computer-wwd.png'
-    }
-  ];
-
   portfolios = [
     { image: 'dummy-photo.png', title: 'Project 1' },
     { image: 'dummy-photo.png', title: 'Project 2' },
