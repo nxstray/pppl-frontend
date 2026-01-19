@@ -81,41 +81,6 @@ export class WhatWeDoComponent implements OnInit {
 
   sectionStates: { [id: string]: boolean } = {};
 
-  heroTitle = 'What We Do';
-  heroSubtitle = 'Discover our services and how we can help you achieve your goals.';
-  heroVector = 'vector_logo_pandigi.png';
-
-  services = [
-    {
-      title: 'Software',
-      code: '(46152)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'software-wwd.png',
-      sectionId: 'software'
-    },
-    {
-      title: 'Hardware',
-      code: '(46599)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'hardware-wwd.png',
-      sectionId: 'hardware',
-    },
-    {
-      title: 'Multimedia',
-      code: '(61929)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'media-wwd.png',
-      sectionId: 'multimedia',
-    },
-    {
-      title: 'Computer',
-      code: '(46511)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      icon: 'computer-wwd.png',
-      sectionId: 'computer',
-    }
-  ];
-
   constructor(private router: Router) { }
 
   ngOnInit() {

@@ -329,15 +329,15 @@ body {
     }
 }
 
-.service-wrapper:nth-child(even) .service-section-container {
+.service-section:nth-child(even) .service-section-container {
     flex-direction: row-reverse;
 }
 
-.service-wrapper:nth-child(even) .service-section-content {
+.service-section:nth-child(even) .service-section-content {
     text-align: right;
 }
 
-.service-wrapper:nth-child(even) .service-section-content .cta-button {
+.service-section:nth-child(even) .service-section-content .cta-button {
     align-self: flex-end;
 }
 
