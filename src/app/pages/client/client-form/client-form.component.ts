@@ -53,10 +53,6 @@ export class ClientFormComponent implements OnInit {
   private lastScrollTop = 0;
   buildingVisible = false;
 
-  heroTitle = 'Request a Consultation Form';
-  heroSubtitle = 'Let\'s Build Something Great Together';
-  heroVector = 'vector_logo_pandigi.png';
-
   // Form Data
   formData: ClientFormDTO = {
     firstName: '',
@@ -82,18 +78,6 @@ export class ClientFormComponent implements OnInit {
 
   // Dropdown Options
   layananOptions: LayananOption[] = [];
-  anggaranOptions = [
-    'Kurang dari 20 Juta',
-    'Antara 20 - 50 Juta',
-    'Lebih dari 50 Juta',
-    'Belum tahu'
-  ];
-  waktuOptions = [
-    'Kurang dari 1 bulan',
-    'Antara 1 - 3 Bulan',
-    'Lebih dari 3 Bulan',
-    'Fleksibel'
-  ];
 
   // UI States
   submitting = false;
