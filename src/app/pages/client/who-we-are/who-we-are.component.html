@@ -1,5 +1,6 @@
 <section id="hero" class="hero-section">
-    <img src="building.png" alt="Pandigi Building" class="building-image" [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
+    <img src="building.png" alt="Pandigi Building" class="building-image"
+        [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
 
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
@@ -16,9 +17,10 @@
     </nav>
 
     <div class="hero-content" role="banner" aria-labelledby="hero-title">
-        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}</h1>
-        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
-        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Who We Are</h1>
+        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Discover Pandigi's Journey and
+            Values</p>
+        <img src="vector_logo_pandigi.png" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
 </section>
 
@@ -27,12 +29,52 @@
         <h2 class="section-title">Our Journey</h2>
         <div class="timeline">
             <div class="timeline-line"></div>
-            <div class="timeline-item" *ngFor="let item of timelineItems; let i = index"
-                [ngClass]="{'left': i % 2 === 0, 'right': i % 2 !== 0}">
+            
+            <div class="timeline-item left">
                 <div class="timeline-content">
-                    <div class="timeline-date">{{ item.date }}</div>
-                    <h3 class="timeline-title">{{ item.title }}</h3>
-                    <p class="timeline-description">{{ item.description }}</p>
+                    <div class="timeline-date">2010</div>
+                    <h3 class="timeline-title">Company Founded</h3>
+                    <p class="timeline-description">Pandigi was established with a vision to innovate in digital solutions.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2012</div>
+                    <h3 class="timeline-title">First Major Project</h3>
+                    <p class="timeline-description">Launched our flagship software product, revolutionizing the industry.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2015</div>
+                    <h3 class="timeline-title">Expansion</h3>
+                    <p class="timeline-description">Opened new offices and expanded our team to serve global clients.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2018</div>
+                    <h3 class="timeline-title">Award Recognition</h3>
+                    <p class="timeline-description">Received industry awards for excellence in technology and innovation.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item left">
+                <div class="timeline-content">
+                    <div class="timeline-date">2021</div>
+                    <h3 class="timeline-title">Digital Transformation</h3>
+                    <p class="timeline-description">Embraced cutting-edge technologies to enhance our services.</p>
+                </div>
+            </div>
+            
+            <div class="timeline-item right">
+                <div class="timeline-content">
+                    <div class="timeline-date">2023</div>
+                    <h3 class="timeline-title">Sustainability Initiative</h3>
+                    <p class="timeline-description">Committed to eco-friendly practices and sustainable development.</p>
                 </div>
             </div>
         </div>
@@ -44,12 +86,24 @@
         <div class="vision-mission-container">
             <div class="vision-mission-card">
                 <h3 class="vision-mission-title">Visi :</h3>
-                <p class="vision-mission-description">{{ visionandmission.vision }}</p>
+                <p class="vision-mission-description">To be a global leader in digital innovation, empowering businesses
+                    and communities through cutting-edge technology solutions.</p>
             </div>
             <div class="vision-mission-card">
                 <h3 class="vision-mission-title">Misi :</h3>
                 <ul class="mission-list">
-                    <li *ngFor="let mission of visionandmission.mission">{{ mission }}</li>
+                    <li>
+                        Deliver high-quality digital products that meet the evolving needs of our clients.
+                    </li>
+                    <li>
+                        Foster a culture of innovation, collaboration, and continuous learning within our team.
+                    </li>
+                    <li>
+                        Promote sustainable practices in all aspects of our business operations.
+                    </li>
+                    <li>
+                        Build long-term partnerships with clients based on trust, transparency, and mutual success.
+                    </li>
                 </ul>
             </div>
         </div>
@@ -64,11 +118,36 @@
                 slides-per-view="auto" coverflow-effect-rotate="50" coverflow-effect-stretch="0"
                 coverflow-effect-depth="100" coverflow-effect-modifier="1" coverflow-effect-slide-shadows="true"
                 navigation="true">
-                <swiper-slide class="service-card" *ngFor="let service of servicesItems">
-                    <img [src]="service.image" [alt]="service.title" class="slide-image">
+                <swiper-slide class="service-card">
+                    <img src="dummy-photo.png" alt="Software" class="slide-image">
                     <div class="text-overlay">
-                        <h3>{{ service.title }}</h3>
-                        <p class="text-justify">{{ service.description }}</p>
+                        <h3>Software</h3>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </swiper-slide>
+                <swiper-slide class="service-card">
+                    <img src="dummy-photo.png" alt="Hardware" class="slide-image">
+                    <div class="text-overlay">
+                        <h3>Hardware</h3>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </swiper-slide>
+                <swiper-slide class="service-card">
+                    <img src="dummy-photo.png" alt="Multimedia" class="slide-image">
+                    <div class="text-overlay">
+                        <h3>Multimedia</h3>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
+                    </div>
+                </swiper-slide>
+                <swiper-slide class="service-card">
+                    <img src="dummy-photo.png" alt="Computer" class="slide-image">
+                    <div class="text-overlay">
+                        <h3>Computer</h3>
+                        <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                            tempor incididunt ut labore et dolore magna aliqua.</p>
                     </div>
                 </swiper-slide>
             </swiper-container>
@@ -84,14 +163,47 @@
         <h3 class="section-title">Tim Kami</h3>
 
         <div class="team-grid">
-            <div class="team-card" *ngFor="let member of teamMembers">
+            <div class="team-card">
                 <div class="card-image">
-                    <img [src]="member.imageUrl" [alt]="member.name">
+                    <img src="dummy-photo.png" alt="Michael Doe">
                 </div>
-
                 <div class="card-content">
-                    <h3>{{ member.name }}</h3>
-                    <p>{{ member.description }}</p>
+                    <h3>Michael Doe</h3>
+                    <p>You can relay on our amazing features list and also our customer services will be great
+                        experience.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-image">
+                    <img src="dummy-photo.png" alt="Sarah Smith">
+                </div>
+                <div class="card-content">
+                    <h3>Sarah Smith</h3>
+                    <p>You can relay on our amazing features list and also our customer services will be great
+                        experience.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-image">
+                    <img src="dummy-photo.png" alt="James Bond">
+                </div>
+                <div class="card-content">
+                    <h3>James Bond</h3>
+                    <p>You can relay on our amazing features list and also our customer services will be great
+                        experience.</p>
+                </div>
+            </div>
+
+            <div class="team-card">
+                <div class="card-image">
+                    <img src="dummy-photo.png" alt="Emily Rose">
+                </div>
+                <div class="card-content">
+                    <h3>Emily Rose</h3>
+                    <p>You can relay on our amazing features list and also our customer services will be great
+                        experience.</p>
                 </div>
             </div>
         </div>
@@ -103,16 +215,48 @@
         <h3 class="section-title">Ulasan Client</h3>
 
         <div class="review-content-wrapper">
-
             <swiper-container #reviewSwiper init="false" class="review-carousel">
-                <swiper-slide *ngFor="let review of clientReviews">
+                <swiper-slide>
                     <div class="slide-inner">
                         <div class="client-image">
-                            <img [src]="review.imageUrl" alt="Client photo">
+                            <img src="dummy-photo.png" alt="Client photo">
                         </div>
-
                         <div class="review-text">
-                            <p>{{ review.description }}</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                ut labore et dolore magna aliqua.</p>
+                        </div>
+                    </div>
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="slide-inner">
+                        <div class="client-image">
+                            <img src="dummy-photo.png" alt="Client photo">
+                        </div>
+                        <div class="review-text">
+                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                                commodo consequat.</p>
+                        </div>
+                    </div>
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="slide-inner">
+                        <div class="client-image">
+                            <img src="dummy-photo.png" alt="Client photo">
+                        </div>
+                        <div class="review-text">
+                            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                                nulla pariatur.</p>
+                        </div>
+                    </div>
+                </swiper-slide>
+                <swiper-slide>
+                    <div class="slide-inner">
+                        <div class="client-image">
+                            <img src="dummy-photo.png" alt="Client photo">
+                        </div>
+                        <div class="review-text">
+                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
+                                anim id est laborum.</p>
                         </div>
                     </div>
                 </swiper-slide>
@@ -128,7 +272,6 @@
                     </svg>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
