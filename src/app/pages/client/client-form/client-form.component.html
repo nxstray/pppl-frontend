@@ -18,9 +18,9 @@
     </nav>
 
     <div class="hero-content" role="banner" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Request a Consultation Form</h1>
-      <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Let's Build Something Great Together</p>
-      <img src="vector_logo_pandigi.png" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+      <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}</h1>
+      <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
+      <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
   </section>
 
@@ -86,10 +86,9 @@
             <div class="form-group">
               <select id="anggaran" name="anggaran" [(ngModel)]="formData.anggaran" class="form-control">
                 <option value="">Select budget range</option>
-                <option value="Kurang dari 20 Juta">Kurang dari 20 Juta</option>
-                <option value="Antara 20 - 50 Juta">Antara 20 - 50 Juta</option>
-                <option value="Lebih dari 50 Juta">Lebih dari 50 Juta</option>
-                <option value="Belum tahu">Belum tahu</option>
+                <option *ngFor="let option of anggaranOptions" [value]="option">
+                  {{ option }}
+                </option>
               </select>
             </div>
           </div>
@@ -99,10 +98,9 @@
             <select id="waktuImplementasi" name="waktuImplementasi" [(ngModel)]="formData.waktuImplementasi"
               class="form-control">
               <option value="">Select timeline</option>
-              <option value="Kurang dari 1 bulan">Kurang dari 1 bulan</option>
-              <option value="Antara 1 - 3 Bulan">Antara 1 - 3 Bulan</option>
-              <option value="Lebih dari 3 Bulan">Lebih dari 3 Bulan</option>
-              <option value="Fleksibel">Fleksibel</option>
+              <option *ngFor="let option of waktuOptions" [value]="option">
+                {{ option }}
+              </option>
             </select>
           </div>
 
