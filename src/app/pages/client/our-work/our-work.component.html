@@ -17,10 +17,10 @@
     </nav>
 
     <div id="hero-text" class="hero-content">
-        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Our Work
+        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}
         </h1>
-        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Discover Our Success Stories, Innovations, and Client Partnerships</p>
-        <img src="vector_logo_pandigi.png" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
 </section>
 

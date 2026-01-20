@@ -76,6 +76,10 @@ export class OurWorkComponent implements OnInit {
 
   sectionStates: { [id: string]: boolean } = {};
 
+  heroTitle = 'Our Work';
+  heroSubtitle = 'Discover Our Success Stories, Innovations, and Client Partnerships';
+  heroVector = 'vector_logo_pandigi.png';
+
   constructor(private router: Router) { }
 
   ngOnInit() {
