@@ -44,6 +44,12 @@ export class LandingComponent implements OnInit {
   ourWorkVisible = false;
   contactVisible = false;
 
+  portfolios = [
+    { image: 'dummy-photo.png', title: 'Project 1' },
+    { image: 'dummy-photo.png', title: 'Project 2' },
+    { image: 'dummy-photo.png', title: 'Project 3' }
+  ];
+
   constructor(private router: Router) {}
 
   ngOnInit() {

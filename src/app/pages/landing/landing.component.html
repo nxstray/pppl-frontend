@@ -107,22 +107,10 @@
   <div class="full-container">
     <h2 class="section-title">Our work</h2>
     <div class="portfolio-grid">
-      <div class="portfolio-item">
-        <img src="dummy-photo.png" alt="Project 1">
+      <div class="portfolio-item" *ngFor="let portfolio of portfolios">
+        <img [src]="portfolio.image" [alt]="portfolio.title">
         <div class="portfolio-overlay">
-          <h3>Project 1</h3>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="dummy-photo.png" alt="Project 2">
-        <div class="portfolio-overlay">
-          <h3>Project 2</h3>
-        </div>
-      </div>
-      <div class="portfolio-item">
-        <img src="dummy-photo.png" alt="Project 3">
-        <div class="portfolio-overlay">
-          <h3>Project 3</h3>
+          <h3>{{ portfolio.title }}</h3>
         </div>
       </div>
     </div>
