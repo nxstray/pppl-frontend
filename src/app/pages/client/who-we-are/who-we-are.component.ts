@@ -3,6 +3,35 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
+interface TimelineItem {
+  date: string;
+  title: string;
+  description: string;
+}
+
+interface VisionAndMission {
+  vision: string;
+  mission: string[];
+}
+
+interface ServicesItems {
+  title: string;
+  code: string;
+  description: string;
+  image: string;
+}
+
+interface TeamMember {
+  name: string;
+  description: string;
+  imageUrl: string;
+}
+
+interface ClientReview {
+  imageUrl: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-who-we-are',
   standalone: true,
@@ -69,8 +98,6 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   ]
 })
 export class WhoWeAreComponent implements OnInit, AfterViewInit {
-  @ViewChild('reviewSwiper') reviewSwiperRef!: ElementRef;
-  
   navbarVisible = true;
   private lastScrollTop = 0;
   private scrollThreshold = 100;
@@ -82,6 +109,123 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   ourteamVisible = false;
   reviewsVisible = false;
   contactVisible = false;
+
+  heroTitle = 'Who We Are';
+  heroSubtitle = 'Discover Pandigi\'s Journey and Values';
+  heroVector = 'vector_logo_pandigi.png';
+
+  timelineItems: TimelineItem[] = [
+    {
+      date: '2010',
+      title: 'Company Founded',
+      description: 'Pandigi was established with a vision to innovate in digital solutions.',
+    },
+    {
+      date: '2012',
+      title: 'First Major Project',
+      description: 'Launched our flagship software product, revolutionizing the industry.',
+    },
+    {
+      date: '2015',
+      title: 'Expansion',
+      description: 'Opened new offices and expanded our team to serve global clients.',
+    },
+    {
+      date: '2018',
+      title: 'Award Recognition',
+      description: 'Received industry awards for excellence in technology and innovation.',
+    },
+    {
+      date: '2021',
+      title: 'Digital Transformation',
+      description: 'Embraced cutting-edge technologies to enhance our services.',
+    },
+    {
+      date: '2023',
+      title: 'Sustainability Initiative',
+      description: 'Committed to eco-friendly practices and sustainable development.',
+    }
+  ];
+
+  visionandmission: VisionAndMission = {
+    vision: 'To be a global leader in digital innovation, empowering businesses and communities through cutting-edge technology solutions.',
+    mission: [
+      'Deliver high-quality digital products that meet the evolving needs of our clients.',
+      'Foster a culture of innovation, collaboration, and continuous learning within our team.',
+      'Promote sustainable practices in all aspects of our business operations.',
+      'Build long-term partnerships with clients based on trust, transparency, and mutual success.'
+    ]
+  };
+
+  servicesItems: ServicesItems[] = [
+    {
+      title: 'Software',
+      code: '(46152)',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: 'dummy-photo.png'
+    },
+    {
+      title: 'Hardware',
+      code: '(46599)',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: 'dummy-photo.png'
+    },
+    {
+      title: 'Multimedia',
+      code: '(61929)',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: 'dummy-photo.png'
+    },
+    {
+      title: 'Computer',
+      code: '(46511)',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+      image: 'dummy-photo.png'
+    }
+  ]
+
+  teamMembers: TeamMember[] = [
+    {
+      name: 'Michael Doe',
+      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
+      imageUrl: 'dummy-photo.png'
+    },
+    {
+      name: 'Sarah Smith',
+      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
+      imageUrl: 'dummy-photo.png'
+    },
+    {
+      name: 'James Bond',
+      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
+      imageUrl: 'dummy-photo.png'
+    },
+    {
+      name: 'Emily Rose',
+      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
+      imageUrl: 'dummy-photo.png'
+    }
+  ];
+
+  @ViewChild('reviewSwiper') reviewSwiperRef!: ElementRef;
+  clientReviews: ClientReview[] = [
+    {
+      imageUrl: 'dummy-photo.png',
+      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    },
+    {
+      imageUrl: 'dummy-photo.png',
+      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    },
+    {
+      imageUrl: 'dummy-photo.png',
+      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
+    },
+    {
+      imageUrl: 'dummy-photo.png',
+      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+    },
+  ];
 
   constructor(private router: Router) { }
 
