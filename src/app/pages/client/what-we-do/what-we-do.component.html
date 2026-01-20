@@ -17,10 +17,10 @@
     </nav>
 
     <div id="hero-text" class="hero-content">
-        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">What We Do
+        <h1 id="hero-title" class="hero-title" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroTitle }}
         </h1>
-        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">Discover our services and how we can help you achieve your goals.</p>
-        <img src="vector_logo_pandigi.png" alt="Pandigi Logo" class="hero-logo" loading="lazy">
+        <p class="hero-subtitle" [@slideInLeft]="buildingVisible ? 'visible' : 'hidden'">{{ heroSubtitle }}</p>
+        <img [src]="heroVector" alt="Pandigi Logo" class="hero-logo" loading="lazy">
     </div>
 </section>
 
@@ -29,119 +29,32 @@
     <div class="full-container">
         <h2 class="section-title">What we offer?</h2>
         <div class="services-grid">
-            <div class="service-card" (click)="scrollToSection('software')">
+            <div class="service-card" *ngFor="let service of services" (click)="scrollToSection(service.sectionId)">
                 <div class="service-image">
-                    <img src="software-wwd.png" alt="software-icon">
+                    <img [src]="service.icon" [alt]="service.title">
                 </div>
                 <div class="service-content">
-                    <h3>Software</h3>
-                    <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-            <div class="service-card" (click)="scrollToSection('hardware')">
-                <div class="service-image">
-                    <img src="hardware-wwd.png" alt="hardware-icon">
-                </div>
-                <div class="service-content">
-                    <h3>Hardware</h3>
-                    <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-            <div class="service-card" (click)="scrollToSection('multimedia')">
-                <div class="service-image">
-                    <img src="media-wwd.png" alt="multimedia-icon">
-                </div>
-                <div class="service-content">
-                    <h3>Multimedia</h3>
-                    <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                </div>
-            </div>
-            <div class="service-card" (click)="scrollToSection('computer')">
-                <div class="service-image">
-                    <img src="computer-wwd.png" alt="computer-icon">
-                </div>
-                <div class="service-content">
-                    <h3>Computer</h3>
-                    <p class="text-justify">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                    <h3>{{ service.title }}</h3>
+                    <p class="text-justify">{{ service.description }}</p>
                 </div>
             </div>
         </div>
     </div>
 </section>
 
-<div class="service-wrapper">
-    <section id="software" class="service-section" [@fadeInUp]="sectionStates['software'] ? 'visible' : 'hidden'">
+<div class="service-wrapper" *ngFor="let service of services ">
+    <section [id]="service.sectionId" class="service-section" [@fadeInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
         <div class="full-container">
             <h2 class="section-title">
-                Software Service
+                {{ service.title }} Service
             </h2>
             <div class="service-section-container">
-                <div class="service-section-image" [@slideInRight]="sectionStates['software'] ? 'visible' : 'hidden'">
+                <div class="service-section-image" [@slideInRight]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
                     <img src="dummy-photo.png" alt="">
                 </div>
-                <div class="service-section-content" [@slideInUp]="sectionStates['software'] ? 'visible' : 'hidden'">
+                <div class="service-section-content" [@slideInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a class="cta-button" (click)="navigateToOtherPage('build')">
-                        Build with us
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="hardware" class="service-section" [@fadeInUp]="sectionStates['hardware'] ? 'visible' : 'hidden'">
-        <div class="full-container">
-            <h2 class="section-title">
-                Hardware Service
-            </h2>
-            <div class="service-section-container">
-                <div class="service-section-image" [@slideInLeft]="sectionStates['hardware'] ? 'visible' : 'hidden'">
-                    <img src="dummy-photo.png" alt="">
-                </div>
-                <div class="service-section-content" [@slideInUp]="sectionStates['hardware'] ? 'visible' : 'hidden'">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a class="cta-button" (click)="navigateToOtherPage('build')">
-                        Build with us
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="multimedia" class="service-section" [@fadeInUp]="sectionStates['multimedia'] ? 'visible' : 'hidden'">
-        <div class="full-container">
-            <h2 class="section-title">
-                Multimedia Service
-            </h2>
-            <div class="service-section-container">
-                <div class="service-section-image" [@slideInRight]="sectionStates['multimedia'] ? 'visible' : 'hidden'">
-                    <img src="dummy-photo.png" alt="">
-                </div>
-                <div class="service-section-content" [@slideInUp]="sectionStates['multimedia'] ? 'visible' : 'hidden'">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <a class="cta-button" (click)="navigateToOtherPage('build')">
-                        Build with us
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="computer" class="service-section" [@fadeInUp]="sectionStates['computer'] ? 'visible' : 'hidden'">
-        <div class="full-container">
-            <h2 class="section-title">
-                Computer Service
-            </h2>
-            <div class="service-section-container">
-                <div class="service-section-image" [@slideInLeft]="sectionStates['computer'] ? 'visible' : 'hidden'">
-                    <img src="dummy-photo.png" alt="">
-                </div>
-                <div class="service-section-content" [@slideInUp]="sectionStates['computer'] ? 'visible' : 'hidden'">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                        {{ service.description }}
                     </p>
                     <a class="cta-button" (click)="navigateToOtherPage('build')">
                         Build with us
