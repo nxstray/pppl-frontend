@@ -5,9 +5,6 @@
       <h1>MANAGER</h1>
     </div>
     <div style="display: flex; gap: 10px;">
-      <button class="btn-primary" (click)="openCreateModal()" [disabled]="loading" *ngIf="canAdd">
-        <span>Tambah Manager</span>
-      </button>
       <button class="btn-primary" (click)="openRegisterUserModal()" [disabled]="loading" *ngIf="canAdd">
         <span>Register Manager</span>
       </button>
@@ -306,14 +303,14 @@
 <div class="modal-overlay" *ngIf="showRegisterUserModal" (click)="closeRegisterUserModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     <div class="modal-header">
-      <h2>Register User Manager</h2>
+      <h2>Register Manager Baru</h2>
       <button class="close-btn" (click)="closeRegisterUserModal()">✕</button>
     </div>
 
     <div class="modal-body">
-      <div class="info-box" style="background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
-        <p style="margin: 0; color: #856404;">
-          Username dan password akan dikirim otomatis ke manager.
+      <div class="info-box" style="background: #e8f4fd; border-left: 4px solid #0C2B40; padding: 15px; margin-bottom: 20px; border-radius: 8px;">
+        <p style="margin: 0; color: #0C2B40; font-weight: 500;">
+          Manager akan otomatis ditambahkan ke sistem dan menerima email dengan username & password.
         </p>
       </div>
 
@@ -346,10 +343,69 @@
             [(ngModel)]="registerUserForm.email"
             name="registerEmail"
             class="form-control"
-            placeholder="manager@example.com"
+            placeholder="manager@pandigi.com"
             [disabled]="loading"
             required
           />
+        </div>
+
+        <!-- No. Telepon -->
+        <div class="form-group">
+          <label for="registerNoTelp">
+            No. Telepon <span class="required">*</span>
+          </label>
+          <input 
+            type="tel"
+            id="registerNoTelp"
+            [(ngModel)]="registerUserForm.noTelp"
+            name="registerNoTelp"
+            class="form-control"
+            placeholder="081234567890"
+            [disabled]="loading"
+            required
+          />
+        </div>
+
+        <!-- Divisi -->
+        <div class="form-group">
+          <label>
+            Divisi <span class="required">*</span>
+          </label>
+
+          <div class="custom-dropdown" (click)="$event.stopPropagation()">
+            <div
+              class="custom-dropdown-trigger"
+              [class.active]="dropdownStates['divisi']"
+              (click)="toggleDropdown('divisi', $event)"
+            >
+              <span class="custom-dropdown-label">
+                {{ registerUserForm.divisi || 'Pilih Divisi' }}
+              </span>
+
+              <span
+                class="custom-dropdown-arrow"
+                [class.rotated]="dropdownStates['divisi']"
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12">
+                  <path d="M6 9L1 4h10z" fill="currentColor"/>
+                </svg>
+              </span>
+            </div>
+
+            <div
+              class="custom-dropdown-menu"
+              [class.show]="dropdownStates['divisi']"
+            >
+              <div
+                class="custom-dropdown-item"
+                *ngFor="let divisi of divisiList"
+                [class.selected]="registerUserForm.divisi === divisi"
+                (click)="selectRegisterDivisi(divisi, $event)"
+              >
+                {{ divisi }}
+              </div>
+            </div>
+          </div>
         </div>
 
         <!-- Actions -->
@@ -362,13 +418,13 @@
           >
             Batal
           </button>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             class="btn-primary"
-            [disabled]="loading"
+            [disabled]="loading || !isRegisterFormValid()"
           >
-            <span *ngIf="!loading">Register & Kirim Email</span>
-            <span *ngIf="loading">Mengirim...</span>
+            <span *ngIf="!loading">Kirim & Simpan</span>
+            <span *ngIf="loading">Mendaftarkan...</span>
           </button>
         </div>
       </form>
