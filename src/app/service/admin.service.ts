@@ -8,6 +8,8 @@ import { ApiResponse } from './auth.service';
 export interface RegisterManagerRequest {
   namaLengkap: string;
   email: string;
+  noTelp: string;
+  divisi: string;
 }
 
 export interface AdminDTO {
