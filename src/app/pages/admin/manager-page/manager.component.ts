@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ManagerService, ManagerDTO } from '../../../service/manager.service';
@@ -37,8 +37,11 @@ export class ManagerComponent implements OnInit {
   // Register User Form
   registerUserForm = {
     namaLengkap: '',
-    email: ''
+    email: '',
+    noTelp: '',
+    divisi: ''
   };
+  
   modalMode: 'create' | 'edit' | 'view' = 'create';
   
   // Form
@@ -62,7 +65,7 @@ export class ManagerComponent implements OnInit {
     this.checkPermissions();
   }
 
-  // Data loading
+  // ========== DATA LOADING ==========
   loadManagers() {
     this.loading = true;
     this.managerService.getAllManagers().subscribe({
@@ -104,7 +107,7 @@ export class ManagerComponent implements OnInit {
             // Gabung dan hapus duplikat (case-insensitive)
             const combined = [...layananDivisi, ...existingDivisi];
             
-            // Gunakan Map untuk deduplicate case-insensitive
+            // Map untuk deduplicate case-insensitive
             const uniqueMap = new Map<string, string>();
             combined.forEach(divisi => {
               const lowerKey = divisi.toLowerCase();
@@ -137,12 +140,34 @@ export class ManagerComponent implements OnInit {
     this.canAdd = role === 'SUPER_ADMIN';
   }
 
+  // ========== DROPDOWN HANDLERS ==========
   selectDivisi(divisi: string) {
     this.formData.divisi = divisi;
     this.dropdownStates['divisi'] = false;
   }
 
-  // Filtering
+  selectRegisterDivisi(divisi: string, event?: Event) {
+    if (event) event.stopPropagation();
+    this.registerUserForm.divisi = divisi;
+    this.dropdownStates['divisi'] = false;
+  }
+
+  toggleDropdown(dropdown: string, event?: Event) {
+    if (event) event.stopPropagation();
+    Object.keys(this.dropdownStates).forEach(key => {
+      if (key !== dropdown) this.dropdownStates[key] = false;
+    });
+    this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
+  }
+
+  @HostListener('document:click')
+  closeDropdowns() {
+    Object.keys(this.dropdownStates).forEach(key => {
+      this.dropdownStates[key] = false;
+    });
+  }
+
+  // ========== FILTERING ==========
   applyFilters() {
     let result = [...this.managers];
 
@@ -178,15 +203,7 @@ export class ManagerComponent implements OnInit {
     this.applyFilters();
   }
 
-  toggleDropdown(dropdown: string, event?: Event) {
-    if (event) event.stopPropagation();
-    Object.keys(this.dropdownStates).forEach(key => {
-      if (key !== dropdown) this.dropdownStates[key] = false;
-    });
-    this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
-  }
-
-  // Modal
+  // ========== MODAL HANDLERS ==========
   openCreateModal() {
     if (!this.canAdd) {
       this.toast.error('Akses ditolak', 'Anda tidak memiliki izin menambah manager');
@@ -216,7 +233,9 @@ export class ManagerComponent implements OnInit {
     this.showRegisterUserModal = true;
     this.registerUserForm = {
       namaLengkap: '',
-      email: ''
+      email: '',
+      noTelp: '',
+      divisi: ''
     };
   }
 
@@ -230,11 +249,13 @@ export class ManagerComponent implements OnInit {
     this.showRegisterUserModal = false;
     this.registerUserForm = {
       namaLengkap: '',
-      email: ''
+      email: '',
+      noTelp: '',
+      divisi: ''
     };
   }
 
-  // CRUD operations
+  // ========== CRUD OPERATIONS ==========
   onSubmit() {
     if (!this.validateForm()) {
       return;
@@ -248,8 +269,29 @@ export class ManagerComponent implements OnInit {
   }
 
   onSubmitRegisterUser() {
-    if (!this.registerUserForm.namaLengkap || !this.registerUserForm.email) {
-      this.toast.warning('Warning', 'Nama dan email wajib diisi');
+    // Validasi per field dengan pesan spesifik
+    if (!this.registerUserForm.namaLengkap?.trim()) {
+      this.toast.warning('Warning', 'Nama lengkap wajib diisi');
+      return;
+    }
+
+    if (!this.registerUserForm.email?.trim()) {
+      this.toast.warning('Warning', 'Email wajib diisi');
+      return;
+    }
+
+    if (!this.validateEmail(this.registerUserForm.email)) {
+      this.toast.warning('Warning', 'Format email tidak valid');
+      return;
+    }
+
+    if (!this.registerUserForm.noTelp?.trim()) {
+      this.toast.warning('Warning', 'No. Telepon wajib diisi');
+      return;
+    }
+
+    if (!this.registerUserForm.divisi?.trim()) {
+      this.toast.warning('Warning', 'Divisi wajib dipilih');
       return;
     }
 
@@ -257,14 +299,19 @@ export class ManagerComponent implements OnInit {
     
     const request: RegisterManagerRequest = {
       namaLengkap: this.registerUserForm.namaLengkap,
-      email: this.registerUserForm.email
+      email: this.registerUserForm.email,
+      noTelp: this.registerUserForm.noTelp,
+      divisi: this.registerUserForm.divisi
     };
 
     this.adminService.registerManager(request).subscribe({
       next: (response) => {
         if (response.success) {
-          this.toast.success('Success!', 'Manager berhasil didaftarkan. Email dengan kredensial telah dikirim ke ' + request.email);
+          this.toast.success('Success!', 
+            'Manager berhasil didaftarkan dan otomatis ditambahkan ke sistem.');
           this.closeRegisterUserModal();
+          this.loadManagers();
+          this.loadDivisiFromLayanan();
         } else {
           this.toast.error('Error!', response.message);
         }
@@ -322,35 +369,84 @@ export class ManagerComponent implements OnInit {
   }
 
   async deleteManager(manager: ManagerDTO) {
-    if (!manager.idManager) return;
+    if (!manager.idManager) {
+      this.toast.error('Error!', 'ID Manager tidak ditemukan');
+      return;
+    }
 
     const ok = await this.toast.helpConfirm(
       'Hapus manager?',
-      `Manager "<b>${manager.namaManager}</b>" akan dihapus permanen.`
+      `Manager "<b>${manager.namaManager}</b>" dan akun loginnya akan dihapus permanen.`
     );
 
     if (!ok) return;
 
     this.loading = true;
-    this.managerService.deleteManager(manager.idManager).subscribe({
+    
+    const managerId: number = manager.idManager;
+    
+    this.managerService.deleteManager(managerId).subscribe({
       next: (response) => {
         if (response.success) {
-          this.toast.success('Success!', 'Manager berhasil dihapus');
+          this.toast.success('Success!', 'Manager dan akun login berhasil dihapus');
           this.loadManagers();
-          this.loadDivisiList();
+          this.loadDivisiFromLayanan();
         } else {
-          this.toast.error('Error!', response.message);
+          // Jika ada error karena masih punya karyawan/klien
+          if (response.message.includes('karyawan') || response.message.includes('klien')) {
+            this.confirmForceDelete(manager, response.message);
+          } else {
+            this.toast.error('Error!', response.message);
+          }
         }
         this.loading = false;
       },
-      error: () => {
-        this.toast.error('Error!', 'Gagal menghapus manager');
+      error: (error) => {
+        console.error('Error:', error);
+        this.toast.error('Error!', error.error?.message || 'Gagal menghapus manager');
         this.loading = false;
       }
     });
   }
 
-  // Validation
+  // Force delete jika ada relasi
+  async confirmForceDelete(manager: ManagerDTO, message: string) {
+    if (!manager.idManager) {
+      this.toast.error('Error!', 'ID Manager tidak ditemukan');
+      return;
+    }
+
+    const ok = await this.toast.helpConfirm(
+      'Konfirmasi Hapus Paksa',
+      `${message}<br><br><b>Tetap hapus manager ini? Karyawan akan dibuat tanpa manager.</b>`
+    );
+
+    if (!ok) return;
+
+    this.loading = true;
+    
+    const managerId: number = manager.idManager;
+    
+    // Call dengan parameter force=true
+    this.managerService.deleteManager(managerId, true).subscribe({
+      next: (response) => {
+        if (response.success) {
+          this.toast.success('Success!', 'Manager dan akun login berhasil dihapus');
+          this.loadManagers();
+          this.loadDivisiFromLayanan();
+        } else {
+          this.toast.error('Error!', response.message);
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        this.toast.error('Error!', error.error?.message || 'Gagal menghapus manager');
+        this.loading = false;
+      }
+    });
+  }
+
+  // ========== VALIDATION ==========
   validateForm(): boolean {
     this.formErrors = {};
     let isValid = true;
@@ -395,7 +491,30 @@ export class ManagerComponent implements OnInit {
     return re.test(email);
   }
 
-  // Helpers methods
+  // Validasi untuk form edit/create manager
+  isFormValid(): boolean {
+    return !!(
+      this.formData.namaManager?.trim() &&
+      this.formData.emailManager?.trim() &&
+      this.validateEmail(this.formData.emailManager) &&
+      this.formData.noTelp?.trim() &&
+      this.formData.divisi?.trim() &&
+      this.formData.tglMulai
+    );
+  }
+
+  // Validasi untuk form register manager
+  isRegisterFormValid(): boolean {
+    return !!(
+      this.registerUserForm.namaLengkap?.trim() &&
+      this.registerUserForm.email?.trim() &&
+      this.validateEmail(this.registerUserForm.email) &&
+      this.registerUserForm.noTelp?.trim() &&
+      this.registerUserForm.divisi?.trim()
+    );
+  }
+
+  // ========== HELPER METHODS ==========
   getEmptyForm(): ManagerDTO {
     return {
       namaManager: '',
