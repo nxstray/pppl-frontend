@@ -20,14 +20,14 @@
 
     <div class="stat-card clickable" (click)="selectStatus('MASIH_JALAN')">
       <div class="stat-info">
-        <span class="stat-label">Masih Jalan</span>
+        <span class="stat-label">Sedang Berjalan</span>
         <span class="stat-value">{{ statistics.masihJalan }}</span>
       </div>
     </div>
 
     <div class="stat-card clickable" (click)="selectStatus('TIDAK_LAGI_PAKAI_PANJANG_KARAKTER_UNTUK_CATATAN')">
       <div class="stat-info">
-        <span class="stat-label">Tidak Lagi</span>
+        <span class="stat-label">Selesai</span>
         <span class="stat-value">{{ statistics.tidakLagi }}</span>
       </div>
     </div>
@@ -47,14 +47,14 @@
       [class.active]="selectedStatus === 'MASIH_JALAN'"
       (click)="selectStatus('MASIH_JALAN')"
     >
-      Masih Jalan
+      Sedang Berjalan
     </button>
     <button 
       class="filter-btn"
       [class.active]="selectedStatus === 'TIDAK_LAGI_PAKAI_PANJANG_KARAKTER_UNTUK_CATATAN'"
       (click)="selectStatus('TIDAK_LAGI_PAKAI_PANJANG_KARAKTER_UNTUK_CATATAN')"
     >
-      Tidak Lagi
+      Selesai
     </button>
   </div>
 
@@ -292,14 +292,14 @@
                 [class.selected]="formData.status === 'MASIH_JALAN'"
                 (click)="selectDropdownItem('status', 'MASIH_JALAN')"
               >
-                Masih Jalan
+                Sedang berjalan
               </div>
               <div 
                 class="custom-dropdown-item"
                 [class.selected]="formData.status === 'TIDAK_LAGI_PAKAI_PANJANG_KARAKTER_UNTUK_CATATAN'"
                 (click)="selectDropdownItem('status', 'TIDAK_LAGI_PAKAI_PANJANG_KARAKTER_UNTUK_CATATAN')"
               >
-                Tidak Lagi
+                Selesai
               </div>
             </div>
           </div>
