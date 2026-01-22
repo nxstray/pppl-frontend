@@ -57,8 +57,9 @@ export class ManagerService {
   /**
    * Delete manager
    */
-  deleteManager(id: number): Observable<ApiResponse<void>> {
-    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}`);
+  deleteManager(id: number, force: boolean = false): Observable<ApiResponse<void>> {
+    const params = force ? '?force=true' : '';
+    return this.http.delete<ApiResponse<void>>(`${this.apiUrl}/${id}${params}`);
   }
 
   /**
