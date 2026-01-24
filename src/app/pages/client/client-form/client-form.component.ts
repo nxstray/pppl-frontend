@@ -101,6 +101,13 @@ export class ClientFormComponent implements OnInit {
   loadingLayanan = false;
   showError = false;
   errorMessage = '';
+
+  // Dropdown States
+  dropdownStates: { [key: string]: boolean } = {
+    layanan: false,
+    anggaran: false,
+    waktuImplementasi: false
+  };
   
   // Success data for display
   successData: {
@@ -160,6 +167,40 @@ export class ClientFormComponent implements OnInit {
 
   navigateToOtherPage(path: string) {
     this.router.navigate([path]);
+  }
+
+  toggleDropdown(dropdown: string, event?: Event) {
+    if (event) event.stopPropagation();
+
+    Object.keys(this.dropdownStates).forEach(key => {
+      if (key !== dropdown) this.dropdownStates[key] = false;
+    });
+
+    this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
+  }
+
+  selectDropdownItem(type: string, value: any) {
+
+    if (type === 'layanan') {
+      this.formData.idLayanan = value.id;
+    }
+
+    if (type === 'anggaran') {
+      this.formData.anggaran = value;
+    }
+
+    if (type === 'waktuImplementasi') {
+      this.formData.waktuImplementasi = value;
+    }
+
+    this.dropdownStates[type] = false;
+  }
+
+  @HostListener('document:click')
+  closeDropdowns() {
+    Object.keys(this.dropdownStates).forEach(key => {
+      this.dropdownStates[key] = false;
+    });
   }
 
   validateForm(): boolean {
@@ -290,5 +331,20 @@ export class ClientFormComponent implements OnInit {
   getLayananName(id: number): string {
     const layanan = this.layananOptions.find(l => l.id === id);
     return layanan ? layanan.name : '';
+  }
+
+  getSelectedLayananLabel(): string {
+    const layanan = this.layananOptions.find(
+      l => l.id === this.formData.idLayanan
+    );
+    return layanan ? layanan.name : 'Pilih Layanan';
+  }
+
+  getSelectedAnggaranLabel(): string {
+    return this.formData.anggaran || 'Select budget range';
+  }
+
+  getSelectedWaktuLabel(): string {
+    return this.formData.waktuImplementasi || 'Select timeline';
   }
 }
