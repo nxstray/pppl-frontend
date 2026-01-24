@@ -69,39 +69,107 @@
           </div>
 
           <div class="form-row">
-            <!-- Topic Dropdown -->
-            <div class="form-group">
-              <div class="custom-select" [class.error]="formErrors.idLayanan">
-                <select [(ngModel)]="formData.idLayanan" name="idLayanan" (change)="formErrors.idLayanan = false"
-                  required>
-                  <option value="" disabled selected>Pilih Layanan</option>
-                  <option *ngFor="let layanan of layananOptions" [ngValue]="layanan.id">
+            <!-- Topic Dropdown  -->
+            <div class="custom-dropdown" (click)="$event.stopPropagation()">
+              <div class="custom-dropdown">
+                <div
+                  class="custom-dropdown-trigger"
+                  [class.active]="dropdownStates['layanan']"
+                  (click)="toggleDropdown('layanan', $event)"
+                >
+                  <span class="custom-dropdown-label">
+                    {{ getSelectedLayananLabel() }}
+                  </span>
+
+                  <span
+                    class="custom-dropdown-arrow"
+                    [class.rotated]="dropdownStates['layanan']"
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 9L1 4h10z" fill="currentColor" />
+                    </svg>
+                  </span>
+                </div>
+
+                <div
+                  class="custom-dropdown-menu"
+                  [class.show]="dropdownStates['layanan']"
+                >
+                  <div
+                    class="custom-dropdown-item"
+                    *ngFor="let layanan of layananOptions"
+                    (click)="selectDropdownItem('layanan', layanan)"
+                  >
                     {{ layanan.name }}
-                  </option>
-                </select>
+                  </div>
+                </div>
               </div>
             </div>
 
-            <!-- Anggaran -->
+            <!-- Anggaran dropdown -->
             <div class="form-group">
-              <select id="anggaran" name="anggaran" [(ngModel)]="formData.anggaran" class="form-control">
-                <option value="">Select budget range</option>
-                <option *ngFor="let option of anggaranOptions" [value]="option">
-                  {{ option }}
-                </option>
-              </select>
-            </div>
-          </div>
+              <div class="custom-dropdown" (click)="$event.stopPropagation()">
+                <div
+                  class="custom-dropdown-trigger"
+                  [class.active]="dropdownStates['anggaran']"
+                  (click)="toggleDropdown('anggaran', $event)"
+                >
+                  <span class="custom-dropdown-label">
+                    {{ formData.anggaran || 'Select budget range' }}
+                  </span>
 
-          <!-- Waktu Implementasi -->
-          <div class="form-group">
-            <select id="waktuImplementasi" name="waktuImplementasi" [(ngModel)]="formData.waktuImplementasi"
-              class="form-control">
-              <option value="">Select timeline</option>
-              <option *ngFor="let option of waktuOptions" [value]="option">
-                {{ option }}
-              </option>
-            </select>
+                  <span class="custom-dropdown-arrow"
+                        [class.rotated]="dropdownStates['anggaran']">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 9L1 4h10z" fill="currentColor" />
+                    </svg>
+                  </span>
+                </div>
+
+                <div class="custom-dropdown-menu"
+                     [class.show]="dropdownStates['anggaran']">
+                  <div
+                    class="custom-dropdown-item"
+                    *ngFor="let option of anggaranOptions"
+                    (click)="selectDropdownItem('anggaran', option)"
+                  >
+                    {{ option }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Waktu Implementasi dropdown -->
+            <div class="form-group">
+              <div class="custom-dropdown" (click)="$event.stopPropagation()">
+                <div
+                  class="custom-dropdown-trigger"
+                  [class.active]="dropdownStates['waktuImplementasi']"
+                  (click)="toggleDropdown('waktuImplementasi', $event)"
+                >
+                  <span class="custom-dropdown-label">
+                    {{ formData.waktuImplementasi || 'Select timeline' }}
+                  </span>
+
+                  <span class="custom-dropdown-arrow"
+                        [class.rotated]="dropdownStates['waktuImplementasi']">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path d="M6 9L1 4h10z" fill="currentColor"/>
+                    </svg>
+                  </span>
+                </div>
+                <div class="custom-dropdown-menu"
+                    [class.show]="dropdownStates['waktuImplementasi']">
+                  <div
+                    class="custom-dropdown-item"
+                    *ngFor="let option of waktuOptions"
+                    (click)="selectDropdownItem('waktuImplementasi', option)"
+                  >
+                    {{ option }}
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Message -->
