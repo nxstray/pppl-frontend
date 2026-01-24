@@ -18,6 +18,7 @@ import { DashboardComponent } from './pages/admin/dashboard-page/dashboard.compo
 import { AdminLayoutComponent } from './pages/admin/layout-page/admin-layout.component';
 import { LeadScoringComponent } from './pages/admin/scoring-page/lead-scoring.component';
 import { RequestLayananComponent } from './pages/admin/request-page/request-layanan.component';
+import { ContentManageComponent } from './pages/admin/content-page/content-manage.component';
 
 export const routes: Routes = [
   {
@@ -100,6 +101,11 @@ export const routes: Routes = [
         path: 'rekap',
         loadComponent: () => import('./pages/admin/rekap-page/rekap.component')
           .then(m => m.RekapComponent)
+      },
+      {
+        path: 'content-manage',
+        loadComponent: () => import('./pages/admin/content-page/content-manage.component')
+          .then(m => m.ContentManageComponent)
       }
     ]
   },
