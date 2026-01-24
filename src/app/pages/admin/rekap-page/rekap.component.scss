@@ -462,15 +462,14 @@
   }
 }
 
-/* CUSTOM DROPDOWN - ANIMATED LIKE REFERENCE */
+/* Custom Dropdown */
 .custom-dropdown {
   position: relative;
   width: 100%;
-  z-index: 10; // Base z-index untuk dropdown container
+  z-index: 10;
   
-  // Increase z-index when active
   &:has(.custom-dropdown-trigger.active) {
-    z-index: 1001; // Higher than modal content
+    z-index: 1001;
   }
 }
 
