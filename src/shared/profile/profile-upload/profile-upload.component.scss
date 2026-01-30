@@ -1,0 +1,253 @@
+.profile-photo-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Section Header */
+.section-header {
+  margin-bottom: 2rem;
+  text-align: center;
+
+  h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e3a5f;
+    margin-bottom: 0.5rem;
+    font-family: 'Spline Sans', sans-serif;
+  }
+
+  .section-description {
+    font-size: 0.95rem;
+    color: #666;
+    margin: 0;
+  }
+}
+
+/* Photo Display */
+.photo-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Avatar Container */
+.avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.avatar-large {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #d4af37 0%, #f2d76f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: 6px solid #f8f9fa;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: all 0.3s ease;
+
+  &.has-photo {
+    background: #fff;
+    border-color: #d4af37;
+  }
+
+  &.uploading {
+    opacity: 0.7;
+    pointer-events: none;
+  }
+
+  .avatar-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  .avatar-initial {
+    font-size: 4rem;
+    font-weight: 700;
+    color: white;
+    text-transform: uppercase;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  }
+}
+
+/* Upload Overlay */
+.upload-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: white;
+  z-index: 10;
+
+  .spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #d4af37;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  span {
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Change Photo Button */
+.btn-change-photo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, #d4af37 0%, #f2d76f 100%);
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Spline Sans', sans-serif;
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+
+  .icon {
+    font-size: 1.25rem;
+  }
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
+}
+
+/* Upload Info */
+.upload-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 12px;
+  width: 100%;
+  border: 2px dashed #e0e0e0;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: #555;
+
+  .icon {
+    font-size: 1.25rem;
+    width: 28px;
+    text-align: center;
+  }
+
+  span:last-child {
+    font-weight: 500;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profile-photo-section {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .section-header {
+    h3 {
+      font-size: 1.25rem;
+    }
+
+    .section-description {
+      font-size: 0.875rem;
+    }
+  }
+
+  .avatar-large {
+    width: 150px;
+    height: 150px;
+
+    .avatar-initial {
+      font-size: 3rem;
+    }
+  }
+
+  .btn-change-photo {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+  }
+
+  .upload-info {
+    padding: 1rem;
+  }
+
+  .info-item {
+    font-size: 0.85rem;
+
+    .icon {
+      font-size: 1.1rem;
+      width: 24px;
+    }
+  }
+}
+
+/* Animation for photo change */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.avatar-image {
+  animation: fadeIn 0.3s ease;
+}
