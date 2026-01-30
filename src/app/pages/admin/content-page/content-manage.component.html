@@ -1,0 +1,311 @@
+<div class="content-manage-container">
+
+  <!-- ================= HEADER ================= -->
+  <div class="page-header">
+    <div>
+      <h1>CONTENT MANAGEMENT</h1>
+    </div>
+    <button class="btn-primary" (click)="openCreateModal()">
+      Tambah Content
+    </button>
+  </div>
+
+  <!-- ================= PAGE SELECTOR ================= -->
+  <div class="page-selector">
+    <label>Pilih Halaman:</label>
+
+    <div class="custom-dropdown" (click)="$event.stopPropagation()">
+      <div
+        class="custom-dropdown-trigger"
+        [class.active]="dropdownStates['pageName']"
+        (click)="toggleDropdown('pageName', $event)"
+      >
+        <span class="custom-dropdown-label">
+          <ng-container *ngFor="let p of pageOptions">
+            <span *ngIf="p.value === selectedPage">{{ p.label }}</span>
+          </ng-container>
+        </span>
+
+        <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['pageName']">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M6 9L1 4h10z" fill="currentColor"/>
+          </svg>
+        </span>
+      </div>
+
+      <div class="custom-dropdown-menu" [class.show]="dropdownStates['pageName']">
+        <div
+          class="custom-dropdown-item"
+          *ngFor="let page of pageOptions"
+          [class.selected]="page.value === selectedPage"
+          (click)="
+            selectedPage = page.value;
+            onPageChange();
+            dropdownStates['pageName'] = false
+          "
+        >
+          {{ page.label }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= LOADING ================= -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Memuat data...</p>
+  </div>
+
+  <!-- ================= CONTENT LIST ================= -->
+  <div *ngIf="!loading" class="content-list">
+
+    <div class="content-stats">
+      <span>Total Content: <strong>{{ pageContent.length }}</strong></span>
+      <span>Active: <strong>{{ activeContentCount }}</strong></span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="content-table">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Section Key</th>
+            <th>Label</th>
+            <th>Type</th>
+            <th>Content Preview</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let content of pageContent">
+            <td>{{ content.displayOrder }}</td>
+            <td><code>{{ content.sectionKey }}</code></td>
+            <td>{{ content.contentLabel }}</td>
+            <td>
+              <span class="type-badge" [ngClass]="'type-' + content.contentType.toLowerCase()">
+                {{ content.contentType }}
+              </span>
+            </td>
+            <td class="content-preview">
+              <div *ngIf="content.contentType === 'IMAGE_URL'" class="image-preview">
+                <img [src]="getImageUrl(content.contentValue)" [alt]="content.contentLabel" 
+                    (error)="onImageError($event)">
+              </div>
+              <div *ngIf="content.contentType !== 'IMAGE_URL'" class="text-preview">
+                {{ content.contentValue.length > 60 ? (content.contentValue | slice:0:60) + '...' : content.contentValue }}
+              </div>
+            </td>
+            <td>
+              <span class="status-badge" [class.active]="content.isActive">
+                {{ content.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="text-small">
+              <div>{{ content.updatedAt | date:'dd/MM/yyyy' }}</div>
+              <div class="text-muted">{{ content.updatedByName }}</div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-icon" (click)="openEditModal(content)" title="Edit">
+                  Edit
+                </button>
+                <button 
+                  class="btn-icon btn-status" 
+                  (click)="toggleActive(content)"
+                  [title]="content.isActive ? 'Nonaktifkan' : 'Aktifkan'">
+                  {{ content.isActive ? 'Nonaktifkan' : 'Aktifkan' }}
+                </button>
+                <button 
+                  class="btn-icon btn-delete" 
+                  (click)="deleteContent(content)"
+                  title="Hapus">
+                  Hapus
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="pageContent.length === 0">
+            <td colspan="8" class="empty-state">
+              <div class="empty-illustration"></div>
+              <p>Belum ada konten untuk halaman ini</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Edit Content' : 'Tambah Content Baru' }}</h2>
+      <button class="close-btn" (click)="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      
+      <!-- Section Key -->
+      <div class="form-group">
+        <label>Section Key <span class="required">*</span></label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.sectionKey"
+          placeholder="e.g., hero_title"
+          class="form-input"
+          [disabled]="isEditMode"
+        />
+        <small *ngIf="!isEditMode">Gunakan underscore untuk pemisah, contoh: hero_title</small>
+      </div>
+
+      <!-- Content Label -->
+      <div class="form-group">
+        <label>Content Label <span class="required">*</span></label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.contentLabel"
+          placeholder="e.g., Hero Title"
+          class="form-input"
+        />
+      </div>
+
+      <!-- Content Type Dropdown -->
+      <div class="form-group">
+        <label>Content Type <span class="required">*</span></label>
+        <div class="custom-dropdown" (click)="$event.stopPropagation()">
+          <div
+            class="custom-dropdown-trigger"
+            [class.active]="dropdownStates['ContentType']"
+            (click)="toggleDropdown('ContentType', $event)"
+          >
+            <span class="custom-dropdown-label">
+              {{ getSelectedTypeLabel() }}
+            </span>
+
+            <span
+              class="custom-dropdown-arrow"
+              [class.rotated]="dropdownStates['ContentType']"
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <path d="M6 9L1 4h10z" fill="currentColor"/>
+              </svg>
+            </span>
+          </div>
+
+          <div
+            class="custom-dropdown-menu"
+            [class.show]="dropdownStates['ContentType']"
+          >
+            <div
+              class="custom-dropdown-item"
+              *ngFor="let type of contentTypeOptions"
+              [class.selected]="type.value === formData.contentType"
+              (click)="selectDropdownItem('ContentType', type.value)"
+            >
+              {{ type.label }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Display Order -->
+      <div class="form-group">
+        <label>Display Order <span class="required">*</span></label>
+        <input 
+          type="number" 
+          [(ngModel)]="formData.displayOrder"
+          placeholder="0"
+          class="form-input"
+        />
+        <small>Urutan tampilan content (semakin kecil semakin di atas)</small>
+      </div>
+
+      <!-- Content Value -->
+      <div class="form-group">
+        <label>Content Value <span class="required">*</span></label>
+
+        <!-- IMAGE_URL -->
+        <div *ngIf="formData.contentType === 'IMAGE_URL'" class="image-upload-section">
+          <div class="image-preview-wrapper" *ngIf="previewImageUrl">
+            <img
+              [src]="previewImageUrl"
+              alt="Preview"
+              class="preview-image"
+              (error)="onImageError($event)"
+            />
+          </div>
+
+          <button
+            type="button"
+            class="btn-upload"
+            (click)="triggerFileInput()"
+            [disabled]="uploading || processing"
+          >
+            <i class="fas" [class.fa-upload]="!uploading" [class.fa-spinner]="uploading" [class.fa-spin]="uploading"></i>
+            {{ uploading ? 'Uploading...' : (uploadedFileName ? 'Ganti Gambar' : 'Upload Gambar') }}
+          </button>
+
+          <input
+            #fileInput
+            type="file"
+            style="display: none"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+          />
+          
+          <small>Upload file gambar (max 5MB) atau masukkan nama file manual di bawah</small>
+          
+          <input
+            type="text"
+            [(ngModel)]="formData.contentValue"
+            placeholder="nama-file.png"
+            class="form-input"
+            style="margin-top: 0.5rem;"
+          />
+        </div>
+
+        <!-- Bukan IMAGE_URL -->
+        <div *ngIf="formData.contentType !== 'IMAGE_URL'">
+          <textarea
+            [(ngModel)]="formData.contentValue"
+            rows="5"
+            class="form-input"
+            placeholder="Masukkan konten..."
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Status Info (Edit Mode Only) -->
+      <div class="form-group" *ngIf="isEditMode">
+        <label>Status</label>
+        <div class="status-info">
+          <span class="status-badge" [class.active]="formData.isActive">
+            {{ formData.isActive ? 'Active' : 'Inactive' }}
+          </span>
+          <small>Gunakan tombol Aktifkan di list untuk mengubah status</small>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()" [disabled]="processing">
+        Batal
+      </button>
+      <button 
+        class="btn-primary" 
+        (click)="submitForm()"
+        [disabled]="!isFormValid() || processing"
+      >
+        {{ processing ? 'Menyimpan...' : 'Simpan' }}
+      </button>
+    </div>
+
+  </div>
+</div>
