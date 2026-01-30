@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 import { authGuard } from './guard/auth.guard';
 import { AnalysisGuard } from './guard/analysis.guard';
 
-import { LandingComponent } from './pages/landing/landing.component';
-import { LoginComponent } from './pages/client/login/login.component';
+import { LandingComponent } from './pages/client/landing-page/landing.component';
+import { LoginComponent } from './pages/client/login-page/login.component';
 import { ResetPageComponent } from './pages/client/reset-page/reset-page.component';
-import { ClientFormComponent } from './pages/client/client-form/client-form.component';
+import { ClientFormComponent } from './pages/client/build-with-us/client-form.component';
 import { WhoWeAreComponent } from './pages/client/who-we-are/who-we-are.component';
 import { WhatWeDoComponent } from './pages/client/what-we-do/what-we-do.component';
 
@@ -23,11 +23,11 @@ import { ContentManageComponent } from './pages/admin/content-page/content-manag
 export const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./pages/landing/landing.component').then(m => LandingComponent)
+    loadComponent: () => import('./pages/client/landing-page/landing.component').then(m => LandingComponent)
   },
   {
     path: 'login',
-    loadComponent: () => import('./pages/client/login/login.component').then(m => m.LoginComponent)
+    loadComponent: () => import('./pages/client/login-page/login.component').then(m => m.LoginComponent)
   },
   {
     path: 'reset-password',
@@ -35,7 +35,7 @@ export const routes: Routes = [
   },
   {
     path: 'build',
-    loadComponent: () => import('./pages/client/client-form/client-form.component').then(m => m.ClientFormComponent)
+    loadComponent: () => import('./pages/client/build-with-us/client-form.component').then(m => m.ClientFormComponent)
   },
   {
     path: 'who-we-are',
