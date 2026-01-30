@@ -1,5 +1,5 @@
 <section id="hero" class="hero-section">
-    <img src="building.png" alt="Pandigi Building" class="building-image"
+    <img [src]="heroBuildingImage" alt="Pandigi Building" class="building-image"
         [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
 
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
@@ -27,7 +27,7 @@
 
 <section id="services" class="section services" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <h2 class="section-title">What we offer?</h2>
+        <h2 class="section-title">{{ whatWeOfferTitle }}</h2>
         <div class="services-grid">
             <div class="service-card" *ngFor="let service of services" (click)="scrollToSection(service.sectionId)">
                 <div class="service-image">
@@ -42,21 +42,21 @@
     </div>
 </section>
 
-<div class="service-wrapper" *ngFor="let service of services ">
-    <section [id]="service.sectionId" class="service-section" [@fadeInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
+<div class="service-wrapper" *ngFor="let detail of serviceDetails">
+    <section [id]="detail.sectionId" class="service-section" [@fadeInUp]="sectionStates[detail.sectionId] ? 'visible' : 'hidden'">
         <div class="full-container">
             <h2 class="section-title">
-                {{ service.title }} Service
+                {{ detail.title }} Service
             </h2>
             <div class="service-section-container">
-                <div class="service-section-image" [@slideInRight]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
-                    <img src="dummy-photo.png" alt="">
+                <div class="service-section-image" [@slideInRight]="sectionStates[detail.sectionId] ? 'visible' : 'hidden'">
+                    <img [src]="detail.image" [alt]="detail.title">
                 </div>
-                <div class="service-section-content" [@slideInUp]="sectionStates[service.sectionId] ? 'visible' : 'hidden'">
+                <div class="service-section-content" [@slideInUp]="sectionStates[detail.sectionId] ? 'visible' : 'hidden'">
                     <p>
-                        {{ service.description }}
+                        {{ detail.description }}
                     </p>
-                    <a class="cta-button" (click)="navigateToOtherPage('build')">
+                    <a class="cta-button" (click)="navigateToOtherPage('/build')">
                         Build with us
                     </a>
                 </div>
@@ -69,26 +69,26 @@
     <div class="full-container">
         <div class="contact-grid">
             <div class="contact-info">
-                <h2 class="section-title">Get in touch with us</h2>
+                <h2 class="section-title">{{ contactTitle }}</h2>
                 <div class="contact-item">
-                    <h3>Phone</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3>{{ contactPhone.title }}</h3>
+                    <p>{{ contactPhone.description }}</p>
                 </div>
                 <div class="contact-item">
-                    <h3>Email</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3>{{ contactEmail.title }}</h3>
+                    <p>{{ contactEmail.description }}</p>
                 </div>
                 <div class="contact-item">
-                    <h3>Social</h3>
+                    <h3>{{ contactSocial.title }}</h3>
                 </div>
                 <div class="social-links">
-                    <a href="#" class="social-icon"></a>
-                    <a href="#" class="social-icon"></a>
-                    <a href="#" class="social-icon"></a>
+                    <a [href]="contactSocial.links[0]" class="social-icon"></a>
+                    <a [href]="contactSocial.links[1]" class="social-icon"></a>
+                    <a [href]="contactSocial.links[2]" class="social-icon"></a>
                 </div>
             </div>
             <div class="contact-logo">
-                <img src="logo-text.png" alt="Pandigi Text" class="logo-text">
+                <img [src]="contactLogoImage" alt="Pandigi Text" class="logo-text">
             </div>
         </div>
     </div>

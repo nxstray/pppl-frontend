@@ -1,5 +1,5 @@
 <section id="hero" class="hero-section">
-    <img src="building.png" alt="Pandigi Building" class="building-image" [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
+    <img [src]="heroBuildingImage" alt="Pandigi Building" class="building-image" [@slideInRight]="buildingVisible ? 'visible' : 'hidden'">
 
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
@@ -24,7 +24,7 @@
 
 <section id="timeline" class="timeline-section" [@fadeInUp]="timelineVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <h2 class="section-title">Our Journey</h2>
+        <h2 class="section-title">{{ timelineTitle }}</h2>
         <div class="timeline">
             <div class="timeline-line"></div>
             <div class="timeline-item" *ngFor="let item of timelineItems; let i = index"
@@ -58,7 +58,7 @@
 
 <section id="services" class="swiper-section" [@fadeInUp]="servicesVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <h2 class="section-title">Layanan Kami</h2>
+        <h2 class="section-title">{{ servicesTitle }}</h2>
         <div class="swiper-section-content">
             <swiper-container pagination="true" effect="coverflow" grab-cursor="true" centered-slides="true"
                 slides-per-view="auto" coverflow-effect-rotate="50" coverflow-effect-stretch="0"
@@ -72,7 +72,7 @@
                     </div>
                 </swiper-slide>
             </swiper-container>
-            <a class="cta-button" (click)="navigateToOtherPage('build-with-us')">
+            <a class="cta-button" (click)="navigateToOtherPage('/build')">
                 Build with us
             </a>
         </div>
@@ -81,7 +81,7 @@
 
 <section id="our-team" class="our-team-section" [@fadeInUp]="ourteamVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <h3 class="section-title">Tim Kami</h3>
+        <h3 class="section-title">{{ teamTitle }}</h3>
 
         <div class="team-grid">
             <div class="team-card" *ngFor="let member of teamMembers">
@@ -100,7 +100,7 @@
 
 <section class="review-section" id="client-reviews" [@fadeInUp]="reviewsVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <h3 class="section-title">Ulasan Client</h3>
+        <h3 class="section-title">{{ reviewsTitle }}</h3>
 
         <div class="review-content-wrapper">
 
@@ -137,26 +137,26 @@
     <div class="full-container">
         <div class="contact-grid">
             <div class="contact-info">
-                <h2 class="section-title">Get in touch with us</h2>
+                <h2 class="section-title">{{ contactTitle }}</h2>
                 <div class="contact-item">
-                    <h3>Phone</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3>{{ contactPhone.title }}</h3>
+                    <p>{{ contactPhone.description }}</p>
                 </div>
                 <div class="contact-item">
-                    <h3>Email</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    <h3>{{ contactEmail.title }}</h3>
+                    <p>{{ contactEmail.description }}</p>
                 </div>
                 <div class="contact-item">
-                    <h3>Social</h3>
+                    <h3>{{ contactSocial.title }}</h3>
                 </div>
                 <div class="social-links">
-                    <a href="#" class="social-icon"></a>
-                    <a href="#" class="social-icon"></a>
-                    <a href="#" class="social-icon"></a>
+                    <a [href]="contactSocial.links[0]" class="social-icon"></a>
+                    <a [href]="contactSocial.links[1]" class="social-icon"></a>
+                    <a [href]="contactSocial.links[2]" class="social-icon"></a>
                 </div>
             </div>
             <div class="contact-logo">
-                <img src="logo-text.png" alt="Pandigi Text" class="logo-text">
+                <img [src]="contactLogoImage" alt="Pandigi Text" class="logo-text">
             </div>
         </div>
     </div>
