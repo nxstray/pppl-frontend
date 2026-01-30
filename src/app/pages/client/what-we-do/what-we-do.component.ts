@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CommonModule } from "@angular/common";
-import { ContentPageService, PageName } from '../../../service/content-page.service';
+import { ContentPageService, PageName } from '../../../service/admin/content-page.service';
 
 @Component({
   selector: 'app-what-we-do',

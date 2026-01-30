@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ManagerService, ManagerDTO } from '../../../service/manager.service';
-import { AdminService, RegisterManagerRequest } from '../../../service/admin.service';
-import { AuthService } from '../../../service/auth.service';
-import { ToastService } from '../../../service/toast.service';
+import { ManagerService, ManagerDTO } from '../../../service/admin/manager.service';
+import { AdminService, RegisterManagerRequest } from '../../../service/admin/admin.service';
+import { AuthService } from '../../../service/auth/auth.service';
+import { ToastService } from '../../../service/animations/toast.service';
 
 @Component({
   selector: 'app-manager',

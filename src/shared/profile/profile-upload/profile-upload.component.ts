@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../../app/service/auth.service';
-import { ToastService } from '../../../app/service/toast.service';
+import { AuthService } from '../../../app/service/auth/auth.service';
+import { ToastService } from '../../../app/service/animations/toast.service';
 
 @Component({
   selector: 'app-profile-upload',

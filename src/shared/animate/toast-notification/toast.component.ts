@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { ToastService, Toast } from '../../../app/service/toast.service';
+import { ToastService, Toast } from '../../../app/service/animations/toast.service';
 
 @Component({
   selector: 'app-toast',

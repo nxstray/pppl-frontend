@@ -1,8 +1,8 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { LeadScoringService, LeadAnalysisDTO, LeadStatistics } from '../../../service/lead-scoring.service';
-import { ToastService } from '../../../service/toast.service';
+import { LeadScoringService, LeadAnalysisDTO, LeadStatistics } from '../../../service/admin/lead-scoring.service';
+import { ToastService } from '../../../service/animations/toast.service';
 import { LoadingOverlayComponent } from '../../../../shared/animate/loading-overlay/loading-overlay.component';
 import { CanComponentDeactivate } from '../../../guard/analysis.guard';
 

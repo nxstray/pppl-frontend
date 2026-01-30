@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { DashboardService, ActivityResponse, MonthData, TrendData, ConversionData } from '../../../service/dashboard.service';
+import { DashboardService, ActivityResponse, MonthData, TrendData, ConversionData } from '../../../service/admin/dashboard.service';
 
-import { AuthService } from '../../../service/auth.service';
+import { AuthService } from '../../../service/auth/auth.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { MonthlyLeadChartComponent } from '../../../../shared/charts/monthly-lead/monthly-lead.component';

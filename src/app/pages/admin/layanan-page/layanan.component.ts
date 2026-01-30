@@ -1,9 +1,9 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LayananService, LayananDTO } from '../../../service/layanan.service';
-import { AuthService } from '../../../service/auth.service';
-import { ToastService } from '../../../service/toast.service';
+import { LayananService, LayananDTO } from '../../../service/admin/layanan.service';
+import { AuthService } from '../../../service/auth/auth.service';
+import { ToastService } from '../../../service/animations/toast.service';
 
 interface LayananStatistics {
   total: number;

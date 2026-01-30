@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ContentPageService, PageName } from '../../../service/content-page.service';
+import { ContentPageService, PageName } from '../../../service/admin/content-page.service';
 
 @Component({
   selector: 'app-landing',

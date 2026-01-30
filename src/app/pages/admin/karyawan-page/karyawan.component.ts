@@ -1,10 +1,10 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { KaryawanService, KaryawanDTO } from '../../../service/karyawan.service';
-import { ManagerService, ManagerDTO } from '../../../service/manager.service';
-import { AuthService } from '../../../service/auth.service';
-import { ToastService } from '../../../service/toast.service';
+import { KaryawanService, KaryawanDTO } from '../../../service/admin/karyawan.service';
+import { ManagerService, ManagerDTO } from '../../../service/admin/manager.service';
+import { AuthService } from '../../../service/auth/auth.service';
+import { ToastService } from '../../../service/animations/toast.service';
 
 interface KaryawanStatistics {
   total: number;

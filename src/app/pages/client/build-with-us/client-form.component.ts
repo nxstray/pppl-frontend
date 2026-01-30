@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { ClientFormService, ClientFormDTO, LayananOption } from '../../../service/client-form.service';
-import { ContentPageService, PageName } from '../../../service/content-page.service';
+import { ClientFormService, ClientFormDTO, LayananOption } from '../../../service/client/client-form.service';
+import { ContentPageService, PageName } from '../../../service/admin/content-page.service';
 
 @Component({
   selector: 'app-client-form',

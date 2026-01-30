@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ToastService } from '../../../service/toast.service';
-import { RequestLayananService, RequestLayananDTO, RequestDetailDTO, RequestStatistics } from '../../../service/request-layanan.service';
+import { ToastService } from '../../../service/animations/toast.service';
+import { RequestLayananService, RequestLayananDTO, RequestDetailDTO, RequestStatistics } from '../../../service/admin/request-layanan.service';
 
 interface FilterOption {
   value: string;

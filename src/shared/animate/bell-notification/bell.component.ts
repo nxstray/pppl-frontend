@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { BellService, NotificationDTO } from '../../../app/service/bell.service';
+import { BellService, NotificationDTO } from '../../../app/service/animations/bell.service';
 import { Subscription } from 'rxjs';
 
 @Component({

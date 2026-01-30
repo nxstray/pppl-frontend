@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../app/service/auth.service';
+import { AuthService } from '../../../app/service/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({

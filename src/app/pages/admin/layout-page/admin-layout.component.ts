@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../../../service/auth.service';
-import { ToastService } from '../../../service/toast.service';
+import { AuthService } from '../../../service/auth/auth.service';
+import { ToastService } from '../../../service/animations/toast.service';
 import { BellComponent } from '../../../../shared/animate/bell-notification/bell.component';
 
 interface MenuItem {

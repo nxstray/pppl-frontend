@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ContentPageService, PageName, ContentType, ContentPageDTO, UpdateContentRequest } from '../../../service/content-page.service';
-import { ToastService } from '../../../service/toast.service';
+import { ContentPageService, PageName, ContentType, ContentPageDTO, UpdateContentRequest } from '../../../service/admin/content-page.service';
+import { ToastService } from '../../../service/animations/toast.service';
 
 @Component({
   selector: 'app-content-manage',

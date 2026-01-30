@@ -1,11 +1,11 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RekapService, RekapDTO } from '../../../service/rekap.service';
-import { KlienService, KlienDTO } from '../../../service/klien.service';
-import { ManagerService, ManagerDTO } from '../../../service/manager.service';
-import { LayananService, LayananDTO } from '../../../service/layanan.service';
-import { ToastService } from '../../../service/toast.service';
+import { RekapService, RekapDTO } from '../../../service/admin/rekap.service';
+import { KlienService, KlienDTO } from '../../../service/admin/klien.service';
+import { ManagerService, ManagerDTO } from '../../../service/admin/manager.service';
+import { LayananService, LayananDTO } from '../../../service/admin/layanan.service';
+import { ToastService } from '../../../service/animations/toast.service';
 
 interface RekapStatistics {
   total: number;
