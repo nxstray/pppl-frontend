@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../../service/auth.service';
 import { ToastService } from '../../../service/toast.service';
-import { BellComponent } from '../../animation/bell-notification/bell.component';
+import { BellComponent } from '../../../../shared/animate/bell-notification/bell.component';
 
 interface MenuItem {
   label: string;
