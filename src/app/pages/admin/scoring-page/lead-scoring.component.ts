@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LeadScoringService, LeadAnalysisDTO, LeadStatistics } from '../../../service/lead-scoring.service';
 import { ToastService } from '../../../service/toast.service';
-import { LoadingOverlayComponent } from '../../animation/loading-overlay/loading-overlay.component';
+import { LoadingOverlayComponent } from '../../../../shared/animate/loading-overlay/loading-overlay.component';
 import { CanComponentDeactivate } from '../../../guard/analysis.guard';
 
 @Component({
