@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, CUSTOM_ELEMENTS_SCHEMA, AfterViewInit,
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ContentPageService, PageName } from '../../../service/content-page.service';
 
 interface TimelineItem {
   date: string;
@@ -14,9 +15,8 @@ interface VisionAndMission {
   mission: string[];
 }
 
-interface ServicesItems {
+interface ServicesItem {
   title: string;
-  code: string;
   description: string;
   image: string;
 }
@@ -41,58 +41,28 @@ interface ClientReview {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   animations: [
     trigger('fadeInUp', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateY(50px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateY(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateY(50px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
       transition('hidden => visible', animate('800ms ease-out'))
     ]),
     trigger('navbarSlide', [
-      state('hidden', style({
-        transform: 'translateY(-100%)',
-        opacity: 0
-      })),
-      state('visible', style({
-        transform: 'translateY(0)',
-        opacity: 1
-      })),
+      state('hidden', style({ transform: 'translateY(-100%)', opacity: 0 })),
+      state('visible', style({ transform: 'translateY(0)', opacity: 1 })),
       transition('hidden <=> visible', animate('300ms ease-in-out'))
     ]),
     trigger('slideInLeft', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateX(-100px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateX(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateX(-100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
       transition('hidden => visible', animate('1500ms ease-out'))
     ]),
     trigger('slideInRight', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateX(100px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateX(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateX(100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateX(0)' })),
       transition('hidden => visible', animate('1500ms ease-out'))
     ]),
     trigger('slideInUp', [
-      state('hidden', style({
-        opacity: 0,
-        transform: 'translateY(100px)'
-      })),
-      state('visible', style({
-        opacity: 1,
-        transform: 'translateY(0)'
-      })),
+      state('hidden', style({ opacity: 0, transform: 'translateY(100px)' })),
+      state('visible', style({ opacity: 1, transform: 'translateY(0)' })),
       transition('hidden => visible', animate('1000ms ease-out'))
     ])
   ]
@@ -110,130 +80,201 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   reviewsVisible = false;
   contactVisible = false;
 
+  // ============ DYNAMIC CONTENT FROM CMS ============
+  
+  // Hero Section
   heroTitle = 'Who We Are';
   heroSubtitle = 'Discover Pandigi\'s Journey and Values';
   heroVector = 'vector_logo_pandigi.png';
+  heroBuildingImage = 'building.png';
 
-  timelineItems: TimelineItem[] = [
-    {
-      date: '2010',
-      title: 'Company Founded',
-      description: 'Pandigi was established with a vision to innovate in digital solutions.',
-    },
-    {
-      date: '2012',
-      title: 'First Major Project',
-      description: 'Launched our flagship software product, revolutionizing the industry.',
-    },
-    {
-      date: '2015',
-      title: 'Expansion',
-      description: 'Opened new offices and expanded our team to serve global clients.',
-    },
-    {
-      date: '2018',
-      title: 'Award Recognition',
-      description: 'Received industry awards for excellence in technology and innovation.',
-    },
-    {
-      date: '2021',
-      title: 'Digital Transformation',
-      description: 'Embraced cutting-edge technologies to enhance our services.',
-    },
-    {
-      date: '2023',
-      title: 'Sustainability Initiative',
-      description: 'Committed to eco-friendly practices and sustainable development.',
-    }
-  ];
+  // Timeline Section
+  timelineTitle = 'Our Journey';
+  timelineItems: TimelineItem[] = [];
 
+  // Vision & Mission Section
   visionandmission: VisionAndMission = {
-    vision: 'To be a global leader in digital innovation, empowering businesses and communities through cutting-edge technology solutions.',
-    mission: [
-      'Deliver high-quality digital products that meet the evolving needs of our clients.',
-      'Foster a culture of innovation, collaboration, and continuous learning within our team.',
-      'Promote sustainable practices in all aspects of our business operations.',
-      'Build long-term partnerships with clients based on trust, transparency, and mutual success.'
-    ]
+    vision: '',
+    mission: []
   };
 
-  servicesItems: ServicesItems[] = [
-    {
-      title: 'Software',
-      code: '(46152)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'dummy-photo.png'
-    },
-    {
-      title: 'Hardware',
-      code: '(46599)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'dummy-photo.png'
-    },
-    {
-      title: 'Multimedia',
-      code: '(61929)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'dummy-photo.png'
-    },
-    {
-      title: 'Computer',
-      code: '(46511)',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-      image: 'dummy-photo.png'
-    }
-  ]
+  // Services Section
+  servicesTitle = 'Layanan Kami';
+  servicesItems: ServicesItem[] = [];
 
-  teamMembers: TeamMember[] = [
-    {
-      name: 'Michael Doe',
-      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
-      imageUrl: 'dummy-photo.png'
-    },
-    {
-      name: 'Sarah Smith',
-      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
-      imageUrl: 'dummy-photo.png'
-    },
-    {
-      name: 'James Bond',
-      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
-      imageUrl: 'dummy-photo.png'
-    },
-    {
-      name: 'Emily Rose',
-      description: 'You can relay on our amazing features list and also our customer services will be great experience.',
-      imageUrl: 'dummy-photo.png'
-    }
-  ];
+  // Team Section
+  teamTitle = 'Tim Kami';
+  teamMembers: TeamMember[] = [];
+
+  // Reviews Section
+  reviewsTitle = 'Ulasan Client';
+  clientReviews: ClientReview[] = [];
+
+  // Contact Section
+  contactTitle = 'Get in touch with us';
+  contactPhone = { title: 'Phone', description: '' };
+  contactEmail = { title: 'Email', description: '' };
+  contactSocial = { title: 'Social', links: ['#', '#', '#'] };
+  contactLogoImage = 'logo-text.png';
 
   @ViewChild('reviewSwiper') reviewSwiperRef!: ElementRef;
-  clientReviews: ClientReview[] = [
-    {
-      imageUrl: 'dummy-photo.png',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-    },
-    {
-      imageUrl: 'dummy-photo.png',
-      description: 'Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-    },
-    {
-      imageUrl: 'dummy-photo.png',
-      description: 'Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.'
-    },
-    {
-      imageUrl: 'dummy-photo.png',
-      description: 'Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
-    },
-  ];
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private contentService: ContentPageService
+  ) { }
 
   ngOnInit() {
+    this.loadPageContent();
     this.checkSectionsVisibility();
     setTimeout(() => {
       this.buildingVisible = true;
     }, 100);
+  }
+
+  /**
+   * Load all dynamic content from CMS
+   */
+  loadPageContent() {
+    this.contentService.getPageContent(PageName.WHO_WE_ARE).subscribe({
+      next: (response) => {
+        const content = response.content;
+        
+        // ============ HERO SECTION ============
+        this.heroTitle = content['hero_title'] || this.heroTitle;
+        this.heroSubtitle = content['hero_subtitle'] || this.heroSubtitle;
+        this.heroVector = this.getImageUrl(content['hero_vector']) || this.heroVector;
+        this.heroBuildingImage = this.getImageUrl(content['hero_building_image']) || this.heroBuildingImage;
+        
+        // ============ TIMELINE SECTION ============
+        this.timelineTitle = content['timeline_title'] || this.timelineTitle;
+        
+        // Parse timeline items from JSON or build from individual fields
+        if (content['timeline_items']) {
+          try {
+            this.timelineItems = JSON.parse(content['timeline_items']);
+          } catch (e) {
+            console.error('Error parsing timeline items:', e);
+          }
+        }
+        
+        // Fallback to individual timeline items if JSON parsing fails
+        if (this.timelineItems.length === 0) {
+          for (let i = 1; i <= 6; i++) {
+            if (content[`timeline_${i}_date`]) {
+              this.timelineItems.push({
+                date: content[`timeline_${i}_date`],
+                title: content[`timeline_${i}_title`] || '',
+                description: content[`timeline_${i}_description`] || ''
+              });
+            }
+          }
+        }
+        
+        // ============ VISION & MISSION SECTION ============
+        this.visionandmission.vision = content['vision_text'] || 'To be a global leader in digital innovation.';
+        
+        // Parse mission array
+        if (content['mission_items']) {
+          try {
+            this.visionandmission.mission = JSON.parse(content['mission_items']);
+          } catch (e) {
+            console.error('Error parsing mission items:', e);
+          }
+        }
+        
+        // Fallback to individual mission items
+        if (this.visionandmission.mission.length === 0) {
+          for (let i = 1; i <= 4; i++) {
+            if (content[`mission_${i}`]) {
+              this.visionandmission.mission.push(content[`mission_${i}`]);
+            }
+          }
+        }
+        
+        // ============ SERVICES SECTION ============
+        this.servicesTitle = content['services_title'] || this.servicesTitle;
+        
+        this.servicesItems = [
+          {
+            title: content['service_software_title'] || 'Software',
+            description: content['service_software_description'] || 'Solusi pengembangan perangkat lunak.',
+            image: this.getImageUrl(content['service_software_image']) || 'dummy-photo.png'
+          },
+          {
+            title: content['service_hardware_title'] || 'Hardware',
+            description: content['service_hardware_description'] || 'Infrastruktur hardware berkualitas.',
+            image: this.getImageUrl(content['service_hardware_image']) || 'dummy-photo.png'
+          },
+          {
+            title: content['service_multimedia_title'] || 'Multimedia',
+            description: content['service_multimedia_description'] || 'Solusi multimedia kreatif.',
+            image: this.getImageUrl(content['service_multimedia_image']) || 'dummy-photo.png'
+          },
+          {
+            title: content['service_computer_title'] || 'Computer',
+            description: content['service_computer_description'] || 'Layanan pemeliharaan komputer.',
+            image: this.getImageUrl(content['service_computer_image']) || 'dummy-photo.png'
+          }
+        ];
+        
+        // ============ TEAM SECTION ============
+        this.teamTitle = content['team_title'] || this.teamTitle;
+        
+        this.teamMembers = [];
+        for (let i = 1; i <= 4; i++) {
+          if (content[`team_${i}_name`]) {
+            this.teamMembers.push({
+              name: content[`team_${i}_name`],
+              description: content[`team_${i}_description`] || '',
+              imageUrl: this.getImageUrl(content[`team_${i}_image`]) || 'dummy-photo.png'
+            });
+          }
+        }
+        
+        // ============ REVIEWS SECTION ============
+        this.reviewsTitle = content['reviews_title'] || this.reviewsTitle;
+        
+        this.clientReviews = [];
+        for (let i = 1; i <= 4; i++) {
+          if (content[`review_${i}_description`]) {
+            this.clientReviews.push({
+              imageUrl: this.getImageUrl(content[`review_${i}_image`]) || 'dummy-photo.png',
+              description: content[`review_${i}_description`]
+            });
+          }
+        }
+        
+        // ============ CONTACT SECTION ============
+        this.contactTitle = content['contact_title'] || this.contactTitle;
+        
+        this.contactPhone = {
+          title: content['contact_phone_title'] || 'Phone',
+          description: content['contact_phone_description'] || '+62 21 1234 5678'
+        };
+        
+        this.contactEmail = {
+          title: content['contact_email_title'] || 'Email',
+          description: content['contact_email_description'] || 'info@pandawadigital.com'
+        };
+        
+        this.contactSocial = {
+          title: content['contact_social_title'] || 'Social',
+          links: [
+            content['contact_social_link_1'] || '#',
+            content['contact_social_link_2'] || '#',
+            content['contact_social_link_3'] || '#'
+          ]
+        };
+        
+        this.contactLogoImage = this.getImageUrl(content['contact_logo_image']) || this.contactLogoImage;
+        
+        console.log('Who We Are CMS content loaded successfully');
+      },
+      error: (err) => {
+        console.error('Error loading page content from CMS:', err);
+      }
+    });
   }
 
   ngAfterViewInit(): void {
@@ -274,7 +315,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
       this.lastScrollTop = scrollTop;
     }
 
-    this.checkSectionsVisibility()
+    this.checkSectionsVisibility();
   }
 
   private checkSectionsVisibility() {
@@ -296,19 +337,32 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
     return rect.top <= windowHeight * 0.75;
   }
 
+  /**
+   * Helper method untuk get image URL
+   */
+  private getImageUrl(filename: string | undefined): string {
+    if (!filename) return '';
+    
+    if (filename.startsWith('http://') || filename.startsWith('https://')) {
+      return filename;
+    }
+    
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+    if (uuidPattern.test(filename)) {
+      return `http://localhost:8083/uploads/${filename}`;
+    }
+    
+    return `/${filename}`;
+  }
+
   scrollToSection(sectionId: string): void {
-    console.log('Scrolling to section:', sectionId);
     const element = document.getElementById(sectionId);
     if (element) {
-      console.log('Element found, scrolling to:', sectionId);
       element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    } else {
-      console.log('Element not found for section:', sectionId);
     }
   }
 
   navigateToOtherPage(path: string) {
-    console.log(`Navigating to ${path} page`);
     this.router.navigate([path]);
   }
 }
