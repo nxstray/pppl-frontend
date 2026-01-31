@@ -85,8 +85,8 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   // Hero Section
   heroTitle = 'Who We Are';
   heroSubtitle = 'Discover Pandigi\'s Journey and Values';
-  heroVector = 'vector_logo_pandigi.png';
-  heroBuildingImage = 'building.png';
+  heroVector = '/content/vector_logo_pandigi.png';
+  heroBuildingImage = '/content/building.png';
 
   // Timeline Section
   timelineTitle = 'Our Journey';
@@ -115,7 +115,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   contactPhone = { title: 'Phone', description: '' };
   contactEmail = { title: 'Email', description: '' };
   contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = 'logo-text.png';
+  contactLogoImage = '/content/logo-text.png';
 
   @ViewChild('reviewSwiper') reviewSwiperRef!: ElementRef;
 
@@ -199,22 +199,22 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           {
             title: content['service_software_title'] || 'Software',
             description: content['service_software_description'] || 'Solusi pengembangan perangkat lunak.',
-            image: this.getImageUrl(content['service_software_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['service_software_image']) || '/content/dummy-photo.png'
           },
           {
             title: content['service_hardware_title'] || 'Hardware',
             description: content['service_hardware_description'] || 'Infrastruktur hardware berkualitas.',
-            image: this.getImageUrl(content['service_hardware_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['service_hardware_image']) || '/content/dummy-photo.png'
           },
           {
             title: content['service_multimedia_title'] || 'Multimedia',
             description: content['service_multimedia_description'] || 'Solusi multimedia kreatif.',
-            image: this.getImageUrl(content['service_multimedia_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['service_multimedia_image']) || '/content/dummy-photo.png'
           },
           {
             title: content['service_computer_title'] || 'Computer',
             description: content['service_computer_description'] || 'Layanan pemeliharaan komputer.',
-            image: this.getImageUrl(content['service_computer_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['service_computer_image']) || '/content/dummy-photo.png'
           }
         ];
         
@@ -227,7 +227,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
             this.teamMembers.push({
               name: content[`team_${i}_name`],
               description: content[`team_${i}_description`] || '',
-              imageUrl: this.getImageUrl(content[`team_${i}_image`]) || 'dummy-photo.png'
+              imageUrl: this.getImageUrl(content[`team_${i}_image`]) || '/content/dummy-photo.png'
             });
           }
         }
@@ -239,7 +239,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
         for (let i = 1; i <= 4; i++) {
           if (content[`review_${i}_description`]) {
             this.clientReviews.push({
-              imageUrl: this.getImageUrl(content[`review_${i}_image`]) || 'dummy-photo.png',
+              imageUrl: this.getImageUrl(content[`review_${i}_image`]) || '/content/dummy-photo.png',
               description: content[`review_${i}_description`]
             });
           }
@@ -343,16 +343,25 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
     
+    // Return full URL jika sudah lengkap (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
+    // Jika sudah ada /content/ di depan, langsung return
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    // Check if UUID (file dari upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
+      // File uploaded ke backend, akses via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    return `/${filename}`;
+    // Default: files di /public/content/
+    return `/content/${filename}`;
   }
 
   scrollToSection(sectionId: string): void {

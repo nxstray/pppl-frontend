@@ -31,7 +31,7 @@ export class ContentManageComponent implements OnInit {
   };
 
   pageOptions = [
-    { label: 'Landing Page', value: PageName.LANDING },
+    { label: 'Landing', value: PageName.LANDING },
     { label: 'What We Do', value: PageName.WHAT_WE_DO },
     { label: 'Who We Are', value: PageName.WHO_WE_ARE },
     { label: 'Our Work', value: PageName.OUR_WORK },
@@ -301,27 +301,35 @@ export class ContentManageComponent implements OnInit {
     };
   }
 
+  /**
+   * Helper method untuk get image preview URL
+   */
   private getImagePreviewUrl(filename: string): string {
     if (!filename) {
       return 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
     }
     
-    // Full URL
+    // Full URL (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
-    // UUID pattern - file dari backend
+    // Jika sudah ada /content/ di depan, langsung return
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    // UUID pattern - file dari backend upload
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Legacy files
-    return `/${filename}`;
+    // Default: file lokal di /public/content/
+    return `/content/${filename}`;
   }
 
   public getImageUrl(filename: string): string {
     return this.getImagePreviewUrl(filename);
-}
+  }
 }

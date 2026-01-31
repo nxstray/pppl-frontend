@@ -52,7 +52,7 @@ export class LandingComponent implements OnInit {
   heroTitle = 'Menyediakan Solusi Digital yang mendukung pertumbuhan dan Transformasi Bisnis';
   heroSubtitle = 'Solusi perangkat lunak, perangkat keras, dan pendampingan IT yang dirancang sesuai kebutuhan perusahaan.';
   heroCtaText = 'Build with us';
-  heroBuildingImage = 'building.png';
+  heroBuildingImage = '/content/building.png';
   
   // What We Do Section
   whatWeDoTitle = 'What we do';
@@ -61,7 +61,7 @@ export class LandingComponent implements OnInit {
   // Who We Are Section
   whoWeAreTitle = 'Who we are';
   whoWeAreDescription = '';
-  whoWeAreImages: string[] = ['dummy-photo.png', 'dummy-photo.png', 'dummy-photo.png'];
+  whoWeAreImages: string[] = ['/content/dummy-photo.png', '/content/dummy-photo.png', '/content/dummy-photo.png'];
   
   // Our Work Section
   ourWorkTitle = 'Our work';
@@ -72,7 +72,7 @@ export class LandingComponent implements OnInit {
   contactPhone = { title: 'Phone', description: '' };
   contactEmail = { title: 'Email', description: '' };
   contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = 'logo-text.png';
+  contactLogoImage = '/content/logo-text.png';
 
   constructor(
     private router: Router,
@@ -105,22 +105,22 @@ export class LandingComponent implements OnInit {
           {
             title: content['service_software_title'] || 'Software',
             description: content['service_software_description'] || 'Kami menyediakan solusi pengembangan perangkat lunak yang komprehensif.',
-            icon: this.getImageUrl(content['service_software_icon']) || 'software-wwd.png'
+            icon: this.getImageUrl(content['service_software_icon']) || '/content/software-wwd.png'
           },
           {
             title: content['service_hardware_title'] || 'Hardware',
             description: content['service_hardware_description'] || 'Dari workstation hingga server, kami menyediakan infrastruktur berkualitas.',
-            icon: this.getImageUrl(content['service_hardware_icon']) || 'hardware-wwd.png'
+            icon: this.getImageUrl(content['service_hardware_icon']) || '/content/hardware-wwd.png'
           },
           {
             title: content['service_multimedia_title'] || 'Multimedia',
             description: content['service_multimedia_description'] || 'Solusi multimedia kreatif untuk meningkatkan kehadiran brand Anda.',
-            icon: this.getImageUrl(content['service_multimedia_icon']) || 'media-wwd.png'
+            icon: this.getImageUrl(content['service_multimedia_icon']) || '/content/media-wwd.png'
           },
           {
             title: content['service_computer_title'] || 'Computer',
             description: content['service_computer_description'] || 'Layanan pemeliharaan komputer profesional dan dukungan IT.',
-            icon: this.getImageUrl(content['service_computer_icon']) || 'computer-wwd.png'
+            icon: this.getImageUrl(content['service_computer_icon']) || '/content/computer-wwd.png'
           }
         ];
         
@@ -130,9 +130,9 @@ export class LandingComponent implements OnInit {
           'PT. Pandawa Digital Mandiri adalah penyedia solusi teknologi terkemuka yang berkomitmen untuk memberikan layanan inovatif dan andal.';
         
         this.whoWeAreImages = [
-          content['who_we_are_image_1'] || 'dummy-photo.png',
-          content['who_we_are_image_2'] || 'dummy-photo.png',
-          content['who_we_are_image_3'] || 'dummy-photo.png'
+          this.getImageUrl(content['who_we_are_image_1']) || '/content/dummy-photo.png',
+          this.getImageUrl(content['who_we_are_image_2']) || '/content/dummy-photo.png',
+          this.getImageUrl(content['who_we_are_image_3']) || '/content/dummy-photo.png'
         ];
         
         // ============ OUR WORK SECTION ============
@@ -140,15 +140,15 @@ export class LandingComponent implements OnInit {
         
         this.portfolios = [
           {
-            image: content['portfolio_1_image'] || 'dummy-photo.png',
+            image: this.getImageUrl(content['portfolio_1_image']) || '/content/dummy-photo.png',
             title: content['portfolio_1_title'] || 'E-Commerce Platform'
           },
           {
-            image: content['portfolio_2_image'] || 'dummy-photo.png',
+            image: this.getImageUrl(content['portfolio_2_image']) || '/content/dummy-photo.png',
             title: content['portfolio_2_title'] || 'Corporate Website'
           },
           {
-            image: content['portfolio_3_image'] || 'dummy-photo.png',
+            image: this.getImageUrl(content['portfolio_3_image']) || '/content/dummy-photo.png',
             title: content['portfolio_3_title'] || 'Mobile Application'
           }
         ];
@@ -175,7 +175,7 @@ export class LandingComponent implements OnInit {
           ]
         };
         
-        this.contactLogoImage = content['contact_logo_image'] || this.contactLogoImage;
+        this.contactLogoImage = this.getImageUrl(content['contact_logo_image']) || this.contactLogoImage;
         
         console.log('CMS content loaded successfully');
       },
@@ -224,20 +224,25 @@ export class LandingComponent implements OnInit {
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
     
-    // Return full URL jika sudah lengkap
+    // Return full URL jika sudah lengkap (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
-    // Check if UUID (file dari upload - ada di backend)
+    // Jika sudah ada /content/ di depan, langsung return
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    // Check if UUID (file dari upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
       // File uploaded ke backend, akses via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Legacy files di frontend/public
-    return `/${filename}`;
+    // Default: files di /public/content/
+    return `/content/${filename}`;
   }
 
   scrollToSection(sectionId: string) {

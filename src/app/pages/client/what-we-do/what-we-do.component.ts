@@ -53,8 +53,8 @@ export class WhatWeDoComponent implements OnInit {
   // Hero Section
   heroTitle = 'What We Do';
   heroSubtitle = 'Discover our services and how we can help you achieve your goals.';
-  heroVector = 'vector_logo_pandigi.png';
-  heroBuildingImage = 'building.png';
+  heroVector = '/content/vector_logo_pandigi.png';
+  heroBuildingImage = '/content/building.png';
 
   // Services Section
   whatWeOfferTitle = 'What we offer?';
@@ -68,7 +68,7 @@ export class WhatWeDoComponent implements OnInit {
   contactPhone = { title: 'Phone', description: '' };
   contactEmail = { title: 'Email', description: '' };
   contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = 'logo-text.png';
+  contactLogoImage = '/content/logo-text.png';
 
   constructor(
     private router: Router,
@@ -105,28 +105,28 @@ export class WhatWeDoComponent implements OnInit {
             title: content['service_software_title'] || 'Software',
             code: content['service_software_code'] || '(46152)',
             description: content['service_software_description'] || 'Kami menyediakan solusi pengembangan perangkat lunak yang komprehensif.',
-            icon: this.getImageUrl(content['service_software_icon']) || 'software-wwd.png',
+            icon: this.getImageUrl(content['service_software_icon']) || '/content/software-wwd.png',
             sectionId: 'software'
           },
           {
             title: content['service_hardware_title'] || 'Hardware',
             code: content['service_hardware_code'] || '(46599)',
             description: content['service_hardware_description'] || 'Dari workstation hingga server, kami menyediakan infrastruktur berkualitas.',
-            icon: this.getImageUrl(content['service_hardware_icon']) || 'hardware-wwd.png',
+            icon: this.getImageUrl(content['service_hardware_icon']) || '/content/hardware-wwd.png',
             sectionId: 'hardware'
           },
           {
             title: content['service_multimedia_title'] || 'Multimedia',
             code: content['service_multimedia_code'] || '(61929)',
             description: content['service_multimedia_description'] || 'Solusi multimedia kreatif untuk meningkatkan kehadiran brand Anda.',
-            icon: this.getImageUrl(content['service_multimedia_icon']) || 'media-wwd.png',
+            icon: this.getImageUrl(content['service_multimedia_icon']) || '/content/media-wwd.png',
             sectionId: 'multimedia'
           },
           {
             title: content['service_computer_title'] || 'Computer',
             code: content['service_computer_code'] || '(46511)',
             description: content['service_computer_description'] || 'Layanan pemeliharaan komputer profesional dan dukungan IT.',
-            icon: this.getImageUrl(content['service_computer_icon']) || 'computer-wwd.png',
+            icon: this.getImageUrl(content['service_computer_icon']) || '/content/computer-wwd.png',
             sectionId: 'computer'
           }
         ];
@@ -137,25 +137,25 @@ export class WhatWeDoComponent implements OnInit {
             sectionId: 'software',
             title: content['detail_software_title'] || 'Software',
             description: content['detail_software_description'] || 'Kami menyediakan solusi pengembangan perangkat lunak yang komprehensif.',
-            image: this.getImageUrl(content['detail_software_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['detail_software_image']) || '/content/dummy-photo.png'
           },
           {
             sectionId: 'hardware',
             title: content['detail_hardware_title'] || 'Hardware',
             description: content['detail_hardware_description'] || 'Dari workstation hingga server, kami menyediakan infrastruktur berkualitas.',
-            image: this.getImageUrl(content['detail_hardware_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['detail_hardware_image']) || '/content/dummy-photo.png'
           },
           {
             sectionId: 'multimedia',
             title: content['detail_multimedia_title'] || 'Multimedia',
             description: content['detail_multimedia_description'] || 'Solusi multimedia kreatif untuk meningkatkan kehadiran brand Anda.',
-            image: this.getImageUrl(content['detail_multimedia_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['detail_multimedia_image']) || '/content/dummy-photo.png'
           },
           {
             sectionId: 'computer',
             title: content['detail_computer_title'] || 'Computer',
             description: content['detail_computer_description'] || 'Layanan pemeliharaan komputer profesional dan dukungan IT.',
-            image: this.getImageUrl(content['detail_computer_image']) || 'dummy-photo.png'
+            image: this.getImageUrl(content['detail_computer_image']) || '/content/dummy-photo.png'
           }
         ];
         
@@ -231,16 +231,25 @@ export class WhatWeDoComponent implements OnInit {
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
     
+    // Return full URL jika sudah lengkap (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
+    // Jika sudah ada /content/ di depan, langsung return
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    // Check if UUID (file dari upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
+      // File uploaded ke backend, akses via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    return `/${filename}`;
+    // Default: files di /public/content/
+    return `/content/${filename}`;
   }
 
   scrollToSection(sectionId: string): void {

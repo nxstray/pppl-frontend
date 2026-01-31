@@ -52,15 +52,15 @@ export class OurWorkComponent implements OnInit {
   // Hero Section
   heroTitle = 'Our Work';
   heroSubtitle = 'Discover Our Success Stories, Innovations, and Client Partnerships';
-  heroVector = 'vector_logo_pandigi.png';
-  heroBuildingImage = 'building.png';
+  heroVector = '/content/vector_logo_pandigi.png';
+  heroBuildingImage = '/content/building.png';
 
   // Contact Section
   contactTitle = 'Get in touch with us';
   contactPhone = { title: 'Phone', description: '' };
   contactEmail = { title: 'Email', description: '' };
   contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = 'logo-text.png';
+  contactLogoImage = '/content/logo-text.png';
 
   constructor(
     private router: Router,
@@ -160,16 +160,25 @@ export class OurWorkComponent implements OnInit {
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
     
+    // Return full URL jika sudah lengkap (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
+    // Jika sudah ada /content/ di depan, langsung return
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    // Check if UUID (file dari upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
+      // File uploaded ke backend, akses via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    return `/${filename}`;
+    // Default: files di /public/content/
+    return `/content/${filename}`;
   }
 
   scrollToSection(sectionId: string): void {
