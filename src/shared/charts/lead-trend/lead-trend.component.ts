@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartConfiguration } from 'chart.js';
 
-import { TrendData } from '../../../app/service/dashboard.service';
+import { TrendData } from '../../../app/service/admin/dashboard.service';
 import { ChartComponent } from '../base-chart/base-chart.component';
 
 @Component({

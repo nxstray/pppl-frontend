@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RekapService, RekapDTO } from '../../../service/admin/rekap.service';
 import { KlienService, KlienDTO } from '../../../service/admin/klien.service';
-import { ManagerService, ManagerDTO } from '../../../service/admin/manager.service';
 import { LayananService, LayananDTO } from '../../../service/admin/layanan.service';
 import { ToastService } from '../../../service/animations/toast.service';
 
@@ -25,7 +24,6 @@ export class RekapComponent implements OnInit {
   rekap: RekapDTO[] = [];
   filteredRekap: RekapDTO[] = [];
   klienList: KlienDTO[] = [];
-  managerList: ManagerDTO[] = [];
   layananList: LayananDTO[] = [];
   statistics: RekapStatistics = {
     total: 0,
@@ -43,7 +41,6 @@ export class RekapComponent implements OnInit {
   // Dropdown states
   dropdownStates: { [key: string]: boolean } = {
     klien: false,
-    manager: false,
     layanan: false,
     status: false
   };
@@ -56,9 +53,9 @@ export class RekapComponent implements OnInit {
   selectedRekap: RekapDTO | null = null;
 
   // Form Data
-  formData: RekapDTO = {
+  formData: any = {
     idKlien: 0,
-    idManager: 0,
+    namaManagerManual: '',
     idLayanan: 0,
     tglMeeting: new Date().toISOString().split('T')[0],
     hasil: '',
@@ -69,7 +66,6 @@ export class RekapComponent implements OnInit {
   constructor(
     private rekapService: RekapService,
     private klienService: KlienService,
-    private managerService: ManagerService,
     private layananService: LayananService,
     private toast: ToastService
   ) {}
@@ -90,16 +86,6 @@ export class RekapComponent implements OnInit {
         }
       },
       error: (error) => console.error('Error loading klien:', error)
-    });
-
-    // Load Manager
-    this.managerService.getAllManagers().subscribe({
-      next: (response) => {
-        if (response.success && response.data) {
-          this.managerList = response.data;
-        }
-      },
-      error: (error) => console.error('Error loading managers:', error)
     });
 
     // Load Layanan
@@ -200,9 +186,6 @@ export class RekapComponent implements OnInit {
       case 'klien':
         this.formData.idKlien = value;
         break;
-      case 'manager':
-        this.formData.idManager = value;
-        break;
       case 'layanan':
         this.formData.idLayanan = value;
         break;
@@ -219,9 +202,6 @@ export class RekapComponent implements OnInit {
       case 'klien':
         const klien = this.klienList.find(k => k.idKlien === this.formData.idKlien);
         return klien?.namaKlien || 'Pilih Klien';
-      case 'manager':
-        const manager = this.managerList.find(m => m.idManager === this.formData.idManager);
-        return manager?.namaManager || 'Pilih Manager';
       case 'layanan':
         const layanan = this.layananList.find(l => l.idLayanan === this.formData.idLayanan);
         return layanan?.namaLayanan || 'Pilih Layanan';
@@ -245,7 +225,7 @@ export class RekapComponent implements OnInit {
     this.isEditMode = false;
     this.formData = {
       idKlien: 0,
-      idManager: 0,
+      namaManagerManual: '',
       idLayanan: 0,
       tglMeeting: new Date().toISOString().split('T')[0],
       hasil: '',
@@ -259,6 +239,7 @@ export class RekapComponent implements OnInit {
     this.isEditMode = true;
     this.formData = {
       ...rekap,
+      namaManagerManual: rekap.namaManager || '',
       tglMeeting: this.formatDateForInput(rekap.tglMeeting)
     };
     this.showModal = true;
@@ -272,7 +253,7 @@ export class RekapComponent implements OnInit {
     });
     this.formData = {
       idKlien: 0,
-      idManager: 0,
+      namaManagerManual: '',
       idLayanan: 0,
       tglMeeting: new Date().toISOString().split('T')[0],
       hasil: '',
@@ -296,7 +277,7 @@ export class RekapComponent implements OnInit {
   isFormValid(): boolean {
     return !!(
       this.formData.idKlien &&
-      this.formData.idManager &&
+      this.formData.namaManagerManual?.trim() &&
       this.formData.idLayanan &&
       this.formData.tglMeeting &&
       this.formData.status
@@ -394,16 +375,6 @@ export class RekapComponent implements OnInit {
   formatDateForInput(date: Date | string | undefined): string {
     if (!date) return new Date().toISOString().split('T')[0];
     return new Date(date).toISOString().split('T')[0];
-  }
-
-  // Error handling
-  private handleError(error: any, defaultMessage: string) {
-    const errorMessage = error.error?.message || error.message || defaultMessage;
-    this.toast.error('Error', errorMessage);
-  }
-
-  private showError(message: string) {
-    this.toast.error('Error', message);
   }
 
   // Refresh data

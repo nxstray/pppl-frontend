@@ -188,35 +188,20 @@
             </div>
           </div>
 
-          <!-- Manager Custom Dropdown -->
+          <!-- Manager Input (Manual) -->
           <div class="form-group">
-            <label>
-              Manager <span class="required">*</span>
+            <label for="managerName">
+              Nama Manager <span class="required">*</span>
             </label>
-            <div class="custom-dropdown" (click)="$event.stopPropagation()">
-              <div 
-                class="custom-dropdown-trigger"
-                [class.active]="dropdownStates['manager']"
-                (click)="toggleDropdown('manager', $event)"
-              >
-                <span class="custom-dropdown-label">{{ getSelectedLabel('manager') }}</span>
-                <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['manager']">
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path d="M6 9L1 4h10z" fill="currentColor"/>
-                  </svg>
-                </span>
-              </div>
-              <div class="custom-dropdown-menu" [class.show]="dropdownStates['manager']">
-                <div 
-                  class="custom-dropdown-item"
-                  *ngFor="let manager of managerList"
-                  [class.selected]="formData.idManager === manager.idManager"
-                  (click)="selectDropdownItem('manager', manager.idManager)"
-                >
-                  {{ manager.namaManager }}
-                </div>
-              </div>
-            </div>
+            <input 
+              type="text"
+              id="managerName"
+              [(ngModel)]="formData.managerName"
+              name="managerName"
+              class="form-control"
+              placeholder="Masukkan nama manager"
+              required
+            />
           </div>
         </div>
 

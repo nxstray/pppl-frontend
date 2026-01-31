@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 
 export interface RekapDTO {
   idMeeting?: number;
   idKlien: number;
   namaKlien?: string;
-  idManager: number;
   namaManager?: string;
+  namaManagerManual?: string;
   idLayanan: number;
   namaLayanan?: string;
   tglMeeting: Date | string;
