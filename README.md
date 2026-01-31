@@ -1,59 +1,86 @@
-# Frontend
+# Pandigi Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
+Aplikasi frontend yang dibangun menggunakan Angular untuk platform Pandigi.
 
-## Development server
+## Prasyarat
 
-To start a local development server, run:
+Sebelum menjalankan project ini, pastikan Anda telah menginstall:
+
+- Node.js (versi LTS terbaru direkomendasikan)
+- npm atau yarn
+- Angular CLI
+
+## Instalasi
+
+1. Clone repository ini:
+```bash
+git clone https://github.com/nxstray/pandigi-frontend.git
+cd pandigi-frontend
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+## Menjalankan Development Server
+
+Untuk menjalankan development server secara lokal:
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Setelah server berjalan, buka browser dan akses `http://localhost:4200/`. Aplikasi akan otomatis reload ketika ada perubahan pada source files.
 
-## Code scaffolding
+## Build Production
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Untuk membuild project dalam mode production:
 
 ```bash
 ng build
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Hasil build akan tersimpan di direktori `dist/`. Production build secara default sudah dioptimasi untuk performa dan kecepatan.
 
-## Running unit tests
+## Code Scaffolding
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+Angular CLI menyediakan tools untuk generate komponen baru:
+
+```bash
+# Generate component baru
+ng generate component nama-component
+
+# Untuk melihat list lengkap schematics yang tersedia
+ng generate --help
+```
+
+## Testing
+
+### Unit Tests
+
+Untuk menjalankan unit tests menggunakan Karma:
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+### End-to-End Tests
 
-For end-to-end (e2e) testing, run:
+Untuk menjalankan end-to-end tests:
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Note: Angular CLI tidak menyertakan framework e2e testing secara default. Anda dapat memilih framework yang sesuai dengan kebutuhan.
 
-## Additional Resources
+## Sumber Daya Tambahan
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Untuk informasi lebih lanjut tentang Angular CLI:
+- [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli)
+- [Angular Documentation](https://angular.dev)
+
+---
+
+Project ini dibuat dengan [Angular CLI](https://github.com/angular/angular-cli) versi 19.1.4.
