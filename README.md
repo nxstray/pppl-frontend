@@ -49,7 +49,7 @@ Angular CLI menyediakan tools untuk generate komponen baru:
 
 ```bash
 # Generate component baru
-ng generate component nama-component
+ng generate component nama-component --standalone atau ng g c nama-component --standalone
 
 # Untuk melihat list lengkap schematics yang tersedia
 ng generate --help
@@ -83,4 +83,4 @@ Untuk informasi lebih lanjut tentang Angular CLI:
 
 ---
 
-Project ini dibuat dengan [Angular CLI](https://github.com/angular/angular-cli) versi 19.1.4.
+Project ini dibuat dengan [Angular CLI](https://github.com/angular/angular-cli) versi 19.1.4. SPA Standalone
