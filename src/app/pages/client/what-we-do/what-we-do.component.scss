@@ -271,7 +271,6 @@ body {
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(circle at 20% 50%, rgba(0, 128, 128, 0.1) 0%, transparent 50%);
         pointer-events: none;
     }
 }
@@ -362,79 +361,61 @@ body {
     }
 }
 
-.contact {
-    background: transparent;
-    padding: 6rem 0 4rem;
+/* Footer Section */
+.footer-section {
+  color: white;
+  padding: 3rem 0 1.5rem;
+  width: 100%;
+  margin: 0;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 4rem;
+}
+
+.footer-info {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  
+  .footer-line {
     color: white;
-}
-
-.contact-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.contact-info {
-    color: white;
-
-    .section-title {
-        text-align: left;
-        margin-bottom: 2rem;
-
-        &::after {
-            left: 0;
-            transform: translateX(0);
-        }
-    }
-}
-
-.contact-item {
-    margin-bottom: 2rem;
-}
-
-.contact-item h3 {
-    color: #D9953E;
-    margin-bottom: 0.5rem;
-    font-size: 1.3rem;
-}
-
-.contact-item p {
     line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0 0 0.5rem 0;
+    opacity: 0.9;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
 }
 
-.social-links {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
-.social-icon {
-    width: 50px;
+.footer-logo {
+  flex-shrink: 0;
+  
+  img {
     height: 50px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    text-decoration: none;
-    transition: transform 0.3s ease, background 0.3s ease;
+    width: auto;
+  }
 }
 
-.social-icon:hover {
-    transform: translateY(-5px);
-    background: #D9953E;
-}
-
-.contact-logo {
-    text-align: right;
-}
-
-.logo-text {
-    max-width: 500px;
-    opacity: 0.8;
-    border-radius: 30px;
+.footer-copyright {
+  text-align: center;
+  
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+  }
 }
