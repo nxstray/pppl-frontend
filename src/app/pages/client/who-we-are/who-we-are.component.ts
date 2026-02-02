@@ -110,12 +110,11 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   reviewsTitle = 'Ulasan Client';
   clientReviews: ClientReview[] = [];
 
-  // Contact Section
-  contactTitle = 'Get in touch with us';
-  contactPhone = { title: 'Phone', description: '' };
-  contactEmail = { title: 'Email', description: '' };
-  contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = '/content/logo-text.png';
+  // Footer Section
+  footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
+  footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
+  footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   @ViewChild('reviewSwiper') reviewSwiperRef!: ElementRef;
 
@@ -245,29 +244,11 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           }
         }
         
-        // ============ CONTACT SECTION ============
-        this.contactTitle = content['contact_title'] || this.contactTitle;
-        
-        this.contactPhone = {
-          title: content['contact_phone_title'] || 'Phone',
-          description: content['contact_phone_description'] || '+62 21 1234 5678'
-        };
-        
-        this.contactEmail = {
-          title: content['contact_email_title'] || 'Email',
-          description: content['contact_email_description'] || 'info@pandawadigital.com'
-        };
-        
-        this.contactSocial = {
-          title: content['contact_social_title'] || 'Social',
-          links: [
-            content['contact_social_link_1'] || '#',
-            content['contact_social_link_2'] || '#',
-            content['contact_social_link_3'] || '#'
-          ]
-        };
-        
-        this.contactLogoImage = this.getImageUrl(content['contact_logo_image']) || this.contactLogoImage;
+        // ============ FOOTER SECTION ============
+        this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
+        this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
+        this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('Who We Are CMS content loaded successfully');
       },
