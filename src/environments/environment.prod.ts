@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://external-nancy-pppl-backend-58b2614e.koyeb.app/api'
+  apiUrl: 'https://nxstray-pandigi-backend.hf.space/api'
 };
