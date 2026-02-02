@@ -64,13 +64,14 @@ export class ClientFormComponent implements OnInit {
 
   // Form Section
   formSectionTitle = 'Lets get started';
-  formSectionSubtitle = 'Build With Us Here';
-  formSectionDescription = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor';
+  formSectionSubtitle = 'Build with us here';
+  formSectionDescription = '';
 
   // Footer Section
-  footerLogo = '/content/logo-no-bg.png';
-  footerText = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor';
-  footerSocialLinks = ['#', '#'];
+  footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
+  footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
+  footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   // Form Data
   formData: ClientFormDTO = {
@@ -164,12 +165,10 @@ export class ClientFormComponent implements OnInit {
         this.formSectionDescription = content['form_section_description'] || this.formSectionDescription;
         
         // ============ FOOTER SECTION ============
-        this.footerLogo = this.getImageUrl(content['footer_logo']) || this.footerLogo;
-        this.footerText = content['footer_text'] || this.footerText;
-        this.footerSocialLinks = [
-          content['footer_social_link_1'] || '#',
-          content['footer_social_link_2'] || '#'
-        ];
+        this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
+        this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
+        this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('Build With Us CMS content loaded successfully');
       },
