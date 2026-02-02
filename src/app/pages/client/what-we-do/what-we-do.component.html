@@ -65,31 +65,21 @@
     </section>
 </div>
 
-<section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
-    <div class="full-container">
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h2 class="section-title">{{ contactTitle }}</h2>
-                <div class="contact-item">
-                    <h3>{{ contactPhone.title }}</h3>
-                    <p>{{ contactPhone.description }}</p>
-                </div>
-                <div class="contact-item">
-                    <h3>{{ contactEmail.title }}</h3>
-                    <p>{{ contactEmail.description }}</p>
-                </div>
-                <div class="contact-item">
-                    <h3>{{ contactSocial.title }}</h3>
-                </div>
-                <div class="social-links">
-                    <a [href]="contactSocial.links[0]" class="social-icon"></a>
-                    <a [href]="contactSocial.links[1]" class="social-icon"></a>
-                    <a [href]="contactSocial.links[2]" class="social-icon"></a>
-                </div>
-            </div>
-            <div class="contact-logo">
-                <img [src]="contactLogoImage" alt="Pandigi Text" class="logo-text">
-            </div>
-        </div>
+<!-- Footer Section (DYNAMIC) -->
+<footer class="footer-section">
+  <div class="footer-container">
+    <div class="footer-info">
+      <p class="footer-line">{{ footerAddressLine1 }}</p>
+      <p class="footer-line">{{ footerAddressLine2 }}</p>
+      <p class="footer-line">{{ footerAddressLine3 }}</p>
     </div>
-</section>
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="/content/logo-no-bg.png" alt="Pandigi Logo">
+      </div>
+      <div class="footer-copyright">
+        <p>{{ footerCopyright }}</p>
+      </div>
+    </div>
+  </div>
+</footer>
