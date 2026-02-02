@@ -24,31 +24,325 @@
     </div>
 </section>
 
-<section id="contact" class="section contact" [@fadeInUp]="contactVisible ? 'visible' : 'hidden'">
+<!-- ============ PROJECTS SECTION ============ -->
+<section id="projects" class="section projects-section" [@fadeInUp]="projectsVisible ? 'visible' : 'hidden'">
     <div class="full-container">
-        <div class="contact-grid">
-            <div class="contact-info">
-                <h2 class="section-title">{{ contactTitle }}</h2>
-                <div class="contact-item">
-                    <h3>{{ contactPhone.title }}</h3>
-                    <p>{{ contactPhone.description }}</p>
+        
+        <!-- White Container Wrapper -->
+        <div class="projects-container">
+            
+            <!-- Search & Filter Container -->
+            <div class="search-filter-container">
+                <div class="search-wrapper">
+                    <div class="search-input-group">
+                        <input 
+                            type="text" 
+                            [(ngModel)]="searchQuery"
+                            (keyup.enter)="onSearch()"
+                            placeholder="Search projects by title, client, or description..."
+                            class="search-input"
+                        >
+                        <button 
+                            *ngIf="searchQuery" 
+                            class="clear-search-btn"
+                            (click)="clearSearch()"
+                            title="Clear search"
+                        >
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <button class="search-btn" (click)="onSearch()">
+                            Search
+                        </button>
+                    </div>
                 </div>
-                <div class="contact-item">
-                    <h3>{{ contactEmail.title }}</h3>
-                    <p>{{ contactEmail.description }}</p>
-                </div>
-                <div class="contact-item">
-                    <h3>{{ contactSocial.title }}</h3>
-                </div>
-                <div class="social-links">
-                    <a [href]="contactSocial.links[0]" class="social-icon"></a>
-                    <a [href]="contactSocial.links[1]" class="social-icon"></a>
-                    <a [href]="contactSocial.links[2]" class="social-icon"></a>
+                
+                <button class="filter-btn" (click)="toggleFilterModal()">
+                    <svg class="filter-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 4h12M4 8h8M6 12h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                    Filter
+                    <span *ngIf="activeFiltersCount > 0" class="filter-badge">{{ activeFiltersCount }}</span>
+                </button>
+            </div>
+
+            <!-- Active Filters Display -->
+            <div class="active-filters" *ngIf="selectedCategory || selectedYear">
+                <span class="filter-label">Active Filters:</span>
+                
+                <span class="filter-tag" *ngIf="selectedCategory">
+                    {{ getCategoryName(selectedCategory) }}
+                    <button class="remove-filter" (click)="selectedCategory = null; applyFilters()">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </span>
+                
+                <span class="filter-tag" *ngIf="selectedYear">
+                    {{ selectedYear }}
+                    <button class="remove-filter" (click)="selectedYear = null; applyFilters()">
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9 3L3 9M3 3L9 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                </span>
+                
+                <button class="clear-all-filters" (click)="clearFilters()">Clear All</button>
+            </div>
+
+            <!-- Loading State -->
+            <div class="loading-state" *ngIf="loading">
+                <div class="spinner"></div>
+                <p>Loading projects...</p>
+            </div>
+
+            <!-- Projects Grid -->
+            <div class="projects-grid" *ngIf="!loading && projects.length > 0">
+                <div class="project-card" *ngFor="let project of projects">
+                    <div class="project-image-wrapper">
+                        <img 
+                            *ngIf="project.projectImage" 
+                            [src]="getImageUrl(project.projectImage)" 
+                            [alt]="project.projectTitle"
+                            class="project-image"
+                        >
+                        <div *ngIf="!project.projectImage" class="project-image-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M40 38V14L28 8L8 14v24l20 6 12-6z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M8 14l20 6m0 0l12-6m-12 6v24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="project-overlay">
+                            <span class="project-category">{{ getCategoryName(project.projectCategory) }}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="project-content">
+                        <h3 class="project-title">{{ project.projectTitle }}</h3>
+                        
+                        <div class="project-meta">
+                            <span *ngIf="project.projectClient" class="meta-item">
+                                <svg class="meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="7" cy="4" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M2 12c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                {{ project.projectClient }}
+                            </span>
+                            <span *ngIf="project.projectYear" class="meta-item">
+                                <svg class="meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="2" y="3" width="10" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                    <path d="M2 6h10M5 2v2M9 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                </svg>
+                                {{ project.projectYear }}
+                            </span>
+                        </div>
+                        
+                        <p class="project-description" *ngIf="project.projectDescription">
+                            {{ project.projectDescription.length > 150 ? (project.projectDescription | slice:0:150) + '...' : project.projectDescription }}
+                        </p>
+                        
+                        <div class="project-technologies" *ngIf="project.projectTechnologies && project.projectTechnologies.length > 0">
+                            <span class="tech-tag" *ngFor="let tech of project.projectTechnologies.slice(0, 4)">
+                                {{ tech }}
+                            </span>
+                            <span class="tech-tag more" *ngIf="project.projectTechnologies.length > 4">
+                                +{{ project.projectTechnologies.length - 4 }}
+                            </span>
+                        </div>
+                        
+                        <div class="project-spacer" *ngIf="!project.projectTechnologies || project.projectTechnologies.length === 0"></div>
+                        
+                        <a 
+                            *ngIf="project.projectUrl" 
+                            [href]="project.projectUrl" 
+                            target="_blank"
+                            class="project-link"
+                        >
+                            View Project
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2 10L10 2M10 2H4M10 2v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="contact-logo">
-                <img [src]="contactLogoImage" alt="Pandigi Text" class="logo-text">
+
+            <!-- Empty State -->
+            <div class="empty-state" *ngIf="!loading && projects.length === 0">
+                <svg class="empty-icon" width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="26" cy="26" r="14" stroke="currentColor" stroke-width="3"/>
+                    <path d="M37 37l10 10" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+                <h3>No Projects Found</h3>
+                <p>Try adjusting your search or filters to find what you're looking for.</p>
+                <button class="reset-btn" (click)="clearFilters(); clearSearch()">Reset All</button>
             </div>
+
+            <!-- Pagination -->
+            <div class="pagination" *ngIf="!loading && totalPages > 1">
+                <button 
+                    class="pagination-btn" 
+                    [disabled]="!hasPrevious"
+                    (click)="previousPage()"
+                >
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    Previous
+                </button>
+                
+                <div class="pagination-pages">
+                    <button 
+                        *ngFor="let page of [].constructor(totalPages); let i = index"
+                        class="page-btn"
+                        [class.active]="i === currentPage"
+                        (click)="goToPage(i)"
+                    >
+                        {{ i + 1 }}
+                    </button>
+                </div>
+                
+                <button 
+                    class="pagination-btn" 
+                    [disabled]="!hasNext"
+                    (click)="nextPage()"
+                >
+                    Next
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="pagination-info" *ngIf="!loading && projects.length > 0">
+                Showing {{ (currentPage * pageSize) + 1 }} - {{ Math.min((currentPage + 1) * pageSize, totalItems) }} of {{ totalItems }} projects
+            </div>
+
         </div>
+        <!-- End White Container Wrapper -->
+
     </div>
 </section>
+
+<!-- ============ FILTER MODAL ============ -->
+<div class="modal-overlay" *ngIf="showFilterModal" (click)="toggleFilterModal()">
+    <div class="filter-modal" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Filter Projects</h2>
+            <button class="close-btn" (click)="toggleFilterModal()">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 5L5 15M5 5l10 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Category Filter -->
+            <div class="filter-group">
+                <label>Category</label>
+                <div class="custom-dropdown" (click)="$event.stopPropagation()">
+                    <div
+                        class="custom-dropdown-trigger"
+                        [class.active]="dropdownStates['category']"
+                        (click)="toggleDropdown('category', $event)"
+                    >
+                        <span class="custom-dropdown-label">
+                            {{ selectedCategory ? getCategoryName(selectedCategory) : 'All Categories' }}
+                        </span>
+
+                        <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['category']">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M6 9L1 4h10z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div class="custom-dropdown-menu" [class.show]="dropdownStates['category']">
+                        <div
+                            class="custom-dropdown-item"
+                            [class.selected]="selectedCategory === null"
+                            (click)="selectCategory(null)"
+                        >
+                            All Categories
+                        </div>
+                        <div
+                            class="custom-dropdown-item"
+                            *ngFor="let cat of filterOptions.categories"
+                            [class.selected]="cat.value === selectedCategory"
+                            (click)="selectCategory(cat.value)"
+                        >
+                            {{ cat.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Year Filter -->
+            <div class="filter-group">
+                <label>Year</label>
+                <div class="custom-dropdown" (click)="$event.stopPropagation()">
+                    <div
+                        class="custom-dropdown-trigger"
+                        [class.active]="dropdownStates['year']"
+                        (click)="toggleDropdown('year', $event)"
+                    >
+                        <span class="custom-dropdown-label">
+                            {{ selectedYear ? selectedYear : 'All Years' }}
+                        </span>
+
+                        <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['year']">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                                <path d="M6 9L1 4h10z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </div>
+
+                    <div class="custom-dropdown-menu" [class.show]="dropdownStates['year']">
+                        <div
+                            class="custom-dropdown-item"
+                            [class.selected]="selectedYear === null"
+                            (click)="selectYear(null)"
+                        >
+                            All Years
+                        </div>
+                        <div
+                            class="custom-dropdown-item"
+                            *ngFor="let year of filterOptions.years"
+                            [class.selected]="year === selectedYear"
+                            (click)="selectYear(year)"
+                        >
+                            {{ year }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn-secondary" (click)="clearFilters()">Clear All</button>
+            <button class="btn-primary" (click)="applyFilters()">Apply Filters</button>
+        </div>
+    </div>
+</div>
+
+<!-- ============ FOOTER SECTION ============ -->
+<footer class="footer-section">
+  <div class="footer-container">
+    <div class="footer-info">
+      <p class="footer-line">{{ footerAddressLine1 }}</p>
+      <p class="footer-line">{{ footerAddressLine2 }}</p>
+      <p class="footer-line">{{ footerAddressLine3 }}</p>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="/content/logo-no-bg.png" alt="Pandigi Logo">
+      </div>
+      <div class="footer-copyright">
+        <p>{{ footerCopyright }}</p>
+      </div>
+    </div>
+  </div>
+</footer>
