@@ -44,7 +44,6 @@ export class LandingComponent implements OnInit {
   whatWeDoVisible = false;
   whoWeAreVisible = false;
   ourWorkVisible = false;
-  contactVisible = false;
 
   // ============ DYNAMIC CONTENT FROM CMS ============
   
@@ -66,13 +65,12 @@ export class LandingComponent implements OnInit {
   // Our Work Section
   ourWorkTitle = 'Our work';
   portfolios: any[] = [];
-  
-  // Contact Section
-  contactTitle = 'Get in touch with us';
-  contactPhone = { title: 'Phone', description: '' };
-  contactEmail = { title: 'Email', description: '' };
-  contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = '/content/logo-text.png';
+
+  // Footer Section
+  footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
+  footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
+  footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   constructor(
     private router: Router,
@@ -153,29 +151,11 @@ export class LandingComponent implements OnInit {
           }
         ];
         
-        // ============ CONTACT SECTION ============
-        this.contactTitle = content['contact_title'] || this.contactTitle;
-        
-        this.contactPhone = {
-          title: content['contact_phone_title'] || 'Phone',
-          description: content['contact_phone_description'] || '+62 21 1234 5678 - Tersedia Senin hingga Jumat'
-        };
-        
-        this.contactEmail = {
-          title: content['contact_email_title'] || 'Email',
-          description: content['contact_email_description'] || 'info@pandawadigital.com - Kami akan merespons dalam 24 jam'
-        };
-        
-        this.contactSocial = {
-          title: content['contact_social_title'] || 'Social',
-          links: [
-            content['contact_social_link_1'] || '#',
-            content['contact_social_link_2'] || '#',
-            content['contact_social_link_3'] || '#'
-          ]
-        };
-        
-        this.contactLogoImage = this.getImageUrl(content['contact_logo_image']) || this.contactLogoImage;
+        // ============ FOOTER SECTION ============
+        this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
+        this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
+        this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('CMS content loaded successfully');
       },
@@ -205,7 +185,6 @@ export class LandingComponent implements OnInit {
     this.whatWeDoVisible = this.isElementInViewport('what-we-do');
     this.whoWeAreVisible = this.isElementInViewport('who-we-are');
     this.ourWorkVisible = this.isElementInViewport('our-work');
-    this.contactVisible = this.isElementInViewport('contact');
   }
 
   private isElementInViewport(elementId: string): boolean {

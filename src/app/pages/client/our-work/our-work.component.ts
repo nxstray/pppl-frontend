@@ -2,11 +2,13 @@ import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { CommonModule } from "@angular/common";
+import { FormsModule } from '@angular/forms';
 import { ContentPageService, PageName } from '../../../service/admin/content-page.service';
+import { ProjectService, ProjectDTO, ProjectCategory, ProjectSearchRequest, ProjectSearchResponse } from '../../../service/project/project.service';
 
 @Component({
   selector: 'app-our-work',
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './our-work.component.html',
   styleUrl: './our-work.component.scss',
   animations: [
@@ -44,8 +46,44 @@ export class OurWorkComponent implements OnInit {
 
   contactVisible = false;
   buildingVisible = false;
+  projectsVisible = false;
 
   sectionStates: { [id: string]: boolean } = {};
+
+  // Dropdown states for custom dropdown
+  dropdownStates: { [key: string]: boolean } = {
+    category: false,
+    year: false
+  };
+
+  // ============ PROJECTS DATA ============
+  projects: ProjectDTO[] = [];
+  loading = false;
+  
+  // Search & Filter
+  searchQuery = '';
+  selectedCategory: ProjectCategory | null = null;
+  selectedYear: number | null = null;
+  showFilterModal = false;
+  
+  filterOptions: {
+    categories: { value: string; label: string }[];
+    years: number[];
+  } = {
+    categories: [],
+    years: []
+  };
+  
+  // Pagination
+  currentPage = 0;
+  pageSize = 12;
+  totalPages = 0;
+  totalItems = 0;
+  hasNext = false;
+  hasPrevious = false;
+  
+  // Expose Math for template
+  Math = Math;
 
   // ============ DYNAMIC CONTENT FROM CMS ============
   
@@ -55,20 +93,22 @@ export class OurWorkComponent implements OnInit {
   heroVector = '/content/vector_logo_pandigi.png';
   heroBuildingImage = '/content/building.png';
 
-  // Contact Section
-  contactTitle = 'Get in touch with us';
-  contactPhone = { title: 'Phone', description: '' };
-  contactEmail = { title: 'Email', description: '' };
-  contactSocial = { title: 'Social', links: ['#', '#', '#'] };
-  contactLogoImage = '/content/logo-text.png';
+  // Footer Section
+  footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
+  footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
+  footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   constructor(
     private router: Router,
-    private contentService: ContentPageService
+    private contentService: ContentPageService,
+    private projectService: ProjectService
   ) { }
 
   ngOnInit() {
     this.loadPageContent();
+    this.loadFilterOptions();
+    this.loadProjects();
     this.checkSectionsVisibility();
     setTimeout(() => {
       this.buildingVisible = true;
@@ -76,42 +116,195 @@ export class OurWorkComponent implements OnInit {
   }
 
   /**
-   * Load all dynamic content from CMS
+   * ============ DROPDOWN METHODS ============
    */
+  
+  toggleDropdown(dropdown: string, event?: Event) {
+    if (event) event.stopPropagation();
+    Object.keys(this.dropdownStates).forEach(key => {
+      if (key !== dropdown) this.dropdownStates[key] = false;
+    });
+    this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
+  }
+
+  selectCategory(value: string | null) {
+    this.selectedCategory = value as ProjectCategory | null;
+    this.dropdownStates['category'] = false;
+  }
+
+  selectYear(value: number | null) {
+    this.selectedYear = value;
+    this.dropdownStates['year'] = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdowns(event: Event) {
+    Object.keys(this.dropdownStates).forEach(key => {
+      this.dropdownStates[key] = false;
+    });
+  }
+
+  /**
+   * ============ PROJECT METHODS ============
+   */
+  
+  loadProjects() {
+    this.loading = true;
+    
+    const request: ProjectSearchRequest = {
+      searchQuery: this.searchQuery || undefined,
+      category: this.selectedCategory || undefined,
+      year: this.selectedYear || undefined,
+      page: this.currentPage,
+      size: this.pageSize
+    };
+    
+    this.projectService.searchProjects(request).subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          const data = response.data as ProjectSearchResponse;
+          this.projects = data.projects;
+          this.currentPage = data.currentPage;
+          this.totalPages = data.totalPages;
+          this.totalItems = data.totalItems;
+          this.hasNext = data.hasNext;
+          this.hasPrevious = data.hasPrevious;
+        }
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error('Error loading projects:', err);
+        this.loading = false;
+      }
+    });
+  }
+  
+  loadFilterOptions() {
+    this.projectService.getFilterOptions().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.filterOptions = response.data;
+        }
+      },
+      error: (err) => {
+        console.error('Error loading filter options:', err);
+      }
+    });
+  }
+  
+  onSearch() {
+    this.currentPage = 0;
+    this.loadProjects();
+  }
+  
+  clearSearch() {
+    this.searchQuery = '';
+    this.currentPage = 0;
+    this.loadProjects();
+  }
+  
+  toggleFilterModal() {
+    this.showFilterModal = !this.showFilterModal;
+    if (!this.showFilterModal) {
+      // Close all dropdowns when modal closes
+      Object.keys(this.dropdownStates).forEach(key => {
+        this.dropdownStates[key] = false;
+      });
+    }
+  }
+  
+  applyFilters() {
+    this.currentPage = 0;
+    this.loadProjects();
+    this.showFilterModal = false;
+    Object.keys(this.dropdownStates).forEach(key => {
+      this.dropdownStates[key] = false;
+    });
+  }
+  
+  clearFilters() {
+    this.selectedCategory = null;
+    this.selectedYear = null;
+    this.currentPage = 0;
+    this.loadProjects();
+    this.showFilterModal = false;
+    Object.keys(this.dropdownStates).forEach(key => {
+      this.dropdownStates[key] = false;
+    });
+  }
+  
+  get activeFiltersCount(): number {
+    let count = 0;
+    if (this.selectedCategory) count++;
+    if (this.selectedYear) count++;
+    return count;
+  }
+  
+  // Pagination methods
+  previousPage() {
+    if (this.hasPrevious) {
+      this.currentPage--;
+      this.loadProjects();
+      this.scrollToSection('projects');
+    }
+  }
+  
+  nextPage() {
+    if (this.hasNext) {
+      this.currentPage++;
+      this.loadProjects();
+      this.scrollToSection('projects');
+    }
+  }
+  
+  goToPage(page: number) {
+    this.currentPage = page;
+    this.loadProjects();
+    this.scrollToSection('projects');
+  }
+  
+  getCategoryName(category: ProjectCategory): string {
+    return this.projectService.getCategoryDisplayName(category);
+  }
+  
+  getImageUrl(filename: string | undefined): string {
+    if (!filename) return '';
+    
+    if (filename.startsWith('http://') || filename.startsWith('https://')) {
+      return filename;
+    }
+    
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+    if (uuidPattern.test(filename)) {
+      return `http://localhost:8083/uploads/${filename}`;
+    }
+    
+    return `/content/${filename}`;
+  }
+
+  /**
+   * ============ CMS CONTENT METHODS ============
+   */
+  
   loadPageContent() {
     this.contentService.getPageContent(PageName.OUR_WORK).subscribe({
       next: (response) => {
         const content = response.content;
         
-        // ============ HERO SECTION ============
         this.heroTitle = content['hero_title'] || this.heroTitle;
         this.heroSubtitle = content['hero_subtitle'] || this.heroSubtitle;
-        this.heroVector = this.getImageUrl(content['hero_vector']) || this.heroVector;
-        this.heroBuildingImage = this.getImageUrl(content['hero_building_image']) || this.heroBuildingImage;
+        this.heroVector = this.getContentImageUrl(content['hero_vector']) || this.heroVector;
+        this.heroBuildingImage = this.getContentImageUrl(content['hero_building_image']) || this.heroBuildingImage;
         
-        // ============ CONTACT SECTION ============
-        this.contactTitle = content['contact_title'] || this.contactTitle;
-        
-        this.contactPhone = {
-          title: content['contact_phone_title'] || 'Phone',
-          description: content['contact_phone_description'] || '+62 21 1234 5678'
-        };
-        
-        this.contactEmail = {
-          title: content['contact_email_title'] || 'Email',
-          description: content['contact_email_description'] || 'info@pandawadigital.com'
-        };
-        
-        this.contactSocial = {
-          title: content['contact_social_title'] || 'Social',
-          links: [
-            content['contact_social_link_1'] || '#',
-            content['contact_social_link_2'] || '#',
-            content['contact_social_link_3'] || '#'
-          ]
-        };
-        
-        this.contactLogoImage = this.getImageUrl(content['contact_logo_image']) || this.contactLogoImage;
+        // ============ FOOTER SECTION ============
+        this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
+        this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
+        this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('Our Work CMS content loaded successfully');
       },
@@ -120,6 +313,29 @@ export class OurWorkComponent implements OnInit {
       }
     });
   }
+  
+  private getContentImageUrl(filename: string | undefined): string {
+    if (!filename) return '';
+    
+    if (filename.startsWith('http://') || filename.startsWith('https://')) {
+      return filename;
+    }
+    
+    if (filename.startsWith('/content/')) {
+      return filename;
+    }
+    
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
+    if (uuidPattern.test(filename)) {
+      return `http://localhost:8083/uploads/${filename}`;
+    }
+    
+    return `/content/${filename}`;
+  }
+
+  /**
+   * ============ SCROLL & NAVIGATION METHODS ============
+   */
 
   @HostListener('window:scroll')
   onScroll() {
@@ -138,9 +354,10 @@ export class OurWorkComponent implements OnInit {
   }
 
   private checkSectionsVisibility() {
-    const ids = ['contact'];
+    const ids = ['projects', 'contact'];
     ids.forEach(id => this.sectionStates[id] = this.isElementInViewport(id));
 
+    this.projectsVisible = !!this.sectionStates['projects'];
     this.contactVisible = !!this.sectionStates['contact'];
   }
 
@@ -152,33 +369,6 @@ export class OurWorkComponent implements OnInit {
     const windowHeight = window.innerHeight || document.documentElement.clientHeight;
 
     return rect.top <= windowHeight * 0.75;
-  }
-
-  /**
-   * Helper method untuk get image URL
-   */
-  private getImageUrl(filename: string | undefined): string {
-    if (!filename) return '';
-    
-    // Return full URL jika sudah lengkap (http/https)
-    if (filename.startsWith('http://') || filename.startsWith('https://')) {
-      return filename;
-    }
-    
-    // Jika sudah ada /content/ di depan, langsung return
-    if (filename.startsWith('/content/')) {
-      return filename;
-    }
-    
-    // Check if UUID (file dari upload backend)
-    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
-    if (uuidPattern.test(filename)) {
-      // File uploaded ke backend, akses via backend URL
-      return `http://localhost:8083/uploads/${filename}`;
-    }
-    
-    // Default: files di /public/content/
-    return `/content/${filename}`;
   }
 
   scrollToSection(sectionId: string): void {
