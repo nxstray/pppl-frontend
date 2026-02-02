@@ -380,91 +380,63 @@ html, body {
   color: white;
 }
 
-/* Contact Section */
-.contact {
-  background: transparent;
-  padding: 6rem 0 4rem;
+/* Footer Section */
+.footer-section {
   color: white;
+  padding: 3rem 0 1.5rem;
+  width: 100%;
+  margin: 0;
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  max-width: 1200px;
+.footer-container {
+  max-width: 1400px;
   margin: 0 auto;
+  padding: 0 4rem;
 }
 
-.contact-info {
-  color: white;
+.footer-info {
+  text-align: center;
+  margin-bottom: 2.5rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   
-  .section-title {
-    text-align: left;
-    margin-bottom: 2rem;
+  .footer-line {
+    color: white;
+    line-height: 1.6;
+    font-size: 0.95rem;
+    margin: 0 0 0.5rem 0;
+    opacity: 0.9;
     
-    &::after {
-      left: 0;
-      transform: translateX(0);
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }
 
-.contact-item {
-  margin-bottom: 2rem;
-}
-
-.contact-item h3 {
-  color: #D9953E;
-  margin-bottom: 0.5rem;
-  font-size: 1.3rem;
-}
-
-.contact-item p {
-  line-height: 1.6;
-}
-
-.social-links {
+.footer-bottom {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.social-icon {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  text-decoration: none;
-  transition: transform 0.3s ease, background 0.3s ease;
+  gap: 1rem;
 }
 
-.social-icon:hover {
-  transform: translateY(-5px);
-  background: #D9953E;
+.footer-logo {
+  flex-shrink: 0;
+  
+  img {
+    height: 50px;
+    width: auto;
+  }
 }
 
-.contact-logo {
-  text-align: right;
-}
-
-.logo-text {
-  max-width: 500px;
-  opacity: 0.8;
-  border-radius: 30px;
-}
-
-/* Footer */
-.footer {
-  background: #0C2B40;
-  color: white;
+.footer-copyright {
   text-align: center;
-  padding: 2rem 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+  }
 }
 
 /* Animations */
@@ -490,13 +462,21 @@ html, body {
     grid-template-columns: 1fr;
   }
   
-  .contact-grid {
-    grid-template-columns: 1fr;
-  }
-  
   .who-we-are .who-images {
     flex-direction: column;
     align-items: center;
+  }
+  
+  .footer-container {
+    padding: 0 2rem;
+  }
+  
+  .footer-logo img {
+    height: 40px;
+  }
+  
+  .footer-info .footer-line {
+    font-size: 0.9rem;
   }
 }
 
@@ -525,5 +505,17 @@ html, body {
     .who-text p {
       text-align: justify;
     }
+  }
+  
+  .footer-container {
+    padding: 0 1.5rem;
+  }
+  
+  .footer-info .footer-line {
+    font-size: 0.85rem;
+  }
+  
+  .footer-copyright p {
+    font-size: 0.8rem;
   }
 }
