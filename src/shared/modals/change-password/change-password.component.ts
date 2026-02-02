@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../app/service/auth/auth.service';
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   templateUrl: './change-password.component.html',
   styleUrls: ['./change-password.component.scss']
 })
-export class ChangePasswordComponent {
+export class ChangePasswordComponent implements OnDestroy {
   @Input() isFirstLogin = false;
   @Output() close = new EventEmitter<void>();
 
@@ -26,6 +26,11 @@ export class ChangePasswordComponent {
   isLoading = false;
   errorMessage = '';
   
+  // Success modal
+  showSuccessModal = false;
+  countdown = 7;
+  countdownInterval: any;
+  
   passwordRequirements = {
     minLength: false,
     hasUppercase: false,
@@ -38,6 +43,12 @@ export class ChangePasswordComponent {
     private authService: AuthService,
     private router: Router
   ) {}
+
+  ngOnDestroy(): void {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
+  }
 
   /**
    * Validate password requirements
@@ -93,8 +104,9 @@ export class ChangePasswordComponent {
     ).subscribe({
       next: (response) => {
         if (response.success) {
-          alert('Password berhasil diubah. Silakan login kembali dengan password baru Anda.');
-          this.authService.logout();
+          this.isLoading = false;
+          this.showSuccessModal = true;
+          this.startCountdown();
         } else {
           this.errorMessage = response.message;
           this.isLoading = false;
@@ -106,6 +118,35 @@ export class ChangePasswordComponent {
         this.isLoading = false;
       }
     });
+  }
+
+  /**
+   * Start countdown timer
+   */
+  startCountdown(): void {
+    this.countdownInterval = setInterval(() => {
+      this.countdown--;
+      if (this.countdown <= 0) {
+        this.redirectToLogin();
+      }
+    }, 1000);
+  }
+
+  /**
+   * Redirect to login page
+   */
+  redirectToLogin(): void {
+    if (this.countdownInterval) {
+      clearInterval(this.countdownInterval);
+    }
+    this.authService.logout();
+  }
+
+  /**
+   * Manual redirect (ketika user klik tombol)
+   */
+  onLoginNow(): void {
+    this.redirectToLogin();
   }
 
   /**
