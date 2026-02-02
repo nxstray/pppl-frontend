@@ -212,21 +212,21 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-content">
-      <div class="footer-left">
-        <img [src]="footerLogo" alt="Pandigi Logo" class="footer-logo">
-        <p class="footer-text">
-          {{ footerText }}
-        </p>
+  <!-- FOOTER SECTION -->
+<footer class="footer-section">
+  <div class="footer-container">
+    <div class="footer-info">
+      <p class="footer-line">{{ footerAddressLine1 }}</p>
+      <p class="footer-line">{{ footerAddressLine2 }}</p>
+      <p class="footer-line">{{ footerAddressLine3 }}</p>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-logo">
+        <img src="/content/logo-no-bg.png" alt="Pandigi Logo">
       </div>
-      <div class="footer-right">
-        <div class="social-links">
-          <a [href]="footerSocialLinks[0]" class="social-icon"></a>
-          <a [href]="footerSocialLinks[1]" class="social-icon"></a>
-        </div>
+      <div class="footer-copyright">
+        <p>{{ footerCopyright }}</p>
       </div>
     </div>
-  </footer>
-</div>
+  </div>
+</footer>
