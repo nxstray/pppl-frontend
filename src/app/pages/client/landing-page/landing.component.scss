@@ -521,7 +521,7 @@ html, body {
     left: 1rem;
     right: 1rem;
     margin: 0;
-    border-radius: 25px;
+    border-radius: 11px;
   }
   
   .navbar-container {
@@ -615,9 +615,9 @@ html, body {
     display: block;
   }
   
-  /* Building image - positioned at bottom center */
+  /* Building image */
   .building-image {
-    right: 50%;
+    right: auto;
     transform: translateX(50%);
     bottom: 0;
     height: 35%;
@@ -627,7 +627,7 @@ html, body {
     z-index: 2;
   }
   
-  /* Polkadots - smaller and repositioned */
+  /* Polkadots */
   .polkadot-left {
     width: 120px;
     top: 10%;
