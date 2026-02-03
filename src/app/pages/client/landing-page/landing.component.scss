@@ -26,7 +26,6 @@ html, body {
 .hero-section {
   position: relative;
   height: 100vh;
-  min-height: 600px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -62,8 +61,7 @@ html, body {
   bottom: 0;
   right: -0.2%;
   height: 80%;
-  z-index: 3;
-  object-fit: contain;
+  z-index: 3; 
 }
 
 .hero-content {
@@ -163,7 +161,6 @@ html, body {
   cursor: pointer;
   transition: color 0.3s ease;
   letter-spacing: 0.5px;
-  white-space: nowrap;
 }
 
 .navbar-menu li a:hover {
@@ -228,10 +225,10 @@ html, body {
   
   &:hover {
     background: linear-gradient(
-      135deg,
-      #008080 0%,
-      #4CABAB 100%
-    );
+    135deg,
+    #008080 0%,
+    #4CABAB 100%
+  );
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 15px 40px rgba(76, 171, 171, 0.3);
@@ -243,8 +240,8 @@ html, body {
 }
 
 .service-image {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
@@ -254,8 +251,8 @@ html, body {
   flex-shrink: 0;
   
   img {
-    width: 30px;
-    height: 30px;
+    width: 80px;
+    height: 80px;
     object-fit: contain;
   }
 }
@@ -300,7 +297,6 @@ html, body {
     max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
-    flex-wrap: wrap;
   }
   
   .team-image {
@@ -383,7 +379,6 @@ html, body {
 .portfolio-overlay h3 {
   font-size: 1.5rem;
   color: white;
-  padding: 1rem;
 }
 
 /* Footer Section */
@@ -457,7 +452,9 @@ html, body {
   }
 }
 
-/* RESPONSIVE DESIGN FOR MOBILE */
+/* ============================================
+   RESPONSIVE DESIGN - MOBILE OPTIMIZATION
+   ============================================ */
 
 /* Tablet */
 @media (max-width: 1024px) {
@@ -480,9 +477,6 @@ html, body {
   
   .cta-button {
     margin-left: 0;
-    display: block;
-    text-align: center;
-    max-width: 200px;
   }
   
   .building-image {
@@ -506,43 +500,82 @@ html, body {
   .footer-container {
     padding: 0 2rem;
   }
+  
+  .footer-logo img {
+    height: 40px;
+  }
+  
+  .footer-info .footer-line {
+    font-size: 0.9rem;
+  }
 }
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* Navbar Mobile */
+  /* ========== NAVBAR MOBILE ========== */
   .navbar-floating {
     top: 1rem;
-    padding: 0.6rem 1rem;
+    padding: 0.5rem 0.8rem;
     width: calc(100% - 2rem);
     max-width: calc(100% - 2rem);
     left: 1rem;
     right: 1rem;
     margin: 0;
+    border-radius: 25px;
   }
   
   .navbar-container {
-    gap: 0;
-    justify-content: center;
+    gap: 0.5rem;
+    justify-content: space-between;
+    width: 100%;
   }
   
   .navbar-logo {
     margin: 0;
+    flex-shrink: 0;
   }
   
   .navbar-logo img {
-    height: 25px;
+    height: 22px;
     margin-right: 0;
   }
   
+  /* Show ALL menu items in mobile with smaller font and tight spacing */
   .navbar-menu {
-    display: none;
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
   
-  /* Hero Section Mobile */
+  .navbar-menu li {
+    flex-shrink: 0;
+  }
+  
+  .navbar-menu li a {
+    font-size: 0.6rem;
+    letter-spacing: 0.2px;
+    font-weight: 600;
+    white-space: nowrap;
+  }
+  
+  /* ========== HERO SECTION MOBILE ========== */
   .hero-section {
     min-height: 100vh;
+    height: auto;
     padding: 0;
+    align-items: flex-start;
+    padding-top: 100px;
   }
   
   .full-container {
@@ -554,47 +587,62 @@ html, body {
     padding-right: 1.5rem;
     max-width: 100%;
     width: 100%;
+    position: relative;
+    z-index: 10;
   }
   
   .hero-title {
     font-size: 1.5rem;
     line-height: 1.4;
     margin-bottom: 1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
   
   .hero-subtitle {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     margin-bottom: 2rem;
-    line-height: 1.5;
+    line-height: 1.6;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   }
   
   .cta-button {
-    padding: 0.8rem 2rem;
+    padding: 0.85rem 2rem;
     font-size: 0.9rem;
     margin-left: 0;
     width: 100%;
-    max-width: 250px;
+    max-width: 100%;
     text-align: center;
+    display: block;
   }
   
+  /* Building image - positioned at bottom center */
   .building-image {
-    right: -20%;
-    height: 50%;
-    opacity: 0.7;
+    right: 50%;
+    transform: translateX(50%);
+    bottom: 0;
+    height: 35%;
+    width: auto;
+    max-width: 90%;
+    opacity: 0.9;
+    z-index: 2;
   }
   
+  /* Polkadots - smaller and repositioned */
   .polkadot-left {
-    width: 150px;
-    top: -5%;
+    width: 120px;
+    top: 10%;
+    left: -10%;
+    opacity: 0.3;
   }
   
   .polkadot-right {
-    width: 150px;
-    bottom: -5%;
-    right: 0;
+    width: 120px;
+    bottom: 20%;
+    right: -10%;
+    opacity: 0.3;
   }
   
-  /* Sections Mobile */
+  /* ========== SECTIONS MOBILE ========== */
   .section {
     padding: 3rem 0;
   }
@@ -604,7 +652,7 @@ html, body {
     margin-bottom: 2rem;
   }
   
-  /* What We Do Mobile */
+  /* ========== WHAT WE DO MOBILE ========== */
   .services-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -614,15 +662,17 @@ html, body {
     padding: 2rem 1.5rem;
   }
   
+  /* Keep icon size exactly as desktop - DO NOT CHANGE */
+  
   .service-card h3 {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   
   .service-card p {
     font-size: 0.9rem;
   }
   
-  /* Who We Are Mobile */
+  /* ========== WHO WE ARE MOBILE ========== */
   .who-we-are {
     .who-images {
       flex-direction: column;
@@ -641,7 +691,7 @@ html, body {
     }
   }
   
-  /* Our Work Mobile */
+  /* ========== OUR WORK MOBILE ========== */
   .portfolio-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -654,9 +704,10 @@ html, body {
   
   .portfolio-overlay h3 {
     font-size: 1.2rem;
+    padding: 1rem;
   }
   
-  /* Footer Mobile */
+  /* ========== FOOTER MOBILE ========== */
   .footer-section {
     padding: 2rem 0 1rem;
   }
@@ -686,6 +737,10 @@ html, body {
 
 /* Extra Small Mobile */
 @media (max-width: 480px) {
+  .navbar-menu li a {
+    font-size: 0.65rem;
+  }
+  
   .hero-title {
     font-size: 1.3rem;
   }
@@ -695,7 +750,7 @@ html, body {
   }
   
   .cta-button {
-    padding: 0.7rem 1.5rem;
+    padding: 0.75rem 1.5rem;
     font-size: 0.85rem;
   }
   
@@ -718,23 +773,29 @@ html, body {
   .footer-info .footer-line {
     font-size: 0.8rem;
   }
-  
-  .navbar-logo img {
-    height: 22px;
-  }
 }
 
-/* Landscape Mobile */
+/* Landscape Mobile Fix */
 @media (max-width: 768px) and (orientation: landscape) {
   .hero-section {
-    min-height: 600px;
+    min-height: 100vh;
+    padding-top: 80px;
   }
   
   .building-image {
-    height: 60%;
+    height: 50%;
   }
   
-  .hero-content {
-    padding-top: 4rem;
+  .hero-title {
+    font-size: 1.3rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-button {
+    padding: 0.7rem 1.5rem;
   }
 }
