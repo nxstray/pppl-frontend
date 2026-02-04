@@ -6,9 +6,10 @@ import { ContentPageService, PageName } from '../../../service/admin/content-pag
 
 @Component({
   selector: 'app-what-we-do',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './what-we-do.component.html',
-  styleUrl: './what-we-do.component.scss',
+  styleUrls: ['./what-we-do.component.scss'],
   animations: [
     trigger('fadeInUp', [
       state('hidden', style({ opacity: 0, transform: 'translateY(50px)' })),
