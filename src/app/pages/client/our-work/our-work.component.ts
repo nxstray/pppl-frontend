@@ -8,9 +8,10 @@ import { ProjectService, ProjectDTO, ProjectCategory, ProjectSearchRequest, Proj
 
 @Component({
   selector: 'app-our-work',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './our-work.component.html',
-  styleUrl: './our-work.component.scss',
+  styleUrls: ['./our-work.component.scss'],
   animations: [
     trigger('fadeInUp', [
       state('hidden', style({ opacity: 0, transform: 'translateY(50px)' })),
@@ -56,9 +57,12 @@ export class OurWorkComponent implements OnInit {
     year: false
   };
 
-  // ============ PROJECTS DATA ============
+  // Project Data
   projects: ProjectDTO[] = [];
   loading = false;
+
+  featuredProjects: ProjectDTO[] = [];
+  featuredLoading = false;
   
   // Search & Filter
   searchQuery = '';
@@ -85,7 +89,7 @@ export class OurWorkComponent implements OnInit {
   // Expose Math for template
   Math = Math;
 
-  // ============ DYNAMIC CONTENT FROM CMS ============
+  // Dynamic Content Variables
   
   // Hero Section
   heroTitle = 'Our Work';
@@ -108,6 +112,7 @@ export class OurWorkComponent implements OnInit {
   ngOnInit() {
     this.loadPageContent();
     this.loadFilterOptions();
+    this.loadFeaturedProjects();
     this.loadProjects();
     this.checkSectionsVisibility();
     setTimeout(() => {
@@ -115,10 +120,7 @@ export class OurWorkComponent implements OnInit {
     }, 100);
   }
 
-  /**
-   * ============ DROPDOWN METHODS ============
-   */
-  
+  // Dropdown Methods
   toggleDropdown(dropdown: string, event?: Event) {
     if (event) event.stopPropagation();
     Object.keys(this.dropdownStates).forEach(key => {
@@ -144,10 +146,7 @@ export class OurWorkComponent implements OnInit {
     });
   }
 
-  /**
-   * ============ PROJECT METHODS ============
-   */
-  
+  // Proj
   loadProjects() {
     this.loading = true;
     
@@ -175,6 +174,23 @@ export class OurWorkComponent implements OnInit {
       error: (err) => {
         console.error('Error loading projects:', err);
         this.loading = false;
+      }
+    });
+  }
+
+  loadFeaturedProjects() {
+    this.featuredLoading = true;
+    
+    this.projectService.getFeaturedProjects().subscribe({
+      next: (response) => {
+        if (response.success && response.data) {
+          this.featuredProjects = response.data;
+        }
+        this.featuredLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading featured projects:', err);
+        this.featuredLoading = false;
       }
     });
   }
@@ -286,10 +302,7 @@ export class OurWorkComponent implements OnInit {
     return `/content/${filename}`;
   }
 
-  /**
-   * ============ CMS CONTENT METHODS ============
-   */
-  
+  // CMS Content Methods
   loadPageContent() {
     this.contentService.getPageContent(PageName.OUR_WORK).subscribe({
       next: (response) => {
@@ -300,7 +313,7 @@ export class OurWorkComponent implements OnInit {
         this.heroVector = this.getContentImageUrl(content['hero_vector']) || this.heroVector;
         this.heroBuildingImage = this.getContentImageUrl(content['hero_building_image']) || this.heroBuildingImage;
         
-        // ============ FOOTER SECTION ============
+        // Footer Sections
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
@@ -333,10 +346,7 @@ export class OurWorkComponent implements OnInit {
     return `/content/${filename}`;
   }
 
-  /**
-   * ============ SCROLL & NAVIGATION METHODS ============
-   */
-
+  // Scroll and Animation Methods
   @HostListener('window:scroll')
   onScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
