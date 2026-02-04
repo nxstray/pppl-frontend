@@ -19,6 +19,7 @@ import { AdminLayoutComponent } from './pages/admin/layout-page/admin-layout.com
 import { LeadScoringComponent } from './pages/admin/scoring-page/lead-scoring.component';
 import { RequestLayananComponent } from './pages/admin/request-page/request-layanan.component';
 import { ContentManageComponent } from './pages/admin/content-page/content-manage.component';
+import { ProjectManageComponent } from './pages/admin/project-page/project-manage.component';
 
 export const routes: Routes = [
   {
@@ -106,6 +107,11 @@ export const routes: Routes = [
         path: 'content-manage',
         loadComponent: () => import('./pages/admin/content-page/content-manage.component')
           .then(m => m.ContentManageComponent)
+      },
+      {
+        path: 'project-manage',
+        loadComponent: () => import('./pages/admin/project-page/project-manage.component')
+          .then(m => m.ProjectManageComponent)
       }
     ]
   },
