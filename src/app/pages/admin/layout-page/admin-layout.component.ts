@@ -31,6 +31,7 @@ export class AdminLayoutComponent implements OnInit {
     { label: 'LAYANAN', route: '/admin/layanan' },
     { label: 'REQUEST LAYANAN', route: '/admin/request-layanan' },
     { label: 'CONTENT MANAGE', route: '/admin/content-manage' },
+    { label: 'PROJECT MANAGE', route: '/admin/project-manage' },
     { label: 'REKAP MEETING', route: '/admin/rekap' }
   ];
 
