@@ -1,0 +1,334 @@
+<div class="project-manage-container">
+
+  <!-- ================= HEADER ================= -->
+  <div class="page-header">
+    <div>
+      <h1>PROJECT MANAGEMENT</h1>
+    </div>
+    <button class="btn-primary" (click)="openCreateModal()">
+      Tambah Project
+    </button>
+  </div>
+
+  <!-- ================= LOADING ================= -->
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Memuat data...</p>
+  </div>
+
+  <!-- ================= PROJECT LIST ================= -->
+  <div *ngIf="!loading" class="project-list">
+
+    <div class="project-stats">
+      <span>Total Projects: <strong>{{ projects.length }}</strong></span>
+      <span>Active: <strong>{{ activeProjectCount }}</strong></span>
+      <span>Featured: <strong>{{ featuredProjectCount }}</strong></span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="project-table">
+        <thead>
+          <tr>
+            <th>Order</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Client</th>
+            <th>Year</th>
+            <th>Technologies</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let project of projects">
+            <td>{{ project.displayOrder }}</td>
+            <td class="image-cell">
+              <div class="project-image-preview">
+                <img 
+                  *ngIf="project.projectImage" 
+                  [src]="getImageUrl(project.projectImage)" 
+                  [alt]="project.projectTitle"
+                  (error)="onImageError($event)"
+                >
+                <div *ngIf="!project.projectImage" class="no-image">
+                  <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="40" height="40" fill="#e0e0e0"/>
+                    <path d="M20 15v10M15 20h10" stroke="#999" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                </div>
+              </div>
+            </td>
+            <td>
+              <div class="project-title-cell">
+                <strong>{{ project.projectTitle }}</strong>
+                <span class="featured-badge" *ngIf="project.isFeatured">⭐ Featured</span>
+              </div>
+            </td>
+            <td>
+              <span class="category-badge">
+                {{ getCategoryDisplayName(project.projectCategory) }}
+              </span>
+            </td>
+            <td>{{ project.projectClient || '-' }}</td>
+            <td>{{ project.projectYear || '-' }}</td>
+            <td class="tech-cell">
+              <div class="tech-tags" *ngIf="project.projectTechnologies && project.projectTechnologies.length > 0">
+                <span class="tech-tag" *ngFor="let tech of project.projectTechnologies.slice(0, 2)">
+                  {{ tech }}
+                </span>
+                <span class="tech-tag more" *ngIf="project.projectTechnologies.length > 2">
+                  +{{ project.projectTechnologies.length - 2 }}
+                </span>
+              </div>
+              <span *ngIf="!project.projectTechnologies || project.projectTechnologies.length === 0">-</span>
+            </td>
+            <td>
+              <span class="status-badge" [class.active]="project.isActive">
+                {{ project.isActive ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="text-small">
+              <div>{{ project.updatedAt | date:'dd/MM/yyyy' }}</div>
+              <div class="text-muted">{{ project.updatedByName }}</div>
+            </td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-icon" (click)="openEditModal(project)" title="Edit">
+                  Edit
+                </button>
+                <button 
+                  class="btn-icon btn-featured" 
+                  (click)="toggleFeatured(project)"
+                  [title]="project.isFeatured ? 'Unfeature' : 'Feature'">
+                  {{ project.isFeatured ? '⭐' : '☆' }}
+                </button>
+                <button 
+                  class="btn-icon btn-status" 
+                  (click)="toggleActive(project)"
+                  [title]="project.isActive ? 'Nonaktifkan' : 'Aktifkan'">
+                  {{ project.isActive ? 'Hide' : 'Show' }}
+                </button>
+                <button 
+                  class="btn-icon btn-delete" 
+                  (click)="deleteProject(project)"
+                  title="Hapus">
+                  Hapus
+                </button>
+              </div>
+            </td>
+          </tr>
+
+          <tr *ngIf="projects.length === 0">
+            <td colspan="10" class="empty-state">
+              <p>Belum ada project</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    
+    <div class="modal-header">
+      <h2>{{ isEditMode ? 'Edit Project' : 'Tambah Project Baru' }}</h2>
+      <button class="close-btn" (click)="closeModal()">✕</button>
+    </div>
+
+    <div class="modal-body">
+      
+      <!-- Project Title -->
+      <div class="form-group">
+        <label>Project Title <span class="required">*</span></label>
+        <input 
+          type="text" 
+          [(ngModel)]="formData.projectTitle"
+          placeholder="e.g., E-Commerce Platform"
+          class="form-input"
+        />
+      </div>
+
+      <!-- Project Description -->
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          [(ngModel)]="formData.projectDescription"
+          rows="4"
+          class="form-input"
+          placeholder="Deskripsi project..."
+        ></textarea>
+      </div>
+
+      <!-- Category Dropdown -->
+      <div class="form-group">
+        <label>Category <span class="required">*</span></label>
+        <div class="custom-dropdown" (click)="$event.stopPropagation()">
+          <div
+            class="custom-dropdown-trigger"
+            [class.active]="dropdownStates['category']"
+            (click)="toggleDropdown('category', $event)"
+          >
+            <span class="custom-dropdown-label">
+              {{ getSelectedCategoryLabel() }}
+            </span>
+
+            <span class="custom-dropdown-arrow" [class.rotated]="dropdownStates['category']">
+              <svg width="12" height="12" viewBox="0 0 12 12">
+                <path d="M6 9L1 4h10z" fill="currentColor"/>
+              </svg>
+            </span>
+          </div>
+
+          <div class="custom-dropdown-menu" [class.show]="dropdownStates['category']">
+            <div
+              class="custom-dropdown-item"
+              *ngFor="let cat of categoryOptions"
+              [class.selected]="cat.value === formData.projectCategory"
+              (click)="selectCategory(cat.value)"
+            >
+              {{ cat.label }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Image Upload -->
+      <div class="form-group">
+        <label>Project Image</label>
+        <div class="image-upload-section">
+          <div class="image-preview-wrapper" *ngIf="previewImageUrl">
+            <img
+              [src]="previewImageUrl"
+              alt="Preview"
+              class="preview-image"
+              (error)="onImageError($event)"
+            />
+          </div>
+
+          <button
+            type="button"
+            class="btn-upload"
+            (click)="triggerFileInput()"
+            [disabled]="uploading || processing"
+          >
+            {{ uploading ? 'Uploading...' : (uploadedFileName ? 'Ganti Gambar' : 'Upload Gambar') }}
+          </button>
+
+          <input
+            #fileInput
+            type="file"
+            style="display: none"
+            (change)="onFileSelected($event)"
+            accept="image/*"
+          />
+          
+          <small>Upload gambar (max 5MB) atau masukkan nama file manual</small>
+          
+          <input
+            type="text"
+            [(ngModel)]="formData.projectImage"
+            placeholder="filename.png atau /content/image.png"
+            class="form-input"
+            style="margin-top: 0.5rem;"
+          />
+        </div>
+      </div>
+
+      <!-- Client & Year -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Client</label>
+          <input 
+            type="text" 
+            [(ngModel)]="formData.projectClient"
+            placeholder="e.g., PT. ABC Indonesia"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label>Year</label>
+          <input 
+            type="number" 
+            [(ngModel)]="formData.projectYear"
+            placeholder="2024"
+            class="form-input"
+            min="2000"
+            max="2100"
+          />
+        </div>
+      </div>
+
+      <!-- Technologies -->
+      <div class="form-group">
+        <label>Technologies</label>
+        <input 
+          type="text" 
+          [(ngModel)]="technologiesInput"
+          placeholder="React, Node.js, MongoDB (pisahkan dengan koma)"
+          class="form-input"
+        />
+        <small>Pisahkan dengan koma untuk multiple technologies</small>
+      </div>
+
+      <!-- Project URL -->
+      <div class="form-group">
+        <label>Project URL</label>
+        <input 
+          type="url" 
+          [(ngModel)]="formData.projectUrl"
+          placeholder="https://example.com"
+          class="form-input"
+        />
+      </div>
+
+      <!-- Display Order & Featured -->
+      <div class="form-row">
+        <div class="form-group">
+          <label>Display Order <span class="required">*</span></label>
+          <input 
+            type="number" 
+            [(ngModel)]="formData.displayOrder"
+            placeholder="0"
+            class="form-input"
+          />
+          <small>Urutan tampilan (semakin kecil semakin di atas)</small>
+        </div>
+
+        <div class="form-group">
+          <label>Featured Project</label>
+          <div class="checkbox-wrapper">
+            <label class="checkbox-label">
+              <input 
+                type="checkbox" 
+                [(ngModel)]="formData.isFeatured"
+              />
+              <span>Tampilkan di featured section</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn-secondary" (click)="closeModal()" [disabled]="processing">
+        Batal
+      </button>
+      <button 
+        class="btn-primary" 
+        (click)="submitForm()"
+        [disabled]="!isFormValid() || processing"
+      >
+        {{ processing ? 'Menyimpan...' : 'Simpan' }}
+      </button>
+    </div>
+
+  </div>
+</div>
