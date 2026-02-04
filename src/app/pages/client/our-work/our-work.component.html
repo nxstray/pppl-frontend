@@ -24,12 +24,98 @@
     </div>
 </section>
 
-<!-- ============ PROJECTS SECTION ============ -->
+<!-- Projects Section -->
 <section id="projects" class="section projects-section" [@fadeInUp]="projectsVisible ? 'visible' : 'hidden'">
     <div class="full-container">
         
         <!-- White Container Wrapper -->
         <div class="projects-container">
+
+            <!-- Featured Projects -->
+            <div class="featured-section" *ngIf="!featuredLoading && featuredProjects.length > 0">
+                <div class="featured-header">
+                    <h2 class="featured-title">Featured Projects</h2>
+                    <p class="featured-subtitle">Explore our highlighted work and success stories</p>
+                </div>
+                
+                <div class="featured-grid">
+                    <div class="featured-card" *ngFor="let project of featuredProjects.slice(0, 3)">
+                        <div class="featured-image-wrapper">
+                            <img 
+                                *ngIf="project.projectImage" 
+                                [src]="getImageUrl(project.projectImage)" 
+                                [alt]="project.projectTitle"
+                                class="featured-image"
+                            >
+                            <div *ngIf="!project.projectImage" class="featured-image-placeholder">
+                                <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M53.33 50.67V18.67L37.33 10.67L10.67 18.67v32l26.66 8 16-8z" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                    <path d="M10.67 18.67l26.66 8m0 0l16-8m-16 8v32" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </div>
+                            
+                            <div class="featured-badge">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M8 1l2.163 4.382 4.837.704-3.5 3.411.826 4.818L8 12.236l-4.326 2.079.826-4.818-3.5-3.41 4.837-.705L8 1z"/>
+                                </svg>
+                                Featured
+                            </div>
+                            
+                            <div class="featured-overlay">
+                                <span class="featured-category">{{ getCategoryName(project.projectCategory) }}</span>
+                            </div>
+                        </div>
+                        
+                        <div class="featured-content">
+                            <h3 class="featured-project-title">{{ project.projectTitle }}</h3>
+                            
+                            <div class="featured-meta">
+                                <span *ngIf="project.projectClient" class="meta-item">
+                                    <svg class="meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <circle cx="7" cy="4" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M2 12c0-2.761 2.239-5 5-5s5 2.239 5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    {{ project.projectClient }}
+                                </span>
+                                <span *ngIf="project.projectYear" class="meta-item">
+                                    <svg class="meta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <rect x="2" y="3" width="10" height="9" rx="1" stroke="currentColor" stroke-width="1.5"/>
+                                        <path d="M2 6h10M5 2v2M9 2v2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                                    </svg>
+                                    {{ project.projectYear }}
+                                </span>
+                            </div>
+                            
+                            <p class="featured-description" *ngIf="project.projectDescription">
+                                {{ project.projectDescription.length > 120 ? (project.projectDescription | slice:0:120) + '...' : project.projectDescription }}
+                            </p>
+                            
+                            <div class="featured-technologies" *ngIf="project.projectTechnologies && project.projectTechnologies.length > 0">
+                                <span class="tech-tag" *ngFor="let tech of project.projectTechnologies.slice(0, 3)">
+                                    {{ tech }}
+                                </span>
+                                <span class="tech-tag more" *ngIf="project.projectTechnologies.length > 3">
+                                    +{{ project.projectTechnologies.length - 3 }}
+                                </span>
+                            </div>
+                            
+                            <a 
+                                *ngIf="project.projectUrl" 
+                                [href]="project.projectUrl" 
+                                target="_blank"
+                                class="featured-link"
+                            >
+                                View Project
+                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M2 12L12 2M12 2H5M12 2v7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="featured-divider"></div>
+            </div>
             
             <!-- Search & Filter Container -->
             <div class="search-filter-container">
@@ -227,7 +313,7 @@
     </div>
 </section>
 
-<!-- ============ FILTER MODAL ============ -->
+<!-- Filter Modal -->
 <div class="modal-overlay" *ngIf="showFilterModal" (click)="toggleFilterModal()">
     <div class="filter-modal" (click)="$event.stopPropagation()">
         <div class="modal-header">
@@ -328,7 +414,7 @@
     </div>
 </div>
 
-<!-- ============ FOOTER SECTION ============ -->
+<!-- Footer Section -->
 <footer class="footer-section">
   <div class="footer-container">
     <div class="footer-info">
