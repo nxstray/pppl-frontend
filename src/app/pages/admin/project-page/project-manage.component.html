@@ -1,6 +1,6 @@
 <div class="project-manage-container">
 
-  <!-- ================= HEADER ================= -->
+  <!-- Header -->
   <div class="page-header">
     <div>
       <h1>PROJECT MANAGEMENT</h1>
@@ -10,13 +10,13 @@
     </button>
   </div>
 
-  <!-- ================= LOADING ================= -->
+  <!-- Loading -->
   <div *ngIf="loading" class="loading-state">
     <div class="spinner"></div>
     <p>Memuat data...</p>
   </div>
 
-  <!-- ================= PROJECT LIST ================= -->
+  <!-- Project List -->
   <div *ngIf="!loading" class="project-list">
 
     <div class="project-stats">
@@ -64,7 +64,7 @@
             <td>
               <div class="project-title-cell">
                 <strong>{{ project.projectTitle }}</strong>
-                <span class="featured-badge" *ngIf="project.isFeatured">⭐ Featured</span>
+                <span class="featured-badge" *ngIf="project.isFeatured">Featured</span>
               </div>
             </td>
             <td>
@@ -103,13 +103,13 @@
                   class="btn-icon btn-featured" 
                   (click)="toggleFeatured(project)"
                   [title]="project.isFeatured ? 'Unfeature' : 'Feature'">
-                  {{ project.isFeatured ? '⭐' : '☆' }}
+                  {{ project.isFeatured ? 'Unfeature' : 'Feature' }}
                 </button>
                 <button 
                   class="btn-icon btn-status" 
                   (click)="toggleActive(project)"
                   [title]="project.isActive ? 'Nonaktifkan' : 'Aktifkan'">
-                  {{ project.isActive ? 'Hide' : 'Show' }}
+                  {{ project.isActive ? 'Nonaktifkan' : 'Aktifkan' }}
                 </button>
                 <button 
                   class="btn-icon btn-delete" 
@@ -132,7 +132,7 @@
   </div>
 </div>
 
-<!-- ================= MODAL ================= -->
+<!-- Modal -->
 <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     
