@@ -4,7 +4,7 @@
   font-family: 'Figtree', sans-serif;
 }
 
-// ========== HEADER ==========
+/* Header */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -27,7 +27,7 @@
   }
 }
 
-// ========== BUTTONS ==========
+/* Buttons */
 .btn-primary {
   padding: 0.5rem 1.25rem;
   background: white;
@@ -115,7 +115,7 @@
   }
 }
 
-// ========== STATISTICS ==========
+/* Statistics */
 .stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -162,7 +162,7 @@
   color: #1e3a5f;
 }
 
-// ========== FILTERS ==========
+/* Filters */
 .filter-section {
   display: flex;
   gap: 0.75rem;
@@ -194,7 +194,7 @@
   }
 }
 
-// ========== SEARCH ==========
+/* Search */
 .search-section {
   display: flex;
   gap: 1rem;
@@ -223,7 +223,7 @@
   }
 }
 
-// ========== TABLE ==========
+/* Table */
 .table-container {
   background: white;
   border-radius: 12px;
@@ -266,7 +266,7 @@
   }
 }
 
-// ========== CLIENT INFO ==========
+/* Client Info */
 .client-info {
   display: flex;
   flex-direction: column;
@@ -285,7 +285,7 @@
   }
 }
 
-// ========== STATUS BADGES ==========
+/* Status Badges */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -320,7 +320,7 @@
   }
 }
 
-// ========== PRIORITY BADGES ==========
+/* Priority Badges */
 .priority-badge {
   display: inline-flex;
   align-items: center;
@@ -356,7 +356,7 @@
   }
 }
 
-// ========== ACTION BUTTONS ==========
+/* Action Buttons */
 .action-buttons {
   display: flex;
   gap: 0.5rem;
@@ -398,7 +398,7 @@
   }
 }
 
-// Verification Info
+/* Verification Info */
 .verification-info {
   padding: 1rem;
   background: #e8f5e9;
@@ -444,7 +444,7 @@
   }
 }
 
-// ========== EMPTY STATE ==========
+/* Empty State */
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
@@ -461,7 +461,7 @@
   }
 }
 
-// ========== LOADING ==========
+/* Loading */
 .loading-state {
   text-align: center;
   padding: 3rem;
@@ -487,7 +487,7 @@
   to { transform: rotate(360deg); }
 }
 
-// ========== MODAL ==========
+/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -551,7 +551,7 @@
   padding: 1.5rem;
 }
 
-// ========== DETAIL SECTIONS ==========
+/* Detail Sections */
 .detail-status {
   text-align: center;
   margin-bottom: 2rem;
@@ -622,7 +622,7 @@
   line-height: 1.6;
 }
 
-// ========== AI ANALYSIS BOX ==========
+/* AI Analysis Box */
 .ai-analysis-box {
   background: #f8f9fa;
   padding: 1.5rem;
@@ -634,7 +634,7 @@
   margin-top: 1rem;
 }
 
-// ========== TIMELINE ==========
+/* Timeline */
 .timeline {
   position: relative;
   padding-left: 2rem;
@@ -697,7 +697,7 @@
   }
 }
 
-// ========== REJECTION BOX ==========
+/* Rejection Box */
 .rejection-box {
   background: #f8d7da;
   padding: 1rem;
@@ -712,7 +712,7 @@
   }
 }
 
-// ========== ALERT ==========
+/* Alert */
 .alert {
   padding: 1rem;
   border-radius: 8px;
@@ -738,7 +738,7 @@
   }
 }
 
-// ========== FORM ==========
+/* Form */
 .form-group {
   margin-bottom: 1.5rem;
 
@@ -809,7 +809,7 @@
   }
 }
 
-// ========== ANIMATIONS ==========
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -826,7 +826,7 @@
   }
 }
 
-// ========== RESPONSIVE ==========
+/* Responsive */
 @media (max-width: 768px) {
   .stats-grid {
     grid-template-columns: 1fr;
@@ -887,7 +887,7 @@
     opacity 0.15s ease;
 }
 
-/* CANCEL */
+/* Cancel Button */
 .toast-actions .btn.cancel {
   background: #e5e7eb;
   color: #374151;

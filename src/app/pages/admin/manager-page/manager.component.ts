@@ -65,7 +65,7 @@ export class ManagerComponent implements OnInit {
     this.checkPermissions();
   }
 
-  // ========== DATA LOADING ==========
+  // Data Loading
   loadManagers() {
     this.loading = true;
     this.managerService.getAllManagers().subscribe({
@@ -104,10 +104,10 @@ export class ManagerComponent implements OnInit {
             const layananDivisi = layananResponse.data || [];
             const existingDivisi = existingResponse.data || [];
             
-            // Gabung dan hapus duplikat (case-insensitive)
+            // Combined and deduplicate (case-insensitive)
             const combined = [...layananDivisi, ...existingDivisi];
             
-            // Map untuk deduplicate case-insensitive
+            // Map for deduplicate case-insensitive
             const uniqueMap = new Map<string, string>();
             combined.forEach(divisi => {
               const lowerKey = divisi.toLowerCase();
@@ -140,7 +140,7 @@ export class ManagerComponent implements OnInit {
     this.canAdd = role === 'SUPER_ADMIN';
   }
 
-  // ========== DROPDOWN HANDLERS ==========
+  // Dropdown Handlers
   selectDivisi(divisi: string) {
     this.formData.divisi = divisi;
     this.dropdownStates['divisi'] = false;
@@ -167,7 +167,7 @@ export class ManagerComponent implements OnInit {
     });
   }
 
-  // ========== FILTERING ==========
+  // Filtering
   applyFilters() {
     let result = [...this.managers];
 
@@ -203,7 +203,7 @@ export class ManagerComponent implements OnInit {
     this.applyFilters();
   }
 
-  // ========== MODAL HANDLERS ==========
+  // Modal Handlers
   openCreateModal() {
     if (!this.canAdd) {
       this.toast.error('Akses ditolak', 'Anda tidak memiliki izin menambah manager');
@@ -255,7 +255,7 @@ export class ManagerComponent implements OnInit {
     };
   }
 
-  // ========== CRUD OPERATIONS ==========
+  // CRUD Operations
   onSubmit() {
     if (!this.validateForm()) {
       return;
@@ -269,7 +269,7 @@ export class ManagerComponent implements OnInit {
   }
 
   onSubmitRegisterUser() {
-    // Validasi per field dengan pesan spesifik
+    // Validate per field with specific messages
     if (!this.registerUserForm.namaLengkap?.trim()) {
       this.toast.warning('Warning', 'Nama lengkap wajib diisi');
       return;
@@ -392,7 +392,7 @@ export class ManagerComponent implements OnInit {
           this.loadManagers();
           this.loadDivisiFromLayanan();
         } else {
-          // Jika ada error karena masih punya karyawan/klien
+          // If related data exists, ask for force delete
           if (response.message.includes('karyawan') || response.message.includes('klien')) {
             this.confirmForceDelete(manager, response.message);
           } else {
@@ -427,7 +427,7 @@ export class ManagerComponent implements OnInit {
     
     const managerId: number = manager.idManager;
     
-    // Call dengan parameter force=true
+    // Call with parameter force=true
     this.managerService.deleteManager(managerId, true).subscribe({
       next: (response) => {
         if (response.success) {
@@ -446,7 +446,7 @@ export class ManagerComponent implements OnInit {
     });
   }
 
-  // ========== VALIDATION ==========
+  // Validation
   validateForm(): boolean {
     this.formErrors = {};
     let isValid = true;
@@ -491,7 +491,7 @@ export class ManagerComponent implements OnInit {
     return re.test(email);
   }
 
-  // Validasi untuk form edit/create manager
+  // Validate for edit/create manager form
   isFormValid(): boolean {
     return !!(
       this.formData.namaManager?.trim() &&
@@ -503,7 +503,7 @@ export class ManagerComponent implements OnInit {
     );
   }
 
-  // Validasi untuk form register manager
+  // Validate for register manager form
   isRegisterFormValid(): boolean {
     return !!(
       this.registerUserForm.namaLengkap?.trim() &&
@@ -514,7 +514,7 @@ export class ManagerComponent implements OnInit {
     );
   }
 
-  // ========== HELPER METHODS ==========
+  // Helper Methods
   getEmptyForm(): ManagerDTO {
     return {
       namaManager: '',
@@ -546,18 +546,18 @@ export class ManagerComponent implements OnInit {
   getDivisiClass(divisi: string): string {
     const divisiLower = divisi.toLowerCase();
     
-    // Mapping divisi ke kategori layanan
+    // Mapping to kategori layanan divisi
     if (divisiLower.includes('website') || divisiLower.includes('mobile app')) {
-      return 'badge-piranti-lunak'; // Pink/Ungu
+      return 'badge-piranti-lunak'; // Pink/ungu
     }
     
     if (divisiLower.includes('digital marketing') || divisiLower.includes('sosial')) {
-      return 'badge-sosial'; // Biru
+      return 'badge-sosial'; // Blue
     }
     
     if (divisiLower.includes('cyber') || divisiLower.includes('security') || 
         divisiLower.includes('sekuritas')) {
-      return 'badge-mesin-sekuritas'; // Hijau
+      return 'badge-mesin-sekuritas'; // Green
     }
     
     if (divisiLower.includes('multimedia')) {

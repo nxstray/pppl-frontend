@@ -220,7 +220,6 @@ export class RekapComponent implements OnInit {
   }
 
   // Modal actions
-
   openCreateModal() {
     this.isEditMode = false;
     this.formData = {
@@ -273,7 +272,6 @@ export class RekapComponent implements OnInit {
   }
 
   // Form actions
-
   isFormValid(): boolean {
     return !!(
       this.formData.idKlien &&

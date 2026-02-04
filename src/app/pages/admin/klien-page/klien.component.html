@@ -186,7 +186,7 @@
         />
       </div>
 
-      <!-- Status hanya muncul saat Create, tidak muncul saat Edit -->
+      <!-- Only show status when creating new klien, not editing -->
       <div class="form-group" *ngIf="!isEditMode">
         <label>Status <span class="required">*</span></label>
         <div class="custom-dropdown">
@@ -215,7 +215,7 @@
         </div>
       </div>
 
-      <!-- Info status untuk Edit Mode -->
+      <!-- Info status for Edit Mode -->
       <div class="form-group" *ngIf="isEditMode">
         <label>Status Saat Ini</label>
         <div class="status-info">

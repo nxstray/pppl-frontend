@@ -4,7 +4,7 @@
   font-family: 'Figtree', sans-serif;
 }
 
-/* ================= HEADER ================= */
+/* Header */
 .page-header {
   display: flex;
   justify-content: space-between;
@@ -29,7 +29,7 @@
   }
 }
 
-/* ================= BUTTONS ================= */
+/* Buttons */
 .btn-primary {
   padding: 0.5rem 1.25rem;
   background: white;
@@ -79,7 +79,7 @@
   }
 }
 
-/* ================= PAGE SELECTOR ================= */
+/* Page selector */
 .page-selector {
   display: flex;
   gap: 1rem;
@@ -98,7 +98,7 @@
   }
 }
 
-/* ================= CUSTOM DROPDOWN ================= */
+/* Custom dropdown */
 .custom-dropdown {
   position: relative;
   width: 280px;
@@ -208,7 +208,7 @@
   }
 }
 
-/* ================= LOADING ================= */
+/* Loading */
 .loading-state {
   text-align: center;
   padding: 3rem;
@@ -235,7 +235,7 @@
   to { transform: rotate(360deg); }
 }
 
-/* ================= CONTENT LIST ================= */
+/* Content list */
 .content-list {
   background: white;
   border-radius: 12px;
@@ -263,7 +263,7 @@
   }
 }
 
-/* ================= TABLE ================= */
+/* Table */
 .table-responsive {
   overflow-x: auto;
 }
@@ -313,7 +313,7 @@
   }
 }
 
-/* ================= BADGES ================= */
+/* Badges */
 .type-badge {
   display: inline-flex;
   align-items: center;
@@ -372,7 +372,7 @@
   }
 }
 
-/* ================= CONTENT PREVIEW ================= */
+/* Content preview */
 .content-preview {
   max-width: 350px;
 }
@@ -402,7 +402,7 @@
   }
 }
 
-/* ================= ACTION BUTTONS ================= */
+/* Action buttons */
 .action-buttons {
   display: flex;
   gap: 0.5rem;
@@ -443,7 +443,7 @@
   }
 }
 
-/* ================= EMPTY STATE ================= */
+/* Empty state */
 .empty-state {
   text-align: center;
   padding: 3rem 2rem;
@@ -462,7 +462,7 @@
   }
 }
 
-/* ================= MODAL ================= */
+/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -532,7 +532,7 @@
   border-top: 1px solid #e8e9ef;
 }
 
-/* ================= FORM ================= */
+/* Form */
 .form-group {
   margin-bottom: 1.25rem;
   position: relative;
@@ -592,7 +592,7 @@ textarea.form-input {
   font-family: 'Courier New', monospace;
 }
 
-/* ================= DROPDOWN IN MODAL ================= */
+/* Dropdown in modal */
 .dropdown-trigger {
   width: 100%;
   padding: 0.75rem 1rem;
@@ -714,7 +714,7 @@ textarea.form-input {
   to { transform: rotate(360deg); }
 }
 
-/* ================= ANIMATIONS ================= */
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -731,7 +731,7 @@ textarea.form-input {
   }
 }
 
-/* ================= RESPONSIVE ================= */
+/* Responsive */
 @media (max-width: 768px) {
   .page-header {
     flex-direction: column;

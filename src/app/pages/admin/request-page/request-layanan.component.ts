@@ -137,7 +137,6 @@ export class RequestLayananComponent implements OnInit {
   }
 
   // Modal actions
-
   openDetailModal(request: RequestLayananDTO) {
     if (!request.idRequest) return;
     
@@ -274,7 +273,6 @@ export class RequestLayananComponent implements OnInit {
   }
 
   // Helper methods - Handle enum properly
-
   getStatusClass(status: any): string {
     const statusStr = typeof status === 'string' ? status : status?.toString();
     switch (statusStr) {

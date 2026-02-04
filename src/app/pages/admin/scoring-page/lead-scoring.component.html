@@ -120,7 +120,7 @@
               >
                 Detail
               </button>
-              <!-- Button Analisis hanya muncul jika belum dianalisa -->
+              <!-- Button Analisis only appear when its unanalysed -->
               <button 
                 *ngIf="!lead.aiAnalyzed"
                 class="btn-icon btn-analyze"
@@ -128,7 +128,7 @@
                 [disabled]="analyzing || isAnalyzing(lead.idRequest)"
               >
                 <span *ngIf="!isAnalyzing(lead.idRequest)">Analisis</span>
-                <span *ngIf="isAnalyzing(lead.idRequest)">⏳</span>
+                <span *ngIf="isAnalyzing(lead.idRequest)">Menganalisa...</span>
               </button>
             </div>
           </td>

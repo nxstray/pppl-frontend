@@ -119,7 +119,6 @@ export class LayananComponent implements OnInit {
   }
 
   // Filtering
-
   selectKategori(kategori: string | null) {
     this.selectedKategori = kategori;
     this.applyFilters();

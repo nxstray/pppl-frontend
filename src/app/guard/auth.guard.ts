@@ -25,14 +25,14 @@ export const authGuard: CanActivateFn = (route, state) => {
     return false;
   }
 
-  // Validate token dengan backend (cek user masih exist)
+  // Validate token with backend (check if still valid / exists)
   if (authService.isTokenExpired()) {
     authService.checkAndCleanExpiredToken();
     router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
     return false;
   }
 
-  // Validasi ke backend
+  // Validate to backend
   return authService.validateToken().pipe(
     map((response: ApiResponse<boolean>) => {
       if (response.success && response.data === true) {

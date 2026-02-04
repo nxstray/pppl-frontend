@@ -1,6 +1,6 @@
 <div class="content-manage-container">
 
-  <!-- ================= HEADER ================= -->
+  <!-- Header -->
   <div class="page-header">
     <div>
       <h1>CONTENT MANAGEMENT</h1>
@@ -10,7 +10,7 @@
     </button>
   </div>
 
-  <!-- ================= PAGE SELECTOR ================= -->
+  <!-- Page selector -->
   <div class="page-selector">
     <label>Pilih Halaman:</label>
 
@@ -50,13 +50,13 @@
     </div>
   </div>
 
-  <!-- ================= LOADING ================= -->
+  <!-- Loading -->
   <div *ngIf="loading" class="loading-state">
     <div class="spinner"></div>
     <p>Memuat data...</p>
   </div>
 
-  <!-- ================= CONTENT LIST ================= -->
+  <!-- Content list -->
   <div *ngIf="!loading" class="content-list">
 
     <div class="content-stats">
@@ -140,7 +140,7 @@
   </div>
 </div>
 
-<!-- ================= MODAL ================= -->
+<!-- Modal -->
 <div class="modal-overlay" *ngIf="showModal" (click)="closeModal()">
   <div class="modal-content" (click)="$event.stopPropagation()">
     
@@ -270,7 +270,7 @@
           />
         </div>
 
-        <!-- Bukan IMAGE_URL -->
+        <!-- Not IMAGE_URL -->
         <div *ngIf="formData.contentType !== 'IMAGE_URL'">
           <textarea
             [(ngModel)]="formData.contentValue"

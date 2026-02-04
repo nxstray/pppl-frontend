@@ -302,7 +302,7 @@ export class ContentManageComponent implements OnInit {
   }
 
   /**
-   * Helper method untuk get image preview URL
+   * Helper method for get image preview URL
    */
   private getImagePreviewUrl(filename: string): string {
     if (!filename) {
@@ -314,18 +314,18 @@ export class ContentManageComponent implements OnInit {
       return filename;
     }
     
-    // Jika sudah ada /content/ di depan, langsung return
+    // if /content/ already in front, return immediately
     if (filename.startsWith('/content/')) {
       return filename;
     }
     
-    // UUID pattern - file dari backend upload
+    // UUID pattern - file from backend upload
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Default: file lokal di /public/content/
+    // Default: local file in /public/content/
     return `/content/${filename}`;
   }
 

@@ -49,7 +49,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
     this.loadLeadResults();
   }
 
-  // Prevent navigation saat sedang analisa
+  // Prevent navigation when analyzing
   @HostListener('window:beforeunload', ['$event'])
   unloadNotification($event: any): void {
     if (this.analyzing) {
@@ -90,7 +90,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
   }
 
   /**
-   * Analisa single lead dengan full screen blocking spinner
+   * Analyze single lead with full screen blocking spinner
    */
   async analyzeLead(idRequest: number) {
     const lead = this.leads.find(l => l.idRequest === idRequest);
@@ -102,7 +102,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
     );
 
     if (confirmed) {
-      // SHOW FULL SCREEN LOADING
+      // Show full screen loading
       this.showLoadingOverlay = true;
       this.loadingTitle = 'Sedang Menganalisa';
       this.loadingMessage = `Menganalisa lead : <strong>${leadInfo}</strong><br>`;
@@ -112,7 +112,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
       this.analyzingLeads.add(idRequest);
       this.analyzing = true;
 
-      // Simulate progress (karena backend tidak ada progress tracking)
+      // Simulate progress (Cause backend do not have progress tracking)
       const progressInterval = this.simulateProgress();
       
       this.leadScoringService.analyzeLeadById(idRequest).subscribe({
@@ -152,7 +152,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
   }
 
   /**
-   * Analisa semua lead dengan full screen blocking spinner
+   * Analyze all leads with full screen blocking spinner
    */
   async analyzeAll() {
     const unanalyzed = this.leads.filter(l => !l.aiAnalyzed);
@@ -175,7 +175,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
     );
 
     if (confirmed) {
-      // SHOW FULL SCREEN LOADING
+      // Show full screen loading
       this.showLoadingOverlay = true;
       this.loadingTitle = 'Batch Analysis Running';
       this.loadingMessage = `Menganalisa <strong>${unanalyzed.length} leads</strong><br>` +
@@ -185,7 +185,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
       this.progress = 0;
       this.analyzing = true;
 
-      // Simulate progress untuk batch
+      // Simulate progress for batch
       const progressInterval = this.simulateBatchProgress(estimatedTime * 60);
       
       this.leadScoringService.analyzeAllPendingLeads().subscribe({
@@ -218,10 +218,10 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
   }
 
   /**
-   * Simulate progress untuk single analysis (10-15 detik)
+   * Simulate progress for single analyze (10-15 detik)
    */
   private simulateProgress(): any {
-    const duration = 12000; // 12 detik
+    const duration = 12000; // 12 seconds
     const interval = 100;
     const steps = duration / interval;
     let currentStep = 0;
@@ -233,7 +233,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
   }
 
   /**
-   * Simulate progress untuk batch analysis
+   * Simulate progress for batch analysis
    */
   private simulateBatchProgress(durationSeconds: number): any {
     const duration = durationSeconds * 1000;
@@ -248,7 +248,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
   }
 
   /**
-   * Apply filter untuk leads
+   * Apply filter for leads
    */
   applyFilter(filter: string) {
     this.selectedFilter = filter;
@@ -353,7 +353,7 @@ export class LeadScoringComponent implements OnInit, CanComponentDeactivate {
     this.loadLeadResults();
   }
 
-  // Implement CanDeactivate - Prevent navigation saat analyzing
+  // Implement CanDeactivate - Prevent navigation when analyzing
   canDeactivate(): boolean {
     if (this.analyzing) {
       return confirm(

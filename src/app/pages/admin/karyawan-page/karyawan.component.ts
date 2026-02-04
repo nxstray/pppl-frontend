@@ -160,7 +160,7 @@ export class KaryawanComponent implements OnInit {
     this.dropdownStates[dropdown] = !this.dropdownStates[dropdown];
   }
 
-  //  dropdown item selection
+  // Dropdown item selection
   selectDropdownItem(dropdown: string, value: any) {
     if (dropdown === 'manager') {
       this.formData.idManager = value;
@@ -184,7 +184,7 @@ export class KaryawanComponent implements OnInit {
     });
   }
 
-  // Photo Upload Handlers
+  // Photo upload handlers
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
     
