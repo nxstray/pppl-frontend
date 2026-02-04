@@ -48,14 +48,14 @@ export class ProfileUploadComponent implements OnInit {
     // Validate file size (2MB)
     if (file.size > 2 * 1024 * 1024) {
       this.toast.error('File Terlalu Besar', 'Ukuran maksimal 2MB');
-      event.target.value = ''; // Reset input
+      event.target.value = '';
       return;
     }
 
     // Validate file type
     if (!file.type.startsWith('image/')) {
       this.toast.error('Invalid File', 'Hanya file gambar yang diperbolehkan');
-      event.target.value = ''; // Reset input
+      event.target.value = '';
       return;
     }
 

@@ -146,7 +146,7 @@
   }
 }
 
-// Toast Types
+/* Toast Types */
 .toast.help {
   --clr: var(--ch2);
 
@@ -179,7 +179,7 @@
   }
 }
 
-// Responsive
+/* Responsive */
 @media (max-width: 768px) {
   .toast-panel {
     right: 1rem;
@@ -218,7 +218,7 @@
     opacity 0.15s ease;
 }
 
-/* ===== CANCEL ===== */
+/* Cancel */
 .toast-actions .btn.cancel {
   background: #e5e7eb;
   color: #374151;
@@ -234,7 +234,7 @@
   box-shadow: inset 0 2px 4px rgba(0,0,0,0.15);
 }
 
-/* ===== OK ===== */
+/* OK */
 .toast-actions .btn.ok {
   background: var(--clr);
   color: #fff;

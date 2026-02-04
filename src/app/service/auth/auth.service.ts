@@ -172,7 +172,7 @@ export class AuthService {
   }
 
   /**
-   * Forgot password - Request reset link (NEW)
+   * Forgot password - Request reset link
    */
   forgotPassword(email: string): Observable<ApiResponse<void>> {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/forgot-password`, {
@@ -181,7 +181,7 @@ export class AuthService {
   }
 
   /**
-   * Reset password with token (NEW)
+   * Reset password with token
    */
   resetPassword(token: string, newPassword: string): Observable<ApiResponse<void>> {
     return this.http.post<ApiResponse<void>>(`${this.apiUrl}/reset-password`, {

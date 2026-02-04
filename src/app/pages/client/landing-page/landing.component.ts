@@ -45,7 +45,7 @@ export class LandingComponent implements OnInit {
   whoWeAreVisible = false;
   ourWorkVisible = false;
 
-  // ============ DYNAMIC CONTENT FROM CMS ============
+  // Dynamic Content Variables
   
   // Hero Section
   heroTitle = 'Menyediakan Solusi Digital yang mendukung pertumbuhan dan Transformasi Bisnis';
@@ -90,13 +90,13 @@ export class LandingComponent implements OnInit {
       next: (response) => {
         const content = response.content;
         
-        // ============ HERO SECTION ============
+        // Hero Section
         this.heroTitle = content['hero_title'] || this.heroTitle;
         this.heroSubtitle = content['hero_subtitle'] || this.heroSubtitle;
         this.heroCtaText = content['hero_cta_text'] || this.heroCtaText;
         this.heroBuildingImage = this.getImageUrl(content['hero_building_image']) || this.heroBuildingImage;
         
-        // ============ WHAT WE DO SECTION ============
+        // What We Do Section
         this.whatWeDoTitle = content['what_we_do_title'] || this.whatWeDoTitle;
         
         this.services = [
@@ -122,7 +122,7 @@ export class LandingComponent implements OnInit {
           }
         ];
         
-        // ============ WHO WE ARE SECTION ============
+        // Who We Are Section
         this.whoWeAreTitle = content['who_we_are_title'] || this.whoWeAreTitle;
         this.whoWeAreDescription = content['who_we_are_description'] || 
           'PT. Pandawa Digital Mandiri adalah penyedia solusi teknologi terkemuka yang berkomitmen untuk memberikan layanan inovatif dan andal.';
@@ -133,7 +133,7 @@ export class LandingComponent implements OnInit {
           this.getImageUrl(content['who_we_are_image_3']) || '/content/dummy-photo.png'
         ];
         
-        // ============ OUR WORK SECTION ============
+        // Our Work Section
         this.ourWorkTitle = content['our_work_title'] || this.ourWorkTitle;
         
         this.portfolios = [
@@ -151,7 +151,7 @@ export class LandingComponent implements OnInit {
           }
         ];
         
-        // ============ FOOTER SECTION ============
+        // Footer Section
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
@@ -198,7 +198,7 @@ export class LandingComponent implements OnInit {
   }
 
   /**
-   * Helper method untuk get image URL
+   * Helper method for get image URL
    */
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
@@ -208,19 +208,19 @@ export class LandingComponent implements OnInit {
       return filename;
     }
     
-    // Jika sudah ada /content/ di depan, langsung return
+    // if /content/ already in front, return immediately
     if (filename.startsWith('/content/')) {
       return filename;
     }
     
-    // Check if UUID (file dari upload backend)
+    // Check if UUID (file from upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
-      // File uploaded ke backend, akses via backend URL
+      // File uploaded to backend, access via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Default: files di /public/content/
+    // Default: files in /public/content/
     return `/content/${filename}`;
   }
 

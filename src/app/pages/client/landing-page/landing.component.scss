@@ -452,9 +452,7 @@ html, body {
   }
 }
 
-/* ============================================
-   RESPONSIVE DESIGN - MOBILE OPTIMIZATION
-   ============================================ */
+/* Responsive */
 
 /* Tablet */
 @media (max-width: 1024px) {
@@ -512,7 +510,7 @@ html, body {
 
 /* Mobile */
 @media (max-width: 768px) {
-  /* ========== NAVBAR MOBILE ========== */
+  /* Navbar-  Mobile */
   .navbar-floating {
     top: 1rem;
     padding: 0.5rem 0.8rem;
@@ -540,7 +538,6 @@ html, body {
     margin-right: 0;
   }
   
-  /* Show ALL menu items in mobile with smaller font and tight spacing */
   .navbar-menu {
     display: flex;
     gap: 0.5rem;
@@ -569,7 +566,7 @@ html, body {
     white-space: nowrap;
   }
   
-  /* ========== HERO SECTION MOBILE ========== */
+  /* Hero Section - Mobile */
   .hero-section {
     min-height: 100vh;
     height: auto;
@@ -642,7 +639,7 @@ html, body {
     opacity: 0.3;
   }
   
-  /* ========== SECTIONS MOBILE ========== */
+  /* Sections - Mobile */
   .section {
     padding: 3rem 0;
   }
@@ -652,7 +649,7 @@ html, body {
     margin-bottom: 2rem;
   }
   
-  /* ========== WHAT WE DO MOBILE ========== */
+  /* What We Do - Mobile */
   .services-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -662,8 +659,6 @@ html, body {
     padding: 2rem 1.5rem;
   }
   
-  /* Keep icon size exactly as desktop - DO NOT CHANGE */
-  
   .service-card h3 {
     font-size: 1.3rem;
   }
@@ -672,7 +667,7 @@ html, body {
     font-size: 0.9rem;
   }
   
-  /* ========== WHO WE ARE MOBILE ========== */
+  /* Who We Are - Mobile */
   .who-we-are {
     .who-images {
       flex-direction: column;
@@ -691,7 +686,7 @@ html, body {
     }
   }
   
-  /* ========== OUR WORK MOBILE ========== */
+  /* Our Work - Mobile */
   .portfolio-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -707,7 +702,7 @@ html, body {
     padding: 1rem;
   }
   
-  /* ========== FOOTER MOBILE ========== */
+  /* Footer - Mobile */
   .footer-section {
     padding: 2rem 0 1rem;
   }

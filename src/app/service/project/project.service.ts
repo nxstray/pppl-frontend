@@ -63,7 +63,7 @@ export class ProjectService {
   constructor(private http: HttpClient) {}
 
   /**
-   * PUBLIC METHODS - No auth required
+   * Public API - No auth required
    */
 
   getAllActiveProjects(): Observable<ApiResponse<ProjectDTO[]>> {
@@ -92,7 +92,7 @@ export class ProjectService {
   }
 
   /**
-   * ADMIN METHODS - Auth required
+   * Admin API - Auth required
    */
 
   getAllProjectsForAdmin(): Observable<ApiResponse<ProjectDTO[]>> {
@@ -142,7 +142,7 @@ export class ProjectService {
   }
 
   /**
-   * Helper method untuk get category display name
+   * Helper method for get category display name
    */
   getCategoryDisplayName(category: ProjectCategory): string {
     const categoryMap: { [key in ProjectCategory]: string } = {

@@ -46,27 +46,27 @@ export class LeadScoringService {
 
   constructor(private http: HttpClient) {}
 
-  // Get all leads untuk dashboard
+  // Get all leads for dashboard
   getAllLeads(): Observable<ApiResponse<LeadAnalysisDTO[]>> {
     return this.http.get<ApiResponse<LeadAnalysisDTO[]>>(`${this.apiUrl}/results`);
   }
 
-  // Trigger AI analysis untuk 1 lead
+  // Trigger AI analysis  for 1 lead
   analyzeLeadById(id: number): Observable<ApiResponse<any>> {
     return this.http.post<ApiResponse<any>>(`${this.apiUrl}/analyze/${id}`, {});
   }
 
-  // Trigger AI analysis untuk semua lead yang belum dianalisis
+  // Trigger AI analysis all unanalyzed leads
   analyzeAllPendingLeads(): Observable<ApiResponse<string>> {
     return this.http.post<ApiResponse<string>>(`${this.apiUrl}/analyze-all`, {});
   }
 
-  // Filter leads berdasarkan prioritas
+  // Filter leads by priority
   getLeadsByPriority(priority: string): Observable<ApiResponse<LeadAnalysisDTO[]>> {
     return this.http.get<ApiResponse<LeadAnalysisDTO[]>>(`${this.apiUrl}/results/priority/${priority}`);
   }
 
-  // Get statistics untuk dashboard
+  // Get statistics for dashboard
   getLeadStatistics(): Observable<ApiResponse<LeadStatistics>> {
     return this.http.get<ApiResponse<LeadStatistics>>(`${this.apiUrl}/statistics`);
   }

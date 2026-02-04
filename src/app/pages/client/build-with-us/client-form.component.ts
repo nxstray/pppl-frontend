@@ -54,7 +54,7 @@ export class ClientFormComponent implements OnInit {
   private lastScrollTop = 0;
   buildingVisible = false;
 
-  // ============ DYNAMIC CONTENT FROM CMS ============
+  // Dynamic Content Variables
   
   // Hero Section
   heroTitle = 'Request a Consultation Form';
@@ -153,18 +153,18 @@ export class ClientFormComponent implements OnInit {
       next: (response) => {
         const content = response.content;
         
-        // ============ HERO SECTION ============
+        // Hero Section
         this.heroTitle = content['hero_title'] || this.heroTitle;
         this.heroSubtitle = content['hero_subtitle'] || this.heroSubtitle;
         this.heroVector = this.getImageUrl(content['hero_vector']) || this.heroVector;
         this.heroBuildingImage = this.getImageUrl(content['hero_building_image']) || this.heroBuildingImage;
         
-        // ============ FORM SECTION ============
+        // Form Section
         this.formSectionTitle = content['form_section_title'] || this.formSectionTitle;
         this.formSectionSubtitle = content['form_section_subtitle'] || this.formSectionSubtitle;
         this.formSectionDescription = content['form_section_description'] || this.formSectionDescription;
         
-        // ============ FOOTER SECTION ============
+        // Footer Section
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
@@ -210,29 +210,29 @@ export class ClientFormComponent implements OnInit {
   }
 
   /**
-   * Helper method untuk get image URL
+   * Helper method for get image URL
    */
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
     
-    // Return full URL jika sudah lengkap (http/https)
+    // Return full URL if already full path (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
-    // Jika sudah ada /content/ di depan, langsung return
+    // If /content/ path already in front, return immediately
     if (filename.startsWith('/content/')) {
       return filename;
     }
     
-    // Check if UUID (file dari upload backend)
+    // Check if UUID (file form upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
       // File uploaded ke backend, akses via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Default: files di /public/content/
+    // Default: files in /public/content/
     return `/content/${filename}`;
   }
 

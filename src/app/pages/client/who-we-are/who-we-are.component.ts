@@ -80,7 +80,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   reviewsVisible = false;
   contactVisible = false;
 
-  // ============ DYNAMIC CONTENT FROM CMS ============
+  // Dynamic Content Variables
   
   // Hero Section
   heroTitle = 'Who We Are';
@@ -139,13 +139,13 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
       next: (response) => {
         const content = response.content;
         
-        // ============ HERO SECTION ============
+        // Hero Section
         this.heroTitle = content['hero_title'] || this.heroTitle;
         this.heroSubtitle = content['hero_subtitle'] || this.heroSubtitle;
         this.heroVector = this.getImageUrl(content['hero_vector']) || this.heroVector;
         this.heroBuildingImage = this.getImageUrl(content['hero_building_image']) || this.heroBuildingImage;
         
-        // ============ TIMELINE SECTION ============
+        // Timeline Section
         this.timelineTitle = content['timeline_title'] || this.timelineTitle;
         
         // Parse timeline items from JSON or build from individual fields
@@ -170,7 +170,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           }
         }
         
-        // ============ VISION & MISSION SECTION ============
+        // Vission & Mission Section
         this.visionandmission.vision = content['vision_text'] || 'To be a global leader in digital innovation.';
         
         // Parse mission array
@@ -191,7 +191,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           }
         }
         
-        // ============ SERVICES SECTION ============
+        // Services Section
         this.servicesTitle = content['services_title'] || this.servicesTitle;
         
         this.servicesItems = [
@@ -217,7 +217,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           }
         ];
         
-        // ============ TEAM SECTION ============
+        // Team Section
         this.teamTitle = content['team_title'] || this.teamTitle;
         
         this.teamMembers = [];
@@ -231,7 +231,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           }
         }
         
-        // ============ REVIEWS SECTION ============
+        // Reviews Section
         this.reviewsTitle = content['reviews_title'] || this.reviewsTitle;
         
         this.clientReviews = [];
@@ -244,7 +244,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           }
         }
         
-        // ============ FOOTER SECTION ============
+        // Footer Section
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
@@ -319,29 +319,29 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Helper method untuk get image URL
+   * Helper method for get image URL
    */
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
     
-    // Return full URL jika sudah lengkap (http/https)
+    // Return full URL jika already completed (http/https)
     if (filename.startsWith('http://') || filename.startsWith('https://')) {
       return filename;
     }
     
-    // Jika sudah ada /content/ di depan, langsung return
+    // if /content/ already included, return immediately
     if (filename.startsWith('/content/')) {
       return filename;
     }
     
-    // Check if UUID (file dari upload backend)
+    // Check if UUID (file from upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
-      // File uploaded ke backend, akses via backend URL
+      // File uploaded ke backend, access via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Default: files di /public/content/
+    // Default: files in /public/content/
     return `/content/${filename}`;
   }
 

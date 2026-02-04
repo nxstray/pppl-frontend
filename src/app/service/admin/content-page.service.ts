@@ -69,10 +69,10 @@ export class ContentPageService {
 
   constructor(private http: HttpClient) { }
 
-  // ============ PUBLIC API (Client Pages - No Auth) ============
+  // Public API (Client Pages - No Auth)
   
   /**
-   * Get page content untuk client pages
+   * Get page content for client pages
    */
   getPageContent(pageName: PageName): Observable<PageContentResponse> {
     return this.http.get<ApiResponse<PageContentResponse>>(
@@ -80,7 +80,7 @@ export class ContentPageService {
     ).pipe(map(res => res.data));
   }
 
-  // ============ ADMIN API (Dashboard - Requires Auth) ============
+  // Admin API (Dashboard - Requires Auth)
   
   /**
    * Get all content grouped by page
@@ -92,7 +92,7 @@ export class ContentPageService {
   }
 
   /**
-   * Get content for specific page (untuk admin edit)
+   * Get content for specific page (for admin management)
    */
   getPageContentForAdmin(pageName: PageName): Observable<ApiResponse<ContentPageDTO[]>> {
     return this.http.get<ApiResponse<ContentPageDTO[]>>(
@@ -150,7 +150,7 @@ export class ContentPageService {
   }
 
   /**
-   * Upload image untuk content page
+   * Upload image for content page
    */
   uploadImage(formData: FormData) {
     return this.http.post<ApiResponse<UploadFileResponse>>(

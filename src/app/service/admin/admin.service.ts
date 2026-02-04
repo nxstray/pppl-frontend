@@ -34,7 +34,7 @@ export class AdminService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Register manager baru
+   * Register new manager
    */
   registerManager(
     request: RegisterManagerRequest
