@@ -5,7 +5,7 @@
     <div>
       <h1>CONTENT MANAGEMENT</h1>
     </div>
-    <button class="btn-primary" (click)="openCreateModal()">
+    <button class="btn-primary" (click)="openCreateModal()" *ngIf="canEdit">
       Tambah Content
     </button>
   </div>
