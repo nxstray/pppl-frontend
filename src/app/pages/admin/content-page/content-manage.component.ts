@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef, HostListener } from '@angular
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ContentPageService, PageName, ContentType, ContentPageDTO, UpdateContentRequest } from '../../../service/admin/content-page.service';
-import { ToastService } from '../../../service/animations/toast.service';
+import { ToastService } from '../../../service/animations/toast.service'
+import { AuthService } from '../../../service/auth/auth.service';
 
 @Component({
   selector: 'app-content-manage',
@@ -19,6 +20,8 @@ export class ContentManageComponent implements OnInit {
   uploading = false;
   showModal = false;
   isEditMode = false;
+
+  canEdit = false;
 
   previewImageUrl: string = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0iI2VlZSIvPjx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZpbGw9IiM5OTkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5ObyBJbWFnZTwvdGV4dD48L3N2Zz4=';
   uploadedFileName: string = '';
@@ -50,7 +53,8 @@ export class ContentManageComponent implements OnInit {
 
   constructor(
     private contentService: ContentPageService,
-    private toast: ToastService
+    private toast: ToastService,
+    private authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -73,6 +77,11 @@ export class ContentManageComponent implements OnInit {
         this.loading = false;
       }
     });
+  }
+
+  checkPermissions() {
+    const role = this.authService.currentUserValue?.role;
+    this.canEdit = role === '';
   }
 
   onPageChange() {
