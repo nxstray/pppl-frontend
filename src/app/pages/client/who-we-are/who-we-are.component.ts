@@ -85,8 +85,8 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
   // Hero Section
   heroTitle = 'Who We Are';
   heroSubtitle = 'Discover Pandigi\'s Journey and Values';
-  heroVector = '/content/vector_logo_pandigi.png';
-  heroBuildingImage = '/content/building.png';
+  heroVector = '/content/vector_logo_pandigi.webp';
+  heroBuildingImage = '/content/building.webp';
 
   // Timeline Section
   timelineTitle = 'Our Journey';
@@ -198,22 +198,22 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
           {
             title: content['service_software_title'] || 'Software',
             description: content['service_software_description'] || 'Solusi pengembangan perangkat lunak.',
-            image: this.getImageUrl(content['service_software_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['service_software_image']) || '/content/dummy-photo.webp'
           },
           {
             title: content['service_hardware_title'] || 'Hardware',
             description: content['service_hardware_description'] || 'Infrastruktur hardware berkualitas.',
-            image: this.getImageUrl(content['service_hardware_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['service_hardware_image']) || '/content/dummy-photo.webp'
           },
           {
             title: content['service_multimedia_title'] || 'Multimedia',
             description: content['service_multimedia_description'] || 'Solusi multimedia kreatif.',
-            image: this.getImageUrl(content['service_multimedia_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['service_multimedia_image']) || '/content/dummy-photo.webp'
           },
           {
             title: content['service_computer_title'] || 'Computer',
             description: content['service_computer_description'] || 'Layanan pemeliharaan komputer.',
-            image: this.getImageUrl(content['service_computer_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['service_computer_image']) || '/content/dummy-photo.webp'
           }
         ];
         
@@ -226,7 +226,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
             this.teamMembers.push({
               name: content[`team_${i}_name`],
               description: content[`team_${i}_description`] || '',
-              imageUrl: this.getImageUrl(content[`team_${i}_image`]) || '/content/dummy-photo.png'
+              imageUrl: this.getImageUrl(content[`team_${i}_image`]) || '/content/dummy-photo.webp'
             });
           }
         }
@@ -238,7 +238,7 @@ export class WhoWeAreComponent implements OnInit, AfterViewInit {
         for (let i = 1; i <= 4; i++) {
           if (content[`review_${i}_description`]) {
             this.clientReviews.push({
-              imageUrl: this.getImageUrl(content[`review_${i}_image`]) || '/content/dummy-photo.png',
+              imageUrl: this.getImageUrl(content[`review_${i}_image`]) || '/content/dummy-photo.webp',
               description: content[`review_${i}_description`]
             });
           }
