@@ -94,8 +94,8 @@ export class OurWorkComponent implements OnInit {
   // Hero Section
   heroTitle = 'Our Work';
   heroSubtitle = 'Discover Our Success Stories, Innovations, and Client Partnerships';
-  heroVector = '/content/vector_logo_pandigi.png';
-  heroBuildingImage = '/content/building.png';
+  heroVector = '/content/vector_logo_pandigi.webp';
+  heroBuildingImage = '/content/building.webp';
 
   // Footer Section
   footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
