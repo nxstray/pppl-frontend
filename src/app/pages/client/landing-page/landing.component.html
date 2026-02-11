@@ -1,8 +1,8 @@
 <section id="hero" class="hero-section">
 
   <!-- Polkadots -->
-  <img src="/content/polkadot-1.png" class="polkadot polkadot-left">
-  <img src="/content/polkadot-2.png" class="polkadot polkadot-right">
+  <img src="/content/polkadot-1.webp" class="polkadot polkadot-left">
+  <img src="/content/polkadot-2.webp" class="polkadot polkadot-right">
 
   <!-- Background Building -->
   <img [src]="heroBuildingImage" alt="Pandigi Building" class="building-image">
@@ -11,7 +11,7 @@
   <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
     <div class="navbar-container">
       <div class="navbar-logo">
-        <img src="/content/logo-no-bg.png" alt="Pandigi Logo" (click)="scrollToSection('hero')">
+        <img src="/content/logo-no-bg.webp" alt="Pandigi Logo" (click)="scrollToSection('hero')">
       </div>
       <ul class="navbar-menu">
         <li><a (click)="navigateToOtherPage('what-we-do')">WHAT WE DO</a></li>
@@ -91,7 +91,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-logo">
-        <img src="/content/logo-no-bg.png" alt="Pandigi Logo">
+        <img src="/content/logo-no-bg.webp" alt="Pandigi Logo">
       </div>
       <div class="footer-copyright">
         <p>{{ footerCopyright }}</p>
