@@ -4,7 +4,7 @@
     <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
         <div class="navbar-container">
             <div class="navbar-logo">
-                <img src="/content/logo-no-bg.webp" alt="Pandigi Logo" (click)="navigateToOtherPage('/')">
+                <img ngSrc="/content/logo-no-bg.webp" alt="Navbar Logo" (click)="navigateToOtherPage('/')" width="110" height="40" priority>
             </div>
             <ul class="navbar-menu">
                 <li><a (click)="navigateToOtherPage('/what-we-do')">WHAT WE DO</a></li>
@@ -142,7 +142,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-logo">
-        <img src="/content/logo-no-bg.webp" alt="Pandigi Logo">
+        <img [src]="footerLogo" alt="Pandigi Logo" loading="lazy">
       </div>
       <div class="footer-copyright">
         <p>{{ footerCopyright }}</p>

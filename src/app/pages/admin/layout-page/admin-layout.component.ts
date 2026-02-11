@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../../../service/auth/auth.service';
 import { ToastService } from '../../../service/animations/toast.service';
@@ -14,7 +14,7 @@ interface MenuItem {
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [CommonModule, RouterModule, BellComponent],
+  imports: [CommonModule, RouterModule, BellComponent, NgOptimizedImage],
   templateUrl: './admin-layout.component.html',
   styleUrls: ['./admin-layout.component.scss']
 })

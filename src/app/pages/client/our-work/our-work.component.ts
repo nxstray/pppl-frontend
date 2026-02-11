@@ -1,7 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { CommonModule } from "@angular/common";
 import { FormsModule } from '@angular/forms';
 import { ContentPageService, PageName } from '../../../service/admin/content-page.service';
 import { ProjectService, ProjectDTO, ProjectCategory, ProjectSearchRequest, ProjectSearchResponse } from '../../../service/project/project.service';
@@ -9,7 +9,7 @@ import { ProjectService, ProjectDTO, ProjectCategory, ProjectSearchRequest, Proj
 @Component({
   selector: 'app-our-work',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgOptimizedImage],
   templateUrl: './our-work.component.html',
   styleUrls: ['./our-work.component.scss'],
   animations: [
@@ -101,6 +101,7 @@ export class OurWorkComponent implements OnInit {
   footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
   footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
   footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerLogo = '/content/logo-no-bg.webp';
   footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   constructor(
@@ -317,6 +318,7 @@ export class OurWorkComponent implements OnInit {
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerLogo = this.getContentImageUrl(content['footer_logo']) || this.footerLogo;
         this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('Our Work CMS content loaded successfully');

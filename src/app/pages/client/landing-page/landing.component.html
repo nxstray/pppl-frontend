@@ -1,17 +1,17 @@
 <section id="hero" class="hero-section">
 
   <!-- Polkadots -->
-  <img src="/content/polkadot-1.webp" class="polkadot polkadot-left">
-  <img src="/content/polkadot-2.webp" class="polkadot polkadot-right">
+  <img src="/content/polkadot-1.webp" class="polkadot polkadot-left" loading="lazy">
+  <img src="/content/polkadot-2.webp" class="polkadot polkadot-right" loading="lazy">
 
   <!-- Background Building -->
-  <img [src]="heroBuildingImage" alt="Pandigi Building" class="building-image">
+  <img [src]="heroBuildingImage" alt="Pandigi Building" class="building-image" loading="eager">
 
   <!-- Floating Navbar -->
   <nav class="navbar-floating" [@navbarSlide]="navbarVisible ? 'visible' : 'hidden'">
     <div class="navbar-container">
       <div class="navbar-logo">
-        <img src="/content/logo-no-bg.webp" alt="Pandigi Logo" (click)="scrollToSection('hero')">
+        <img ngSrc="/content/logo-no-bg.webp" alt="Navbar Logo" width="110" height="40" priority>
       </div>
       <ul class="navbar-menu">
         <li><a (click)="navigateToOtherPage('what-we-do')">WHAT WE DO</a></li>
@@ -40,7 +40,7 @@
     <div class="services-grid">
       <div class="service-card" *ngFor="let service of services">
         <div class="service-image">
-          <img [src]="service.icon" [alt]="service.title">
+          <img [src]="service.icon" [alt]="service.title" loading="lazy">
         </div>
         <div class="service-content">
           <h3>{{ service.title }}</h3>
@@ -55,9 +55,9 @@
 <section id="who-we-are" class="section who-we-are" [@fadeInUp]="whoWeAreVisible ? 'visible' : 'hidden'">
   <div class="full-container">
     <div class="who-images">
-      <img [src]="whoWeAreImages[0]" alt="Team 1" class="team-image">
-      <img [src]="whoWeAreImages[1]" alt="Team 2" class="team-image">
-      <img [src]="whoWeAreImages[2]" alt="Team 3" class="team-image">
+      <img [src]="whoWeAreImages[0]" alt="Team 1" class="team-image" loading="lazy">
+      <img [src]="whoWeAreImages[1]" alt="Team 2" class="team-image" loading="lazy">
+      <img [src]="whoWeAreImages[2]" alt="Team 3" class="team-image" loading="lazy">
     </div>
     <h2 class="section-title">{{ whoWeAreTitle }}</h2>
     <div class="who-text">
@@ -72,7 +72,7 @@
     <h2 class="section-title">{{ ourWorkTitle }}</h2>
     <div class="portfolio-grid">
       <div class="portfolio-item" *ngFor="let portfolio of portfolios">
-        <img [src]="portfolio.image" [alt]="portfolio.title">
+        <img [src]="portfolio.image" [alt]="portfolio.title" loading="lazy">
         <div class="portfolio-overlay">
           <h3>{{ portfolio.title }}</h3>
         </div>
@@ -91,7 +91,7 @@
     </div>
     <div class="footer-bottom">
       <div class="footer-logo">
-        <img src="/content/logo-no-bg.webp" alt="Pandigi Logo">
+        <img [src]="footerLogo" alt="Pandigi Logo" loading="lazy">
       </div>
       <div class="footer-copyright">
         <p>{{ footerCopyright }}</p>

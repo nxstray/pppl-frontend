@@ -1,13 +1,13 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { CommonModule } from "@angular/common";
 import { ContentPageService, PageName } from '../../../service/admin/content-page.service';
 
 @Component({
   selector: 'app-what-we-do',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgOptimizedImage],
   templateUrl: './what-we-do.component.html',
   styleUrls: ['./what-we-do.component.scss'],
   animations: [
@@ -49,7 +49,7 @@ export class WhatWeDoComponent implements OnInit {
 
   sectionStates: { [id: string]: boolean } = {};
 
-  // ============ DYNAMIC CONTENT FROM CMS ============
+  // Dynamic Content Variables
   
   // Hero Section
   heroTitle = 'What We Do';
@@ -64,10 +64,11 @@ export class WhatWeDoComponent implements OnInit {
   // Service Detail Sections
   serviceDetails: any[] = [];
 
-  // Footer Section - 3 Lines
+  // Footer Section
   footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
   footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
   footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerLogo = '/content/logo-no-bg.webp';
   footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   constructor(
@@ -91,13 +92,13 @@ export class WhatWeDoComponent implements OnInit {
       next: (response) => {
         const content = response.content;
         
-        // ============ HERO SECTION ============
+        // Hero Section
         this.heroTitle = content['hero_title'] || this.heroTitle;
         this.heroSubtitle = content['hero_subtitle'] || this.heroSubtitle;
         this.heroVector = this.getImageUrl(content['hero_vector']) || this.heroVector;
         this.heroBuildingImage = this.getImageUrl(content['hero_building_image']) || this.heroBuildingImage;
         
-        // ============ SERVICES SECTION ============
+        // Service Section
         this.whatWeOfferTitle = content['what_we_offer_title'] || this.whatWeOfferTitle;
         
         this.services = [
@@ -131,7 +132,7 @@ export class WhatWeDoComponent implements OnInit {
           }
         ];
 
-        // ============ SERVICE DETAIL SECTIONS ============
+        // Service Detail Section
         this.serviceDetails = [
           {
             sectionId: 'software',
@@ -159,10 +160,11 @@ export class WhatWeDoComponent implements OnInit {
           }
         ];
         
-        // ============ FOOTER SECTION ============
+        // Footer Section
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerLogo = this.getImageUrl(content['footer_logo']) || this.footerLogo;
         this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('What We Do CMS content loaded successfully');
@@ -208,7 +210,7 @@ export class WhatWeDoComponent implements OnInit {
   }
 
   /**
-   * Helper method untuk get image URL
+   * Helper method for get image URL
    */
   private getImageUrl(filename: string | undefined): string {
     if (!filename) return '';
@@ -218,19 +220,19 @@ export class WhatWeDoComponent implements OnInit {
       return filename;
     }
     
-    // Jika sudah ada /content/ di depan, langsung return
+    // if /content/ already in front, return immediately
     if (filename.startsWith('/content/')) {
       return filename;
     }
     
-    // Check if UUID (file dari upload backend)
+    // Check if UUID (file from upload backend)
     const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/i;
     if (uuidPattern.test(filename)) {
       // File uploaded ke backend, akses via backend URL
       return `http://localhost:8083/uploads/${filename}`;
     }
     
-    // Default: files di /public/content/
+    // Default: files in /public/content/
     return `/content/${filename}`;
   }
 

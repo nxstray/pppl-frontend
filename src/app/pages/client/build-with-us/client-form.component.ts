@@ -1,5 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -9,7 +9,7 @@ import { ContentPageService, PageName } from '../../../service/admin/content-pag
 @Component({
   selector: 'app-client-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgOptimizedImage],
   templateUrl: './client-form.component.html',
   styleUrls: ['./client-form.component.scss'],
   animations: [
@@ -71,6 +71,7 @@ export class ClientFormComponent implements OnInit {
   footerAddressLine1 = 'Jl. Perjuangan KP Cakung No. 44 RT/RW 004/004';
   footerAddressLine2 = 'Kel. Jatisari, Kec. Jatiasih, Kota Bekasi, Provinsi : Jawa Barat, kode pos : 17426';
   footerAddressLine3 = '0859 5944 1317 | ptpandawadigitalmandiri@gmail.com';
+  footerLogo = '/content/logo-no-bg.webp';
   footerCopyright = '© 2026 PT Pandawa Digital Mandiri';
 
   // Form Data
@@ -168,6 +169,7 @@ export class ClientFormComponent implements OnInit {
         this.footerAddressLine1 = content['footer_address_line1'] || this.footerAddressLine1;
         this.footerAddressLine2 = content['footer_address_line2'] || this.footerAddressLine2;
         this.footerAddressLine3 = content['footer_address_line3'] || this.footerAddressLine3;
+        this.footerLogo = this.getImageUrl(content['footer_logo']) || this.footerLogo;
         this.footerCopyright = content['footer_copyright'] || this.footerCopyright;
         
         console.log('Build With Us CMS content loaded successfully');
