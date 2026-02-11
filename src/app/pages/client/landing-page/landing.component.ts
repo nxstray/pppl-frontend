@@ -51,7 +51,7 @@ export class LandingComponent implements OnInit {
   heroTitle = 'Menyediakan Solusi Digital yang mendukung pertumbuhan dan Transformasi Bisnis';
   heroSubtitle = 'Solusi perangkat lunak, perangkat keras, dan pendampingan IT yang dirancang sesuai kebutuhan perusahaan.';
   heroCtaText = 'Build with us';
-  heroBuildingImage = '/content/building.png';
+  heroBuildingImage = '/content/building.webp';
   
   // What We Do Section
   whatWeDoTitle = 'What we do';
@@ -60,7 +60,7 @@ export class LandingComponent implements OnInit {
   // Who We Are Section
   whoWeAreTitle = 'Who we are';
   whoWeAreDescription = '';
-  whoWeAreImages: string[] = ['/content/dummy-photo.png', '/content/dummy-photo.png', '/content/dummy-photo.png'];
+  whoWeAreImages: string[] = ['/content/dummy-photo.webp', '/content/dummy-photo.webp', '/content/dummy-photo.webp'];
   
   // Our Work Section
   ourWorkTitle = 'Our work';
@@ -103,22 +103,22 @@ export class LandingComponent implements OnInit {
           {
             title: content['service_software_title'] || 'Software',
             description: content['service_software_description'] || 'Kami menyediakan solusi pengembangan perangkat lunak yang komprehensif.',
-            icon: this.getImageUrl(content['service_software_icon']) || '/content/software-wwd.png'
+            icon: this.getImageUrl(content['service_software_icon']) || '/content/software-wwd.webp'
           },
           {
             title: content['service_hardware_title'] || 'Hardware',
             description: content['service_hardware_description'] || 'Dari workstation hingga server, kami menyediakan infrastruktur berkualitas.',
-            icon: this.getImageUrl(content['service_hardware_icon']) || '/content/hardware-wwd.png'
+            icon: this.getImageUrl(content['service_hardware_icon']) || '/content/hardware-wwd.webp'
           },
           {
             title: content['service_multimedia_title'] || 'Multimedia',
             description: content['service_multimedia_description'] || 'Solusi multimedia kreatif untuk meningkatkan kehadiran brand Anda.',
-            icon: this.getImageUrl(content['service_multimedia_icon']) || '/content/media-wwd.png'
+            icon: this.getImageUrl(content['service_multimedia_icon']) || '/content/media-wwd.webp'
           },
           {
             title: content['service_computer_title'] || 'Computer',
             description: content['service_computer_description'] || 'Layanan pemeliharaan komputer profesional dan dukungan IT.',
-            icon: this.getImageUrl(content['service_computer_icon']) || '/content/computer-wwd.png'
+            icon: this.getImageUrl(content['service_computer_icon']) || '/content/computer-wwd.webp'
           }
         ];
         
@@ -128,9 +128,9 @@ export class LandingComponent implements OnInit {
           'PT. Pandawa Digital Mandiri adalah penyedia solusi teknologi terkemuka yang berkomitmen untuk memberikan layanan inovatif dan andal.';
         
         this.whoWeAreImages = [
-          this.getImageUrl(content['who_we_are_image_1']) || '/content/dummy-photo.png',
-          this.getImageUrl(content['who_we_are_image_2']) || '/content/dummy-photo.png',
-          this.getImageUrl(content['who_we_are_image_3']) || '/content/dummy-photo.png'
+          this.getImageUrl(content['who_we_are_image_1']) || '/content/dummy-photo.webp',
+          this.getImageUrl(content['who_we_are_image_2']) || '/content/dummy-photo.webp',
+          this.getImageUrl(content['who_we_are_image_3']) || '/content/dummy-photo.webp'
         ];
         
         // Our Work Section
@@ -138,15 +138,15 @@ export class LandingComponent implements OnInit {
         
         this.portfolios = [
           {
-            image: this.getImageUrl(content['portfolio_1_image']) || '/content/dummy-photo.png',
+            image: this.getImageUrl(content['portfolio_1_image']) || '/content/dummy-photo.webp',
             title: content['portfolio_1_title'] || 'E-Commerce Platform'
           },
           {
-            image: this.getImageUrl(content['portfolio_2_image']) || '/content/dummy-photo.png',
+            image: this.getImageUrl(content['portfolio_2_image']) || '/content/dummy-photo.webp',
             title: content['portfolio_2_title'] || 'Corporate Website'
           },
           {
-            image: this.getImageUrl(content['portfolio_3_image']) || '/content/dummy-photo.png',
+            image: this.getImageUrl(content['portfolio_3_image']) || '/content/dummy-photo.webp',
             title: content['portfolio_3_title'] || 'Mobile Application'
           }
         ];
