@@ -54,8 +54,8 @@ export class WhatWeDoComponent implements OnInit {
   // Hero Section
   heroTitle = 'What We Do';
   heroSubtitle = 'Discover our services and how we can help you achieve your goals.';
-  heroVector = '/content/vector_logo_pandigi.png';
-  heroBuildingImage = '/content/building.png';
+  heroVector = '/content/vector_logo_pandigi.webp';
+  heroBuildingImage = '/content/building.webp';
 
   // Services Section
   whatWeOfferTitle = 'What we offer?';
@@ -105,28 +105,28 @@ export class WhatWeDoComponent implements OnInit {
             title: content['service_software_title'] || 'Software',
             code: content['service_software_code'] || '(46152)',
             description: content['service_software_description'] || 'Kami menyediakan solusi pengembangan perangkat lunak yang komprehensif.',
-            icon: this.getImageUrl(content['service_software_icon']) || '/content/software-wwd.png',
+            icon: this.getImageUrl(content['service_software_icon']) || '/content/software-wwd.webp',
             sectionId: 'software'
           },
           {
             title: content['service_hardware_title'] || 'Hardware',
             code: content['service_hardware_code'] || '(46599)',
             description: content['service_hardware_description'] || 'Dari workstation hingga server, kami menyediakan infrastruktur berkualitas.',
-            icon: this.getImageUrl(content['service_hardware_icon']) || '/content/hardware-wwd.png',
+            icon: this.getImageUrl(content['service_hardware_icon']) || '/content/hardware-wwd.webp',
             sectionId: 'hardware'
           },
           {
             title: content['service_multimedia_title'] || 'Multimedia',
             code: content['service_multimedia_code'] || '(61929)',
             description: content['service_multimedia_description'] || 'Solusi multimedia kreatif untuk meningkatkan kehadiran brand Anda.',
-            icon: this.getImageUrl(content['service_multimedia_icon']) || '/content/media-wwd.png',
+            icon: this.getImageUrl(content['service_multimedia_icon']) || '/content/media-wwd.webp',
             sectionId: 'multimedia'
           },
           {
             title: content['service_computer_title'] || 'Computer',
             code: content['service_computer_code'] || '(46511)',
             description: content['service_computer_description'] || 'Layanan pemeliharaan komputer profesional dan dukungan IT.',
-            icon: this.getImageUrl(content['service_computer_icon']) || '/content/computer-wwd.png',
+            icon: this.getImageUrl(content['service_computer_icon']) || '/content/computer-wwd.webp',
             sectionId: 'computer'
           }
         ];
@@ -137,25 +137,25 @@ export class WhatWeDoComponent implements OnInit {
             sectionId: 'software',
             title: content['detail_software_title'] || 'Software',
             description: content['detail_software_description'] || 'Kami menyediakan solusi pengembangan perangkat lunak yang komprehensif.',
-            image: this.getImageUrl(content['detail_software_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['detail_software_image']) || '/content/dummy-photo.webp'
           },
           {
             sectionId: 'hardware',
             title: content['detail_hardware_title'] || 'Hardware',
             description: content['detail_hardware_description'] || 'Dari workstation hingga server, kami menyediakan infrastruktur berkualitas.',
-            image: this.getImageUrl(content['detail_hardware_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['detail_hardware_image']) || '/content/dummy-photo.webp'
           },
           {
             sectionId: 'multimedia',
             title: content['detail_multimedia_title'] || 'Multimedia',
             description: content['detail_multimedia_description'] || 'Solusi multimedia kreatif untuk meningkatkan kehadiran brand Anda.',
-            image: this.getImageUrl(content['detail_multimedia_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['detail_multimedia_image']) || '/content/dummy-photo.webp'
           },
           {
             sectionId: 'computer',
             title: content['detail_computer_title'] || 'Computer',
             description: content['detail_computer_description'] || 'Layanan pemeliharaan komputer profesional dan dukungan IT.',
-            image: this.getImageUrl(content['detail_computer_image']) || '/content/dummy-photo.png'
+            image: this.getImageUrl(content['detail_computer_image']) || '/content/dummy-photo.webp'
           }
         ];
         
