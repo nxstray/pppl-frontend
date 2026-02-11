@@ -59,8 +59,8 @@ export class ClientFormComponent implements OnInit {
   // Hero Section
   heroTitle = 'Request a Consultation Form';
   heroSubtitle = 'Let\'s Build Something Great Together';
-  heroVector = '/content/vector_logo_pandigi.png';
-  heroBuildingImage = '/content/building.png';
+  heroVector = '/content/vector_logo_pandigi.webp';
+  heroBuildingImage = '/content/building.webp';
 
   // Form Section
   formSectionTitle = 'Lets get started';
