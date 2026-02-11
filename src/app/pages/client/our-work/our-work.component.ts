@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Router } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FormsModule } from '@angular/forms';
@@ -9,7 +9,7 @@ import { ProjectService, ProjectDTO, ProjectCategory, ProjectSearchRequest, Proj
 @Component({
   selector: 'app-our-work',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgOptimizedImage],
+  imports: [CommonModule, FormsModule],
   templateUrl: './our-work.component.html',
   styleUrls: ['./our-work.component.scss'],
   animations: [
