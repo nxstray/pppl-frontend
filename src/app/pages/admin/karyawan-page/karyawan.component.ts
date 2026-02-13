@@ -184,22 +184,34 @@ export class KaryawanComponent implements OnInit {
     });
   }
 
+
   // Photo upload handlers
+  private readonly MAX_FILE_SIZE = 5 * 1024 * 1024;
+  private readonly ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
+  private readonly ALLOWED_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp'];
+
   onFileSelected(event: any) {
     const file: File = event.target.files[0];
-    
     if (!file) return;
 
-    // Validate file size (2MB)
-    if (file.size > 2 * 1024 * 1024) {
-      this.toast.error('File Terlalu Besar', 'Ukuran maksimal 2MB');
+    // Validate file size
+    if (file.size > this.MAX_FILE_SIZE) {
+      this.toast.error('File Terlalu Besar', 'Ukuran maksimal 5MB');
       event.target.value = '';
       return;
     }
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
-      this.toast.error('Invalid File', 'Hanya file gambar yang diperbolehkan');
+    if (!this.ALLOWED_TYPES.includes(file.type)) {
+      this.toast.error('Tipe File Tidak Valid', 'Hanya JPG, PNG, atau WebP');
+      event.target.value = '';
+      return;
+    }
+
+    // Validate file extension
+    const extension = file.name.split('.').pop()?.toLowerCase() ?? '';
+    if (!this.ALLOWED_EXTENSIONS.includes(extension)) {
+      this.toast.error('Ekstensi Tidak Valid', 'Hanya .jpg, .jpeg, .png, .webp');
       event.target.value = '';
       return;
     }
